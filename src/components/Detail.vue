@@ -14,11 +14,21 @@
                 <div class="video_name">
                     <h3>{{ lists.name }}</h3>
                     <div class="score_wrap">
-                        <strong>{{ lists.star }}</strong>
-                        <div class="score">
-                            <div class="starList" :style="{'background-position-y':-15*(10-lists.star)+'px'}"></div>
-                            <p>{{comments.length}}条评论</p>
-                        </div>
+                        <template v-if=" star === '' ">
+                            <strong>{{ lists.star }}</strong>
+                            <div class="score">
+                                <div class="starList" :style="{'background-position-y':-15*(10-lists.star)+'px'}"></div>
+                                <p>{{ likeTotalLength }}人评分/{{comments.length}}条评论</p>
+                            </div>
+                        </template>
+                        <template v-else>
+                            <strong>{{ star.toFixed(1) }}</strong>
+                            <div class="score">
+                                <div class="starList" :style="{'background-position-y':-15*(10-star.toFixed(0))+'px'}"></div>
+                                <p>{{ likeTotalLength }}人评分/{{comments.length}}条评论</p>
+                            </div>
+                        </template>
+                        
                     </div>
                 </div>        
             </div>
@@ -111,6 +121,8 @@ export default {
             lists: '',
             comments: '',
             likes: '',
+            star:'',
+            likeTotalLength:0,
             loading: false,
             comment: '',
             dialogShow: false,
@@ -172,16 +184,28 @@ export default {
 
             // 获取评论
             getVideoComment(routerId).then( data =>  {
-                this.loading = false
+                // this.loading = false
                 this.comments = data
             })
             .catch(e => console.log("error", e))   
 
             // 获取like参数
             getInitVideoLikeData(routerId , this.userName).then(data =>  {
-                // this.loading = false
-                this.likes = JSON.parse(data)[0]['iLike']
-                // console.log(JSON.parse(data)[0]['iLike'])
+                this.loading = false
+                var likes = JSON.parse(data)[0][0]['iLike']
+                this.likes = likes
+                // 喜欢的数量
+                var likeLength = JSON.parse(data)[1].length;
+                // 该video总的评价数量
+                var likeTotalLength = JSON.parse(data)[2].length;
+                console.log(likes,likeLength,likeTotalLength)
+                this.likeTotalLength = likeTotalLength
+                if (likeTotalLength > 0 && likeLength >= 0) {
+                    this.star = likeLength / likeTotalLength * 10
+                    console.log(this.star)
+                }
+                
+                console.log(JSON.parse(data))
             })
             .catch(e => {
                 this.likes = false
