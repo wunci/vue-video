@@ -178,7 +178,18 @@ export default {
             // 获取video数据
             var routerId = this.$route.params.id
             singleVideoData(routerId).then(data =>  {
-                this.lists = data[0];
+                // console.log(data)
+                this.lists = data[0][0];
+                // 喜欢的数量
+                var likeLength = data[1].length;
+                // 该video总的评价数量
+                var likeTotalLength = data[2].length;
+                // console.log(likeLength,likeTotalLength)
+                this.likeTotalLength = likeTotalLength
+                if (likeTotalLength > 0 && likeLength >= 0) {
+                    this.star = likeLength / likeTotalLength * 10
+                    // console.log(this.star)
+                }
             })
             .catch(e => console.log("error", e)) 
 
@@ -192,18 +203,9 @@ export default {
             // 获取like参数
             getInitVideoLikeData(routerId , this.userName).then(data =>  {
                 this.loading = false
-                var likes = JSON.parse(data)[0][0]['iLike']
+                var likes = JSON.parse(data)[0]['iLike']
                 this.likes = likes
-                // 喜欢的数量
-                var likeLength = JSON.parse(data)[1].length;
-                // 该video总的评价数量
-                var likeTotalLength = JSON.parse(data)[2].length;
-                // console.log(likes,likeLength,likeTotalLength)
-                this.likeTotalLength = likeTotalLength
-                if (likeTotalLength > 0 && likeLength >= 0) {
-                    this.star = likeLength / likeTotalLength * 10
-                    // console.log(this.star)
-                }
+                
                 
                 // console.log(JSON.parse(data))
             })
