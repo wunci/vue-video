@@ -1,5 +1,5 @@
 <template>
-    <section class="me">
+    <section class="me" @touchstart="touchStartHideAll">
         <vfooter></vfooter>
         <div class="loading" v-if="loading">
             <img src="./common/loading.svg" alt="">
@@ -225,6 +225,13 @@ export default {
             }
             var start = e.touches[0].pageX/100;
             this.start = start;
+        },
+        touchStartHideAll(e){
+            var commentWrap = document.querySelectorAll('.commentWrap')
+            for (var i = 0; i < commentWrap.length; i++) {
+              commentWrap[i].style.transform = 'translate('+ 0 +'rem)';
+              commentWrap[i].style.webkitTransform = 'translate('+ 0 +'rem)';
+            }
         },
         touchMove (e) {
             var scroll = e.touches[0].pageX/100 - this.start;
