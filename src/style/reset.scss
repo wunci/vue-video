@@ -204,3 +204,9 @@ body {
     background: url(assets/star.png)
 
 }
+.router-fd-enter-active, .router-fd-leave-active {
+    transition: all 0.3s;
+}
+.router-fd-enter, .router-fd-leave-active {
+    opacity: 0;
+}
