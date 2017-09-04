@@ -198,14 +198,14 @@ export default {
                 var likeLength = JSON.parse(data)[1].length;
                 // 该video总的评价数量
                 var likeTotalLength = JSON.parse(data)[2].length;
-                console.log(likes,likeLength,likeTotalLength)
+                // console.log(likes,likeLength,likeTotalLength)
                 this.likeTotalLength = likeTotalLength
                 if (likeTotalLength > 0 && likeLength >= 0) {
                     this.star = likeLength / likeTotalLength * 10
-                    console.log(this.star)
+                    // console.log(this.star)
                 }
                 
-                console.log(JSON.parse(data))
+                // console.log(JSON.parse(data))
             })
             .catch(e => {
                 this.likes = false
