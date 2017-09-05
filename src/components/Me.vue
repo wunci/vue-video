@@ -65,7 +65,6 @@
                         <img :src="'http://vue.wclimb.site/images/'+likeList.videoImg" alt="">
                         <h4>{{likeList.videoName}}</h4>
                         <div>
-                            <!-- <i :class="[icon, likeList.star/2 >= index+1 ? iconStyle : iconStyleCopy]" v-for="(i,index) in 5"></i> -->
                             <div class="starList" :style="{'background-position-y':-15*(10-likeList.star)+'px'}"></div>
                             <span>{{likeList.star}}</span>
                         </div>
@@ -124,7 +123,6 @@ export default {
             dialogTxt:'',
             tips:true,
             aniDialog:'',
-            Aversion:'',
             nowUploadAvator:'',
             defaultName:true,
             userNameModel:'',

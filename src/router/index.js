@@ -9,7 +9,7 @@ const Detail = r => require.ensure([], () => r(require('../components/Detail')),
 Vue.use(Router)
 
 export default new Router({
-	// mode:'history',
+	mode:'history',
     routes: [
         {
       	    path:'*',
@@ -25,7 +25,7 @@ export default new Router({
                     component: Search
                 }
             ],
-            meta:{
+            meta: {
           		keepAlive: true // 需要被缓存
         	}
         },
@@ -65,5 +65,8 @@ export default new Router({
             name: 'me',
             component: Me,
         }
-    ]
+    ],
+    scrollBehavior (to, from, savedPosition) {
+        return { x: 0, y: 0 }
+    }
 })

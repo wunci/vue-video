@@ -157,8 +157,7 @@ input[type=submit] {
     -webkit-appearance: none
 }
 #video{
-    height: 100%;
-    overflow: auto;
+    
 }
 body {
     font-size: 12px;
@@ -204,9 +203,9 @@ body {
     background: url(assets/star.png)
 
 }
-.router-fd-enter-active, .router-fd-leave-active {
+.fade-enter-active, .fade-leave-active {
     transition: all 0.3s;
 }
-.router-fd-enter, .router-fd-leave-active {
+.fade-enter, .fade-leave-active {
     opacity: 0;
 }

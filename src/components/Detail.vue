@@ -1,5 +1,5 @@
 <template>
-    <section class="detail">
+    <section class="detail" @touchmove="scroll">
         <div class="loading" v-if="loading">
             <img src="./common/loading.svg" alt="">
         </div>
@@ -81,7 +81,7 @@
         </section>
             <section class="video_comments">
                 <h3>评论({{comments.length}})</h3>
-                    <ul>
+                    <ul id="ul">
                         <li v-for="comment in comments">
                         <template v-if="comment.avator != '' ">
                             <div class="avator">
@@ -131,7 +131,8 @@ export default {
             aniDialog: '',
             likeActive: 'like_active',
             likeCls: 'like',
-            likeDisable: 'likeDisable'
+            likeDisable: 'likeDisable',
+            scrollTop:''
         }
     },
     computed:{
@@ -195,7 +196,6 @@ export default {
 
             // 获取评论
             getVideoComment(routerId).then( data =>  {
-                // this.loading = false
                 this.comments = data
             })
             .catch(e => console.log("error", e))   
@@ -205,9 +205,6 @@ export default {
                 this.loading = false
                 var likes = JSON.parse(data)[0]['iLike']
                 this.likes = likes
-                
-                
-                // console.log(JSON.parse(data))
             })
             .catch(e => {
                 this.likes = false
@@ -216,7 +213,14 @@ export default {
         // 点击like操作
         like (likeData) {
             // 提交like信息
-            postVideoLikeData(this.$route.params.id,likeData,localStorage.getItem('token'),this.lists.name,this.lists.img,this.lists.star).then(data=>{
+            postVideoLikeData(
+                    this.$route.params.id,
+                    likeData,
+                    localStorage.getItem('token'),
+                    this.lists.name,
+                    this.lists.img,
+                    this.lists.star
+                ).then(data=>{
                 if (likeData == 1) {
                     this.likes = 1
                     this.dialogChange(true,'标记为喜欢')
@@ -226,6 +230,29 @@ export default {
                     this.dialogChange(true,'标记为不喜欢')  
                 }
             })
+        },
+        // 监听滚动，动态更新scrollTop
+        scroll(){
+            window.onscroll=function(){
+                this.scrollTop = document.body.scrollTop || document.documentElement.scrollTop
+            }
+            this.scrollTop = document.body.scrollTop || document.documentElement.scrollTop
+        },
+        // 评论后滚动到底部
+        scrollToBottom () {       
+            var video = document.querySelector("#video");
+            var scrollHeight = video.scrollHeight;
+            var timer = null;
+            var speed = 30;
+            // console.log(scrollHeight)
+            timer = setInterval(function(){
+                speed += 30;
+                document.body.scrollTop = document.documentElement.scrollTop = this.scrollTop + speed
+                if (document.body.scrollTop >= scrollHeight - 687) {
+                    clearInterval(timer)
+                    document.body.scrollTop = document.documentElement.scrollTop = scrollHeight
+                }
+            })     
         },
         // 发表评论
         report () {
@@ -239,16 +266,23 @@ export default {
             reportComment(this.$route.params.id, this.userName,date,this.comment,this.lists.name,avator).then(data=>{
                 if (data == 'success') {
                     this.comments.push({
-                        "userName":localStorage.getItem('token'),"date":new Date().toLocaleDateString() + ' ' +  new Date().toLocaleTimeString(),"content":this.comment,avator: avator
+                        "userName": localStorage.getItem('token'),
+                        "date": date,
+                        "content": this.comment,
+                        "avator": avator
                     });
                     this.dialogChange(true,'评论成功');
                     this.comment = ''
+                    this.$nextTick(() => {
+                        this.scrollToBottom()
+                    })
                 }else{
                     this.dialogChange(false,"评论失败")
                     this.comment = ''
                 }
             })
-        }
+        },
+       
     }
 }
 </script>

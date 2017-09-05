@@ -93,14 +93,12 @@ export default {
                 margin-top: 0.5rem;
                 color: #0fce0f;
                 padding-bottom: 0.15rem;
-                border-bottom:1px solid #f1eaea;
+                border-bottom: 1px solid #f1eaea;
             }
             ul {
                 display: flex;
                 width: 100%;
-                flex-wrap:wrap;
-                justify-content: space-between;
-                
+                flex-wrap:wrap; 
                 li {
                     margin-top: 0.5rem;
                     width: 2.3rem;
@@ -124,6 +122,9 @@ export default {
                       span{
                         margin-left: 0.1rem;
                     }
+                }
+                &:nth-child(3n-1){
+                    margin:.5rem .15rem;
                 }
             }
         }

@@ -1,5 +1,5 @@
 <template>
-    <section class="video">
+    <section class="home">
         <vfooter></vfooter>
         <div class="loading" v-if="loading">
             <img src="./common/loading.svg" alt="">
