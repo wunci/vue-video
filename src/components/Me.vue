@@ -241,7 +241,7 @@ export default {
             }else if (scroll > 0) {
                 scroll = 0
             }
-            console.log(scroll)
+            // console.log(scroll)
             var el= e.currentTarget
             el.style.transform = 'translate('+ scroll +'rem)';
             el.style.webkitTransform = 'translate('+ scroll +'rem)';
