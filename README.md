@@ -1,13 +1,13 @@
 # 写在前面
 
-由于最近公司业务不是很忙，空闲时间比较多，于是就在纠结Vue.js（之前就学习过）和Node.js先专研哪个比较好，最终选择了先玩玩Node.js。经过一段时间的学习，就有了教程 [Node+Koa2+Mysql 搭建简易博客](http://www.wclimb.site/2017/07/12/Node-Koa2-Mysql-%E6%90%AD%E5%BB%BA%E7%AE%80%E6%98%93%E5%8D%9A%E5%AE%A2/) [GitHub地址](https://github.com/wclimb/Koa2-blog)，想要了解的可以先看看，个人水平有限，希望可以帮到你。
+由于最近公司业务不是很忙，空闲时间比较多，于是就在纠结Vue.js（之前就学习过）和Node.js先专研哪个比较好，最终选择了先玩玩Node.js。经过一段时间的学习，就有了教程 [Node+Koa2+Mysql 搭建简易博客](http://www.wclimb.site/2017/07/12/Node-Koa2-Mysql-%E6%90%AD%E5%BB%BA%E7%AE%80%E6%98%93%E5%8D%9A%E5%AE%A2/)  [GitHub地址](https://github.com/wclimb/Koa2-blog)，想要了解的可以先看看，个人水平有限，希望可以帮到你。
 大概过来一个多月，我决定两路开工。使用Node.js给前端写接口，配备后台管理功能，先把后台搭建好。大概几天过后，后台一些简单的功能实现后，就开始用Vue.js开始搭建前台，也一直在想做点什么比较好，于是就做了个豆瓣评分类似的项目。
 
 ## 技术栈
 
 > 由于页面不是很多，vuex用的不多，关键掌握怎么实现就好了
 
-`vue2` + `vuex` + `vue-router` + `webpack` + `fetch` + `sass` + `flex` + 阿里字体图标
+`vue2` + `vuex` + `vue-router` + `webpack` + `fetch` + `sass` + `flex` + `svg` + `阿里字体图标`
 
 ## 运行
 
@@ -34,9 +34,9 @@ npm run build (打包项目)
 * 8. 搜索功能，可以搜索存在的影片，如果没有则显示无结果
 * 9. 自己喜欢的video和评论的内容会在个人中心显示
 
-```
+
 综上：`注册` + `登录` + `登出` + `评分` + `修改用户名` + `上传头像` + `评论` + `搜索` 
-```
+
 
 如果觉得对你有帮助还望关注一下，有问题可以即使提哟，觉得不错的话`star`一下也是可以的哟
 
@@ -54,7 +54,7 @@ npm run build (打包项目)
 
 技术栈：`node` + `koa2` + `mysql` 
 预览：[video-admin](http://vue.wclimb.site)
-
+GitHub: [管理后台](https://github.com/wclimb/video-admin)
 ## 前端演示
 
 ![](http://oswpupqu5.bkt.clouddn.com/vue1.gif)

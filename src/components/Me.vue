@@ -208,7 +208,7 @@ export default {
         deleteComment(id,e){
             var el = e.currentTarget
             meDelete(id).then(data=>{
-                console.log(data)
+                // console.log(data)
                 if (data == 'success') {
                     this.dialogChange(true,'删除成功');
                     el.parentNode.style.height = 0;
