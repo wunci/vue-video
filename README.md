@@ -3,8 +3,12 @@
 由于最近公司业务不是很忙，空闲时间比较多，于是就在纠结Vue.js（之前就学习过）和Node.js先专研哪个比较好，最终选择了先玩玩Node.js。经过一段时间的学习，就有了教程 [Node+Koa2+Mysql 搭建简易博客](http://www.wclimb.site/2017/07/12/Node-Koa2-Mysql-%E6%90%AD%E5%BB%BA%E7%AE%80%E6%98%93%E5%8D%9A%E5%AE%A2/)  [GitHub地址](https://github.com/wclimb/Koa2-blog)，想要了解的可以先看看，个人水平有限，希望可以帮到你。
 大概过来一个多月，我决定两路开工。使用Node.js给前端写接口，配备后台管理功能，先把后台搭建好。大概几天过后，后台一些简单的功能实现后，就开始用Vue.js开始搭建前台，也一直在想做点什么比较好，于是就做了个豆瓣评分类似的项目。
 
-> 前端项目地址 https://github.com/wclimb/vue-video  前端预览 http://video.wclimb.site
-> 后端项目地址 https://github.com/wclimb/vue-admin  后台管理 http://vue.wclimb.site
+> 前端项目地址 https://github.com/wclimb/vue-video  
+> 前端预览 http://video.wclimb.site
+
+> 后端项目地址 https://github.com/wclimb/vue-admin  
+> 后台管理 http://vue.wclimb.site
+> API接口地址 https://github.com/wclimb/video-admin/blob/master/API.md
 
 ## 技术栈(Vue2.js + Node.js 全栈项目)
 
@@ -70,9 +74,10 @@ ps: 如果打包之后文件运行不了，请打包之前把路由的 mode:'his
 
 ## 后端线上地址
 
-技术栈：`node` + `koa2` + `mysql` 
+技术栈：`Node` + `Koa2` + `Mysql` 
 预览：[video-admin](http://vue.wclimb.site)
 GitHub: [管理后台](https://github.com/wclimb/video-admin)
+
 ## 前端演示
 
 ![](http://oswpupqu5.bkt.clouddn.com/vue1.gif)
@@ -98,6 +103,15 @@ GitHub: [管理后台](https://github.com/wclimb/video-admin)
 ## 后台演示
 
 ![](http://oswpupqu5.bkt.clouddn.com/admin.gif)
+
+## 有问题反馈
+
+在使用中有任何问题，欢迎反馈给我，可以用以下联系方式跟我交流
+
+* 邮件(875246904#qq.com, 把#换成@)
+* QQ: 875246904
+* weibo: [@不曾光顾的街角](http://weibo.com/u/3966368179)
+
 
 ## 目录结构
 
