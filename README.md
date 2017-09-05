@@ -24,6 +24,9 @@ npm install  建议使用淘宝镜像(https://npm.taobao.org/) =>  cnpm i
 npm run dev (运行项目)
 
 npm run build (打包项目)
+
+ps: 如果打包之后文件运行不了，请打包之前把路由的 mode:'history'注释掉，该功能只要是去掉了url中丑陋的 # 号
+
 ```
 ## 功能
 
