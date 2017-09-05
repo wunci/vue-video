@@ -132,7 +132,7 @@ export default {
             likeActive: 'like_active',
             likeCls: 'like',
             likeDisable: 'likeDisable',
-            scrollTop:''
+            scrollTop:200
         }
     },
     computed:{
@@ -155,6 +155,7 @@ export default {
     },
     mounted(){
         this.initData();
+        this.scroll()
     },
     watch: {
         // 如果路由有变化，会再次执行该方法
