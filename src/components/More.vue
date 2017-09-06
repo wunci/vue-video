@@ -108,6 +108,9 @@ export default {
                         text-align:left;
                         height: 0.5rem;
                         line-height: 0.5rem;
+                         white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
                     }
                     img {
                         width: 100%;
