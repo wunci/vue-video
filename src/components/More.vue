@@ -100,7 +100,7 @@ export default {
                 width: 100%;
                 flex-wrap:wrap; 
                 li {
-                    margin-top: 0.5rem;
+                    margin-top: 0.15rem;
                     width: 2.3rem;
                     h3 {
                         font-size: 16px;
@@ -124,7 +124,7 @@ export default {
                     }
                 }
                 &:nth-child(3n-1){
-                    margin:.5rem .15rem;
+                    margin:0.15rem .15rem;
                 }
             }
         }
