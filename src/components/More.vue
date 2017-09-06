@@ -12,7 +12,7 @@
                         <div><img :src="'http://vue.wclimb.site/images/'+list.img" alt=""></div>
                         <h3>{{list.name}}</h3>
                         <div>
-                            <div class="starList" :style="{'background-position-y':-15*(10-list.star)+'px'}"></div>
+                            <div class="starList" :style="{'background-position-y':-15*(10-list.star).toFixed(0)+'px'}"></div>
                             <span>{{list.star}}</span>
                         </div> 
                     </router-link>

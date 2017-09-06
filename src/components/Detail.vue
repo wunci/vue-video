@@ -190,7 +190,7 @@ export default {
                 this.likeTotalLength = likeTotalLength
                 if (likeTotalLength > 0 && likeLength >= 0) {
                     this.star = likeLength / likeTotalLength * 10
-                    console.log(this.star)
+                    // console.log(this.star)
                 }
             })
             .catch(e => console.log("error", e)) 
