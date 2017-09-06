@@ -17,14 +17,14 @@
                         <template v-if=" star === '' ">
                             <strong>{{ lists.star }}</strong>
                             <div class="score">
-                                <div class="starList" :style="{'background-position-y':-15*((lists.star).toFixed(0))+'px'}"></div>
+                                <div class="starList" :style="{'background-position-y':-15*(10-lists.star).toFixed(0)+'px'}"></div>
                                 <p>{{ likeTotalLength }}人评分/{{comments.length}}条评论</p>
                             </div>
                         </template>
                         <template v-else>
                             <strong>{{ lists.star }}</strong>
                             <div class="score">
-                                <div class="starList" :style="{'background-position-y':-15*(10-(lists.star).toFixed(0))+'px'}"></div>
+                                <div class="starList" :style="{'background-position-y':-15*(10-lists.star).toFixed(0)+'px'}"></div>
                                 <p>{{ likeTotalLength }}人评分/{{comments.length}}条评论</p>
                             </div>
                         </template>
@@ -180,13 +180,13 @@ export default {
             // 获取video数据
             var routerId = this.$route.params.id
             singleVideoData(routerId).then(data =>  {
-                console.log(data[0][0]['star'])
+                // console.log(data[0][0]['star'])
                 this.lists = data[0][0];
                 // 喜欢的数量
                 var likeLength = data[1].length;
                 // 该video总的评价数量
                 var likeTotalLength = data[2].length;
-                console.log(likeLength,likeTotalLength)
+                // console.log(likeLength,likeTotalLength)
                 this.likeTotalLength = likeTotalLength
                 if (likeTotalLength > 0 && likeLength >= 0) {
                     this.star = likeLength / likeTotalLength * 10

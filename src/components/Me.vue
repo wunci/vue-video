@@ -47,8 +47,8 @@
                         <img :src="'http://vue.wclimb.site/images/'+likeList.videoImg" alt="">
                         <h4>{{likeList.videoName}}</h4>
                         <div>
-                            <div class="starList" :style="{'background-position-y':-15*(10-(likeList.star).toFixed(0))+'px'}"></div>
-                            <span>{{(likeList.star).toFixed(0)}}</span>
+                            <div class="starList" :style="{'background-position-y':-15*(10-likeList.star).toFixed(0)+'px'}"></div>
+                            <span>{{likeList.star}}</span>
                        </div>
                     </router-link>
                 </li>
@@ -65,8 +65,8 @@
                         <img :src="'http://vue.wclimb.site/images/'+likeList.videoImg" alt="">
                         <h4>{{likeList.videoName}}</h4>
                         <div>
-                            <div class="starList" :style="{'background-position-y':-15*(10-(likeList.star).toFixed(0))+'px'}"></div>
-                            <span>{{(likeList.star).toFixed(0)}}</span>
+                            <div class="starList" :style="{'background-position-y':-15*(10-likeList.star).toFixed(0)+'px'}"></div>
+                            <span>{{likeList.star}}</span>
                         </div>
                     </router-link>  
                 </li>
