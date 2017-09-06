@@ -8,6 +8,7 @@
 
 > 后端项目地址 https://github.com/wclimb/vue-admin  
 > 后台管理 http://vue.wclimb.site
+
 > API接口地址 https://github.com/wclimb/video-admin/blob/master/API.md
 
 ## 技术栈(Vue2.js + Node.js 全栈项目)
@@ -29,7 +30,7 @@ npm run dev (运行项目)
 
 npm run build (打包项目)
 
-ps: 如果打包之后文件运行不了，请打包之前把路由的 mode:'history'注释掉，该功能只要是去掉了url中丑陋的 # 号
+ps: 如果打包之后文件运行不了，请打包之前把路由的 mode:'history'注释掉，该功能去掉了url中丑陋的 # 号
 
 ```
 ## 功能
@@ -65,6 +66,8 @@ ps: 如果打包之后文件运行不了，请打包之前把路由的 mode:'his
 ## 前端线上地址
 
 项目是手机端的，请使用谷歌浏览器手机预览模式
+
+> 首页默认一种类别只显示10个，可以查看更多显示全部 
 
 预览：[vue-video](http://video.wclimb.site)
 
@@ -104,13 +107,13 @@ GitHub: [管理后台](https://github.com/wclimb/video-admin)
 
 ![](http://oswpupqu5.bkt.clouddn.com/admin.gif)
 
-## 有问题反馈
+## 有问题欢迎反馈
 
 在使用中有任何问题，欢迎反馈给我，可以用以下联系方式跟我交流
 
 * 邮件(875246904#qq.com, 把#换成@)
 * QQ: 875246904
-* weibo: [@不曾光顾的街角](http://weibo.com/u/3966368179)
+* weibo: [@wclimb](http://weibo.com/u/3966368179)
 
 
 ## 目录结构
@@ -128,10 +131,12 @@ GitHub: [管理后台](https://github.com/wclimb/video-admin)
 |   |-- style                        // 样式
 |    	App.vue                      // 页面入口文件
 |    	main.js                      // 程序入口文件
+|-- static                           // 静态资源
 |-- .babelrc                         // ES6语法编译配置
 |-- .editorconfig                    // 代码编写规格
 |-- .gitignore                       // git忽略的文件
 |-- .postcssrc.js                    // post-loader的插件配置文件
 |-- index.html                       // 入口html文件
 |-- package.json                     // 项目及工具的依赖配置文件
+
 ```

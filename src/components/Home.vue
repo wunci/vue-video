@@ -35,7 +35,7 @@
                 <router-link to="/movie">更多 <i class="iconfont icon-jiantouyou"></i></router-link>
             </div>
             <ul>
-                <li v-for="list in lists[0]">
+                <li v-for="(list,index) in lists[0]"  v-if="index < 10">
                     <router-link :to="'/video/'+list.id">
                         <div><img :src="'http://vue.wclimb.site/images/'+list.img" alt=""></div>
                         <h3>{{list.name}}</h3>
@@ -53,7 +53,7 @@
                 <router-link to="/tv">更多 <i class="iconfont icon-jiantouyou"></i></router-link>
             </div>
             <ul>
-                <li v-for="list in lists[1]">
+                <li v-for="(list,index) in lists[1]"  v-if="index < 10">
                     <router-link :to="'/video/'+list.id">
                         <div><img :src="'http://vue.wclimb.site/images/'+list.img" alt=""></div>
                         <h3>{{list.name}}</h3>
@@ -71,7 +71,7 @@
                 <router-link to="/zy">更多 <i class="iconfont icon-jiantouyou"></i></router-link>
             </div>
             <ul>
-                <li v-for="list in lists[2]">
+                <li v-for="(list,index) in lists[2]"  v-if="index < 10">
                     <router-link :to="'/video/'+list.id">
                         <div><img :src="'http://vue.wclimb.site/images/'+list.img" alt=""></div>
                         <h3>{{list.name}}</h3>
