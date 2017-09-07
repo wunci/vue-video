@@ -269,6 +269,10 @@ export default {
                         this.value = '';
                         return;
                     };
+                    if (file.size >= 1024*1024/2) {
+                        _that.dialogChange(false,"超过512Kb了哟!");
+                        return
+                    }
                     reader.onload = function(e) {
                         this.value = '';
                         uploadAvator(_that.userName,e.target.result).then(data=>{

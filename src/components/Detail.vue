@@ -14,21 +14,11 @@
                 <div class="video_name">
                     <h3>{{ lists.name }}</h3>
                     <div class="score_wrap">
-                        <template v-if=" star === '' ">
-                            <strong>{{ lists.star }}</strong>
-                            <div class="score">
-                                <div class="starList" :style="{'background-position-y':-15*(10-lists.star).toFixed(0)+'px'}"></div>
-                                <p>{{ likeTotalLength }}人评分/{{comments.length}}条评论</p>
-                            </div>
-                        </template>
-                        <template v-else>
-                            <strong>{{ lists.star }}</strong>
-                            <div class="score">
-                                <div class="starList" :style="{'background-position-y':-15*(10-lists.star).toFixed(0)+'px'}"></div>
-                                <p>{{ likeTotalLength }}人评分/{{comments.length}}条评论</p>
-                            </div>
-                        </template>
-                        
+                        <strong>{{ lists.star }}</strong>
+                        <div class="score">
+                            <div class="starList" :style="{'background-position-y':-15*(10-lists.star).toFixed(0)+'px'}"></div>
+                            <p>{{ likeTotalLength }}人评分/{{comments.length}}条评论</p>
+                        </div>
                     </div>
                 </div>        
             </div>
