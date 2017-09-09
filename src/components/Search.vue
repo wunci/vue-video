@@ -33,7 +33,7 @@ import vfooter from './common/vfooter.vue'
 import { mapState } from 'vuex'
 import { search } from '../data/fetchData.js'
 export default {
-    name: 'detail',
+    name: 'search',
     components:{
         vfooter,
     },

@@ -94,7 +94,7 @@ import vfooter from './common/vfooter.vue'
 import { initHome } from '../data/fetchData'
 import { mapActions } from 'vuex'
 export default {
-    name: 'detail',
+    name: 'home',
     components:{
         vfooter,
     },

@@ -105,7 +105,7 @@ import alertDialog from './common/alertDialog.vue'
 import {mapState,mapActions} from 'vuex'
 import { meComment , meLike , meDelete , uploadAvator , editNameData} from '../data/fetchData.js'
 export default {
-    name: 'detail',
+    name: 'me',
     components:{
         vfooter,
         alertDialog

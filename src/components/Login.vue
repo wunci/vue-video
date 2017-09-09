@@ -38,7 +38,7 @@ import alertDialog from './common/alertDialog.vue'
 import {mapActions,mapState} from 'vuex'
 import { signin , yzmChange } from '../data/fetchData.js'
 export default {
-    name: 'detail',
+    name: 'login',
     components:{
         vfooter,
         alertDialog

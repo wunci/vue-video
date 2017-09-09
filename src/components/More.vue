@@ -26,7 +26,7 @@
 import vfooter from './common/vfooter.vue'
 import { mapState } from 'vuex'
 export default {
-    name: 'detail',
+    name: 'more',
     components:{
         vfooter,
     },
