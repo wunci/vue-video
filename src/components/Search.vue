@@ -16,7 +16,7 @@
             <ul>
                 <li v-for="result in results">
                     <router-link :to="'/video/'+result.id">
-                        <img :src="'http://vue.wclimb.site/images/'+result.img" alt="">
+                        <img v-lazy="baseUrl+result.img" alt="">
                         <div class="result_name">
                             <p>{{result.name}}</p>
                             <p>{{result.star}}分/{{result.time1}}  </p>
@@ -40,7 +40,8 @@ export default {
     data () {
         return {
             search:'',
-            results:''
+            results:'',
+            baseUrl:'http://vue.wclimb.site/images/'
         }
     },
     computed:{

@@ -5,6 +5,11 @@ import App from './App'
 import router from './router'
 import store from './store'
 import './base/rem'
+import VueLazyload from 'vue-lazyload'
+
+Vue.use(VueLazyload, {
+  loading: 'http://www.wclimb.site/images/imgLoading.svg'
+})
 
 Vue.config.productionTip = false;
 

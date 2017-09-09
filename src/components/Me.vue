@@ -9,7 +9,7 @@
             <template v-if=" nowUploadAvator !='' ">
                 <input @click="upload" id="upload" type="file">
                 <div class="avator_border">
-                    <img :src="'http://vue.wclimb.site/images/avator/'+ nowUploadAvator +'.png' " alt="">
+                    <img v-lazy="baseUrl+'/avator/'+ nowUploadAvator +'.png' " alt="">
                 </div>
             </template>
             <template v-else-if="avator == ''">
@@ -19,7 +19,7 @@
             <template v-else>
                 <input @click="upload" id="upload" type="file">
                 <div class="avator_border">
-                    <img :src="'http://vue.wclimb.site/images/avator/'+ avator +'.png' " alt="">
+                    <img v-lazy="baseUrl+'/avator/'+ avator +'.png' " alt="">
                 </div>
             </template>
             <div class="name" @click.stop="editUserName">
@@ -44,7 +44,7 @@
             <ul>
                 <li v-for="likeList in likeLists[0]">
                     <router-link :to="'/video/'+likeList.uid">
-                        <img :src="'http://vue.wclimb.site/images/'+likeList.videoImg" alt="">
+                        <img v-lazy="baseUrl+likeList.videoImg" alt="">
                         <h4>{{likeList.videoName}}</h4>
                         <div>
                             <div class="starList" :style="{'background-position-y':-15*(10-likeList.star).toFixed(0)+'px'}"></div>
@@ -62,7 +62,7 @@
             <ul>
                 <li v-for="likeList in likeLists[1]">
                     <router-link :to="'/video/'+likeList.uid">
-                        <img :src="'http://vue.wclimb.site/images/'+likeList.videoImg" alt="">
+                        <img v-lazy="baseUrl+likeList.videoImg" alt="">
                         <h4>{{likeList.videoName}}</h4>
                         <div>
                             <div class="starList" :style="{'background-position-y':-15*(10-likeList.star).toFixed(0)+'px'}"></div>
@@ -126,7 +126,8 @@ export default {
             nowUploadAvator:'',
             defaultName:true,
             userNameModel:'',
-            userName:''
+            userName:'',
+            baseUrl:'http://vue.wclimb.site/images/'
         }
     },
     computed:{

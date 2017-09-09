@@ -9,7 +9,7 @@
             <ul>
                 <li v-for="list in lists">
                     <router-link :to="'video/' + list.id">
-                        <div><img :src="'http://vue.wclimb.site/images/'+list.img" alt=""></div>
+                        <div><img v-lazy="baseUrl+list.img" alt=""></div>
                         <h3>{{list.name}}</h3>
                         <div>
                             <div class="starList" :style="{'background-position-y':-15*(10-list.star).toFixed(0)+'px'}"></div>
@@ -37,7 +37,8 @@ export default {
             iconStyle: 'icon-wjx',
             iconStyleCopy: 'icon-wjx-copy',
             loading: false,
-            videoCls:''
+            videoCls:'',
+            baseUrl:'http://vue.wclimb.site/images/'
         }
     },
     computed:{

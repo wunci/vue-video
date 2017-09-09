@@ -6,7 +6,7 @@
         <header>
             <div class="wrap">
                 <template v-if="lists.img">
-                    <img :src="'http://vue.wclimb.site/images/'+lists.img" alt="">
+                    <img v-lazy="baseUrl+lists.img" alt="">
                 </template>
                 <template v-else>
                     <img src="" alt="加载失败">
@@ -75,7 +75,7 @@
                     <li v-for="comment in comments">
                     <template v-if="comment.avator != '' ">
                         <div class="avator">
-                            <img :src="'http://vue.wclimb.site/images/avator/'+ comment.avator +'.png' " alt="">
+                            <img v-lazy="baseUrl+'/avator/'+ comment.avator +'.png' " alt="">
                         </div>
                     </template>
                     <template v-else>
@@ -112,6 +112,7 @@ export default {
             comments: '',
             likes: '',
             star:'',
+            baseUrl:'http://vue.wclimb.site/images/',
             likeTotalLength:0,
             loading: false,
             comment: '',

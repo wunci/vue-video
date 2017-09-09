@@ -19,7 +19,7 @@
             <ul>
                 <li v-for="(list,index) in lists[3]" v-if="index < 10">
                     <router-link :to="'/video/'+list.id">
-                        <div><img :src="'http://vue.wclimb.site/images/'+list.img" alt=""></div>
+                        <div><img  v-lazy="baseUrl+list.img" alt=""></div>
                         <h3>{{list.name}}</h3>
                         <div>
                             <div class="starList" :style="{'background-position-y':-15*(10-list.star).toFixed(0)+'px'}"></div>
@@ -37,7 +37,7 @@
             <ul>
                 <li v-for="(list,index) in lists[0]"  v-if="index < 10">
                     <router-link :to="'/video/'+list.id">
-                        <div><img :src="'http://vue.wclimb.site/images/'+list.img" alt=""></div>
+                        <div><img v-lazy="baseUrl+list.img" alt=""></div>
                         <h3>{{list.name}}</h3>
                         <div>
                             <div class="starList" :style="{'background-position-y':-15*(10-list.star).toFixed(0)+'px'}"></div>
@@ -55,7 +55,7 @@
             <ul>
                 <li v-for="(list,index) in lists[1]"  v-if="index < 10">
                     <router-link :to="'/video/'+list.id">
-                        <div><img :src="'http://vue.wclimb.site/images/'+list.img" alt=""></div>
+                        <div><img v-lazy="baseUrl+list.img" alt=""></div>
                         <h3>{{list.name}}</h3>
                         <div>
                             <div class="starList" :style="{'background-position-y':-15*(10-list.star).toFixed(0)+'px'}"></div>
@@ -73,7 +73,7 @@
             <ul>
                 <li v-for="(list,index) in lists[2]"  v-if="index < 10">
                     <router-link :to="'/video/'+list.id">
-                        <div><img :src="'http://vue.wclimb.site/images/'+list.img" alt=""></div>
+                        <div><img v-lazy="baseUrl+list.img" alt=""></div>
                         <h3>{{list.name}}</h3>
                         <div>
                             <div class="starList" :style="{'background-position-y':-15*(10-list.star).toFixed(0)+'px'}"></div>
@@ -101,7 +101,8 @@ export default {
     data () {
         return {
             lists: '',
-            loading: true
+            loading: true,
+            baseUrl:'http://vue.wclimb.site/images/'
         }
     },
     computed:{
