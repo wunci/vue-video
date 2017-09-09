@@ -61,7 +61,7 @@
         </section>
         <section class="fixed_comment">
             <template v-if="comment_allow">
-                <input type="text" v-model="comment" @keyup.enter="report" name="comment" placeholder="评论">
+                <input type="text" v-model="comment" @click="resetScrollTop" @keyup.enter="report" name="comment" placeholder="评论">
                 <button @click="report">评论</button>
             </template>
             <template v-else>
@@ -69,28 +69,28 @@
                 <button class="disabled">评论</button>
             </template>
         </section>
-            <section class="video_comments">
-                <h3>评论({{comments.length}})</h3>
-                    <ul id="ul">
-                        <li v-for="comment in comments">
-                        <template v-if="comment.avator != '' ">
-                            <div class="avator">
-                                <img :src="'http://vue.wclimb.site/images/avator/'+ comment.avator +'.png' " alt="">
-                            </div>
-                        </template>
-                        <template v-else>
-                            <div class="avator">
-                                {{comment.userName.charAt(0)}}
-                            </div>
-                        </template>
-                        <div class="comments_detail">
-                            <h4> {{comment.userName}}</h4>
-                            <p> {{comment.date}}</p>
-                            <div>{{comment.content}}</div>
+        <section class="video_comments">
+            <h3>评论({{comments.length}})</h3>
+                <ul id="ul">
+                    <li v-for="comment in comments">
+                    <template v-if="comment.avator != '' ">
+                        <div class="avator">
+                            <img :src="'http://vue.wclimb.site/images/avator/'+ comment.avator +'.png' " alt="">
                         </div>
-                    </li>
-                </ul>
-            </section>
+                    </template>
+                    <template v-else>
+                        <div class="avator">
+                            {{comment.userName.charAt(0)}}
+                        </div>
+                    </template>
+                    <div class="comments_detail">
+                        <h4> {{comment.userName}}</h4>
+                        <p> {{comment.date}}</p>
+                        <div>{{comment.content}}</div>
+                    </div>
+                </li>
+            </ul>
+        </section>
         <alert-dialog v-if="dialogShow" :icon="tipsImg" :aniDialog="aniDialog"  :dialogTxt="dialogTxt"></alert-dialog>
     </section>
 </template>
@@ -244,6 +244,10 @@ export default {
                     document.body.scrollTop = document.documentElement.scrollTop = scrollHeight
                 }
             })     
+        },
+        // 解决键盘抬起遮挡问题(现在是直接滚动到底部评论)
+        resetScrollTop(){
+            document.body.scrollTop = document.body.scrollHeight + 600;
         },
         // 发表评论
         report () {

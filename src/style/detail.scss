@@ -1,7 +1,9 @@
+body{
 
+}
 .detail{
 	padding-bottom: 1rem;
-	min-height: 10px;
+	min-height: 100%;
     overflow-y: auto;
 }
 header{
@@ -102,7 +104,12 @@ header{
 					font-size: 14px;
 					color: #afafaf;
 				}
-
+				h4{
+					width: 70%;
+					white-space: nowrap;
+					text-overflow: ellipsis;
+					overflow: hidden;
+				}
 			}
 		}
 	}
