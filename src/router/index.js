@@ -1,11 +1,18 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-const Home = r => require.ensure([], () => r(require('../components/Home')), 'Home')
-const More = r => require.ensure([], () => r(require('../components/More')), 'More')
-const Me = r => require.ensure([], () => r(require('../components/Me')), 'Me')
-const Login = r => require.ensure([], () => r(require('../components/Login')), 'Login')
-const Search = r => require.ensure([], () => r(require('../components/Search')), 'Search')
-const Detail = r => require.ensure([], () => r(require('../components/Detail')), 'Detail')
+import Search from '@/components/Search'
+import Home from '@/components/Home'
+import More from '@/components/More'
+import Me from '@/components/Me'
+import Login from '@/components/Login'
+import Detail from '@/components/Detail'
+// const Home = r => require.ensure([], () => r(require('../components/Home')), 'Home')
+// const More = r => require.ensure([], () => r(require('../components/More')), 'More')
+// const Me = r => require.ensure([], () => r(require('../components/Me')), 'Me')
+// const Login = r => require.ensure([], () => r(require('../components/Login')), 'Login')
+// const Search = r => require.ensure([], () => r(require('../components/Search')), 'Search')
+// const Detail = r => require.ensure([], () => r(require('../components/Detail')), 'Detail')
+
 Vue.use(Router)
 
 export default new Router({
@@ -21,6 +28,7 @@ export default new Router({
             component: Home,
             children:[
                 {
+                    name:'search',
                     path: '/home/search',
                     component: Search
                 }

@@ -1,6 +1,6 @@
 <template>
     <div id="video">
-        <transition name="fade">
+        <transition name="router-fd">
             <keep-alive include="home">
                 <router-view></router-view>
             </keep-alive>

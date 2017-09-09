@@ -212,6 +212,10 @@ export default {
                     this.dialogChange(true,'删除成功');
                     el.parentNode.style.height = 0;
                     el.parentNode.style.borderTop = 'none';
+                   
+                    this.$nextTick(() => {
+                         this.comments.length--
+                    })
                 }
             })
         },
@@ -312,11 +316,9 @@ export default {
                    this.userName = modelData
                    this.defaultName = true;
                 }else if(data == 'repeatName'){
-                  
                   this.dialogChange(false,"用户已存在");
                   this.defaultName = true;
                 }else{
-                  t
                   this.dialogChange(false,"修改失败");
                   this.defaultName = true;
                 }
