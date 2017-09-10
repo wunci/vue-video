@@ -54,11 +54,13 @@ export default {
         async initData(){
             var path = this.$route.path
             // 这里修复源码中从url进入 '/all' 等路径时列表为空的bug
+            this.loading = true
             if (this.videoData == null) {
                 await initHome().then(data => {
                     this.$store.dispatch('initVideoData', data)
                 })
             }
+            this.loading = false
             if (path === '/all') {
                 this.lists = this.videoData[3]
                 this.videoCls = '全部'
