@@ -194,7 +194,9 @@ export default {
 
             // 获取like参数
             getInitVideoLikeData(routerId , this.userName).then(data =>  {
-                this.loading = false
+                setTimeout(()=>{
+                    this.loading = false;
+                },500)
                 var likes = JSON.parse(data)[0]['iLike']
                 this.likes = likes
             })

@@ -184,7 +184,9 @@ export default {
             .catch(e => console.log("error", e))
             // 获取喜欢不喜欢数据
             meLike(this.userName).then(data =>  {
-                this.loading = false
+                setTimeout(()=>{
+                    this.loading = false;
+                },500)
                 this.likeLists = data;
                 this.likeLengthOne = data[0].length
                 this.likeLengthTwo = data[1].length
@@ -206,6 +208,7 @@ export default {
         // 删除自己的评论
         deleteComment(id,e){
             var el = e.currentTarget
+            // console.log(el)
             meDelete(id).then(data=>{
                 // console.log(data)
                 if (data == 'success') {
@@ -230,10 +233,12 @@ export default {
             this.start = start;
         },
         touchStartHideAll(e){
-            var commentWrap = document.querySelectorAll('.commentWrap')
-            for (var i = 0; i < commentWrap.length; i++) {
-              commentWrap[i].style.transform = 'translate('+ 0 +'rem)';
-              commentWrap[i].style.webkitTransform = 'translate('+ 0 +'rem)';
+            if (e.target.className !== 'delete') {
+                var commentWrap = document.querySelectorAll('.commentWrap')
+                for (var i = 0; i < commentWrap.length; i++) {
+                  commentWrap[i].style.transform = 'translate('+ 0 +'rem)';
+                  commentWrap[i].style.webkitTransform = 'translate('+ 0 +'rem)';
+                }
             }
         },
         touchMove (e) {
@@ -246,6 +251,7 @@ export default {
             }
             // console.log(scroll)
             var el= e.currentTarget
+            // console.log(el)
             el.style.transform = 'translate('+ scroll +'rem)';
             el.style.webkitTransform = 'translate('+ scroll +'rem)';
         },

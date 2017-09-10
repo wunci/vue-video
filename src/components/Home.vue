@@ -130,7 +130,9 @@ export default {
         initData () {
             this.loading = true
             initHome().then(data =>  {
-                this.loading = false;
+                setTimeout(()=>{
+                    this.loading = false;
+                },500)
                 this.lists = data 
                 this.initVideoData(data)
             }).catch(e => console.log("error", e))   
