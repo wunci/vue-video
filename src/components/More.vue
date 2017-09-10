@@ -25,6 +25,7 @@
 <script>
 import vfooter from './common/vfooter.vue'
 import { mapState } from 'vuex'
+import { initHome } from '@/data/fetchData.js'
 export default {
     name: 'more',
     components:{
@@ -50,18 +51,26 @@ export default {
         this.initData()
     },
     methods:{
-        initData(){
-            // console.log(this.videoData)
-            if (this.$route.path === '/all') {
+        async initData(){
+            var path = this.$route.path
+            // 这里修复源码中从url进入 '/all' 等路径时列表为空的bug
+            this.loading = true
+            if (this.videoData == null) {
+                await initHome().then(data => {
+                    this.$store.dispatch('initVideoData', data)
+                })
+            }
+            this.loading = false
+            if (path === '/all') {
                 this.lists = this.videoData[3]
                 this.videoCls = '全部'
-            }else if (this.$route.path === '/movie') {
+            }else if (path === '/movie') {
                 this.lists = this.videoData[0]
                 this.videoCls = '电影'
-            }else if (this.$route.path ==='/tv') {
+            }else if (path ==='/tv') {
                 this.lists = this.videoData[1]
                 this.videoCls = '电视剧'
-            }else if (this.$route.path === '/zy') {
+            }else if (path === '/zy') {
                 this.lists = this.videoData[2]
                 this.videoCls = '综艺'
             }   
