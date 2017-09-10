@@ -104,10 +104,10 @@
 			margin-top: 0.3rem;
 			padding:0 0.4rem;
 			display: flex;
-			overflow: auto;
+			overflow-x: auto;
 			-webkit-overflow-scrolling: touch;
 			li{
-				
+				flex: none
 				& + li{
 					margin-left: 0.2rem;
 				}

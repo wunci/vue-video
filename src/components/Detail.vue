@@ -241,8 +241,8 @@ export default {
             // console.log(scrollHeight)
             timer = setInterval(function(){
                 speed += 30;
-                document.body.scrollTop = document.documentElement.scrollTop = this.scrollTop + speed
-                if (document.body.scrollTop >= scrollHeight - 687) {
+                var scrollTop = document.body.scrollTop = document.documentElement.scrollTop = this.scrollTop + speed
+                if (scrollTop >= scrollHeight - 687) {
                     clearInterval(timer)
                     document.body.scrollTop = document.documentElement.scrollTop = scrollHeight
                 }
@@ -250,7 +250,7 @@ export default {
         },
         // 解决键盘抬起遮挡问题(现在是直接滚动到底部评论)
         resetScrollTop(){
-            document.body.scrollTop = document.body.scrollHeight + 600;
+            document.body.scrollTop = document.documentElement.scrollTop = document.body.scrollHeight + 600;
         },
         // 发表评论
         report () {
