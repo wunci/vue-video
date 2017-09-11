@@ -86,26 +86,36 @@
         <transition name="router-in">
             <router-view></router-view>
         </transition>
+        <alert-dialog v-if="dialogShow" :icon="tipsImg" :aniDialog="aniDialog"  :dialogTxt="dialogTxt"></alert-dialog>
     </section>
 </template>
 
 <script>
 import vfooter from './common/vfooter.vue'
-import { initHome } from '../data/fetchData'
+import { initHome,getAvator } from '../data/fetchData'
+import alertDialog from './common/alertDialog.vue'
 import { mapActions } from 'vuex'
 export default {
     name: 'home',
     components:{
         vfooter,
+        alertDialog
     },
     data () {
         return {
             lists: '',
             loading: true,
-            baseUrl:'http://vue.wclimb.site/images/'
+            baseUrl:'http://vue.wclimb.site/images/',
+            dialogShow:false,
+            dialogTxt:'',
+            tips:true,
+            aniDialog:'',
         }
     },
     computed:{
+        tipsImg(){
+            return this.tips ? 'icon-chenggong' : 'icon-shibai' 
+        },
         allLength(){
             return this.getJsonLength(this.lists[3])
         },
@@ -135,7 +145,36 @@ export default {
                 },500)
                 this.lists = data 
                 this.initVideoData(data)
-            }).catch(e => console.log("error", e))   
+            }).catch(e => console.log("error", e))  
+            
+           // 用户会在不同地方登陆，所以重新获取头像 
+            if (localStorage.getItem('token') !== null &&
+                localStorage.getItem('avator') !== null) {
+                var name =  localStorage.getItem('token')
+                getAvator(name).then(data=>{
+                    // console.log(data[0]['avator'])
+                    localStorage.setItem('avator',data[0]['avator'])
+                }).catch(err=>{
+                    // console.log(err)
+                    localStorage.removeItem('token')
+                    this.dialogChange(false,'用户信息变化,请重新登陆');
+                    setTimeout(()=>{
+                        this.$router.push({path:'/login'})
+                    },2000)
+                })
+            }
+            
+
+        },
+         // 弹窗
+        dialogChange(tips,dialogTxt){
+            this.aniDialog = 'aniDialog';
+            this.dialogShow = true;
+            this.tips = tips
+            this.dialogTxt = dialogTxt
+            setTimeout(()=>{
+                this.dialogShow = false;
+            },1500)
         },
         ...mapActions([
             'initVideoData'

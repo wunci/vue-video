@@ -8,9 +8,9 @@
                 <template v-if="lists.img">
                     <img v-lazy="baseUrl+lists.img" alt="">
                 </template>
-                <template v-else>
+               <!--  <template v-else>
                     <img src="" alt="加载失败">
-                </template>
+                </template> -->
                 <div class="video_name">
                     <h3>{{ lists.name }}</h3>
                     <div class="score_wrap">
