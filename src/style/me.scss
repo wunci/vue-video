@@ -107,7 +107,7 @@
 			overflow-x: auto;
 			-webkit-overflow-scrolling: touch;
 			li{
-				flex: none
+				flex: none;
 				& + li{
 					margin-left: 0.2rem;
 				}
