@@ -36,6 +36,14 @@ export const uploadAvator = ( name , val ) => fetch(baseUrl+'avator?name='+name,
             }).then(response=>{
               return response.text()
             })
+// 获取头像
+export const getAvator = ( name) => fetch(baseUrl+'avator?name='+name,{
+                method:'POST',
+                body: JSON.stringify({avator:val}),
+                mode:'cors',
+            }).then(response=>{
+              return response.text()
+            })
 
 // 编辑用户名
 export const editNameData = ( oldName , newName) =>  fetch(baseUrl+'edit/user?name='+ oldName, { 
@@ -89,3 +97,4 @@ export const reportComment = (id, userName , date , comment , videoName , avator
             }).then(function(response) {
                 return  response.text()
             })
+
