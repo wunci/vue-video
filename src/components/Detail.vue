@@ -252,14 +252,27 @@ export default {
         resetScrollTop(){
             document.body.scrollTop = document.documentElement.scrollTop = document.body.scrollHeight + 600;
         },
+        date(x, y){
+            var z = {
+            y: x.getFullYear(),
+            M: x.getMonth() + 1,
+            d: x.getDate(),
+            h: x.getHours(),
+            m: x.getMinutes(),
+            s: x.getSeconds()
+          };
+          return y.replace(/(y+|M+|d+|h+|m+|s+)/g, function(v) {
+            return ((v.length > 1 ? "0" : "") + eval('z.' + v.slice(-1))).slice(-(v.length > 2 ? v.length : 2))
+          });
+        },
         // 发表评论
         report () {
-            var date = new Date().toLocaleDateString() + ' ' +  new Date().toLocaleTimeString();
             if (this.comment == '') {
                 this.dialogChange(false,"请输入评论内容")
                 this.comment = '';
                 return
             }
+            var date = this.date(new Date(), 'yyyy-M-d h:m:s')
             var avator = this.avator == null ? '' : this.avator
             reportComment(this.$route.params.id, this.userName,date,this.comment,this.lists.name,avator).then(data=>{
                 if (data == 'success') {
