@@ -17,7 +17,7 @@
                         <strong>{{ lists.star }}</strong>
                         <div class="score">
                             <div class="starList" :style="{'background-position-y':-15*(10-lists.star).toFixed(0)+'px'}"></div>
-                            <p>{{ likeTotalLength }}人评分/{{comments.length}}条评论</p>
+                            <p>{{ likeTotalLength }}人评分/{{pageNeedComments.length}}条评论</p>
                         </div>
                     </div>
                 </div>        
@@ -70,7 +70,7 @@
             </template>
         </section>
         <section class="video_comments">
-            <h3>评论({{comments.length}})</h3>
+            <h3>评论({{pageNeedComments.length}})</h3>
                 <ul id="ul">
                     <li v-for="comment in comments">
                     <template v-if="comment.avator != '' ">
@@ -91,6 +91,12 @@
                 </li>
             </ul>
         </section>
+        <section class="page">
+            <div @click="goPage(1)" v-if="Math.ceil(pageNeedComments.length / 5) > 1">首页</div>
+            <div @click="prevPage()" v-if="page >= 2">上一页</div>
+            <div @click="nextPage()" v-if="page < Math.ceil(pageNeedComments.length / 5)" >下一页</div>
+            <div @click="goPage(Math.ceil(pageNeedComments.length / 5))" v-if="page < Math.ceil(pageNeedComments.length / 5)">尾页</div>
+        </section>
         <alert-dialog v-if="dialogShow" :icon="tipsImg" :aniDialog="aniDialog"  :dialogTxt="dialogTxt"></alert-dialog>
     </section>
 </template>
@@ -110,6 +116,7 @@ export default {
         return {
             lists: '',
             comments: '',
+            pageNeedComments:'',
             likes: '',
             star:'',
             baseUrl:'http://vue.wclimb.site/images/',
@@ -123,7 +130,8 @@ export default {
             likeActive: 'like_active',
             likeCls: 'like',
             likeDisable: 'likeDisable',
-            scrollTop:200
+            scrollTop:200,
+            page:1
         }
     },
     computed:{
@@ -188,7 +196,9 @@ export default {
 
             // 获取评论
             getVideoComment(routerId).then( data =>  {
-                this.comments = data
+                this.comments = data.slice(0,5)
+                this.pageNeedComments = data
+                console.log('comments',data.slice(0,5))
             })
             .catch(e => console.log("error", e))   
 
@@ -248,7 +258,7 @@ export default {
                 }
             })     
         },
-        // 解决键盘抬起遮挡问题(现在是直接滚动到底部评论)
+        // 解决键盘抬起遮挡问题(现在是直接滚动到底部评论）
         resetScrollTop(){
             document.body.scrollTop = document.documentElement.scrollTop = document.body.scrollHeight + 600;
         },
@@ -276,12 +286,13 @@ export default {
             var avator = this.avator == null ? '' : this.avator
             reportComment(this.$route.params.id, this.userName,date,this.comment,this.lists.name,avator).then(data=>{
                 if (data == 'success') {
-                    this.comments.push({
+                    this.pageNeedComments.push({
                         "userName": localStorage.getItem('token'),
                         "date": date,
                         "content": this.comment,
                         "avator": avator
                     });
+                    this.goPage(Math.ceil(this.pageNeedComments.length / 5))
                     this.dialogChange(true,'评论成功');
                     this.comment = ''
                     this.$nextTick(() => {
@@ -293,7 +304,21 @@ export default {
                 }
             })
         },
-       
+        nextPage(){
+           this.page++
+           console.log(this.page)
+           this.comments = this.pageNeedComments.slice((this.page-1)*5,this.page*5)
+        //    console.log(this.comments)
+        },
+        prevPage(){
+           this.page--
+           this.comments = this.pageNeedComments.slice((this.page-1)*5,this.page*5)     
+        //    console.log(this.comments)       
+        },
+        goPage(page){
+           this.page = page
+           this.comments = this.pageNeedComments.slice((page-1)*5,page*5) 
+        }
     }
 }
 </script>
@@ -301,4 +326,21 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 @import 'src/style/detail'; 
+.page {
+    margin: 0.2rem 0;
+    display: flex;
+    justify-content: center;
+}
+.page div{
+    display: inline;
+    background: #4ebf60;
+    color: #fff;
+    text-align: center;
+    margin:0 0.05rem;
+    border-radius:5px;
+    padding:0.08rem 0.14rem;
+}
+.page div:active{
+    background: #89e498;
+}
 </style>

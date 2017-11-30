@@ -188,4 +188,21 @@ header{
 		background: #ccc;
 	}
 }
+.page {
+  margin: 0.2rem 0;
+  display: flex;
+  justify-content: center;
+}
+.page div {
+  display: inline;
+  background: #4ebf60;
+  color: #fff;
+  text-align: center;
+  margin: 0 0.05rem;
+  border-radius: 5px;
+  padding: 0.08rem 0.14rem;
+}
+.page div:active {
+  background: #89e498;
+}
 

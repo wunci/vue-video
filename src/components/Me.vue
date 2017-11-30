@@ -27,7 +27,7 @@
                     {{ userName }} <i class="iconfont icon-bianji"></i>
                 </template>
                 <template v-else>
-                    <input type="text" v-focus v-model="userNameModel" @keyup.enter="submitEditName" :value="userName">
+                    <input type="text" v-focus v-model="userNameModel" @keyup.enter="submitEditName" >
                     <i class="iconfont icon-submit"  @click.stop="submitEditName" ></i>
                 </template>
             </div>
