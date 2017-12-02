@@ -93,10 +93,18 @@
             </ul>
         </section>
         <section class="page">
-            <div @click="goPage(1)" v-if="(commentsPageLength > 1) && page > 1">首页</div>
-            <div @click="prevPage()" v-if="page >= 2">上一页</div>
-            <div @click="nextPage()" v-if="page < commentsPageLength" >下一页</div>
-            <div @click="goPage(commentsPageLength)" v-if="page < commentsPageLength">尾页</div>
+            <transition name="page-scale">
+                <div @click="goPage(1)" v-if="(commentsPageLength > 1) && page > 1">首页</div>
+            </transition>
+            <transition name="page-scale">
+                <div @click="prevPage()" v-if="page >= 2">上一页</div>
+            </transition>
+            <transition name="page-scale">
+                <div @click="nextPage()" v-if="page < commentsPageLength" >下一页</div>
+            </transition>
+            <transition name="page-scale">    
+                <div @click="goPage(commentsPageLength)" v-if="page < commentsPageLength">尾页</div>
+            </transition>
             <template v-if="commentsPageLength >= 1">
                 <div class="pageNum">{{page}}/{{commentsPageLength}}页</div>
             </template>
@@ -315,15 +323,19 @@ export default {
             })
         },
         nextPage(){
-           this.page++
+            if (this.page != this.commentsPageLength) {
+               this.page++
+            }
            console.log(this.page)
            this.comments = this.pageNeedComments.slice((this.page-1)*5,this.page*5)
-        //    console.log(this.comments)
+            // console.log(this.comments)
         },
         prevPage(){
-           this.page--
+           if (this.page != 1) {
+               this.page--
+           }
            this.comments = this.pageNeedComments.slice((this.page-1)*5,this.page*5)     
-        //    console.log(this.comments)       
+            // console.log(this.comments)       
         },
         goPage(page){
            this.page = page

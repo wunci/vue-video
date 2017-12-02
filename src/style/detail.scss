@@ -214,4 +214,14 @@ header{
 	background: #89e498;
   }
 }
+.page-scale-enter-active,
+.page-scale-leave-active {
+  transition: all 0.6s;
+}
+
+.page-scale-enter,
+.page-scale-leave-active {
+  transform: scale(0)
+}
+
 
