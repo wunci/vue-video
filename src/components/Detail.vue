@@ -1,10 +1,12 @@
 <template>
     <section class="detail" @touchmove="scroll">
-        <div class="loading" v-if="loading">
-            <div class="loading_dialog">
-                <img src="./common/loading.svg" alt="">
+         <transition name="fade">
+            <div class="loading" v-if="loading">
+                <div class="loading_dialog">
+                    <img src="./common/loading.svg" alt="">
+                </div>
             </div>
-        </div>
+        </transition>
         <header>
             <div class="wrap">
                 <template v-if="lists.img">

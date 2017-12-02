@@ -1,11 +1,13 @@
 <template>
     <section class="home">
         <vfooter></vfooter>
-        <div class="loading" v-if="loading">
-            <div class="loading_dialog">
-                <img src="./common/loading.svg" alt="">
+        <transition name="fade">
+            <div class="loading" v-if="loading">
+                <div class="loading_dialog">
+                    <img src="./common/loading.svg" alt="">
+                </div>
             </div>
-        </div>
+        </transition>
         <div id="search">
             <router-link to="/home/search">
                 <div class="search_input">

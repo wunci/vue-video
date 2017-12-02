@@ -1,11 +1,13 @@
 <template>
     <section class="me" @touchstart="touchStartHideAll">
         <vfooter></vfooter>
-        <div class="loading" v-if="loading">
-            <div class="loading_dialog">
-                <img src="./common/loading.svg" alt="">
+        <transition name="fade">
+            <div class="loading" v-if="loading">
+                <div class="loading_dialog">
+                    <img src="./common/loading.svg" alt="">
+                </div>
             </div>
-        </div>
+        </transition>
         <section class="me_deatil" @click="showDefaultName">
             <section class="avator">
             <template v-if=" nowUploadAvator !='' ">
