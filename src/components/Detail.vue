@@ -45,9 +45,9 @@
         </section>
         <section class="like_list">
             <template v-if="userName == null">
-                <div class="like likeDisable">喜欢</div>
-                <div class="like likeDisable">不喜欢</div>
-                <p>登录后才可选择哟！</p>
+                <div class="like" @click="likeNeedLogin">喜欢</div>
+                <div class="like" @click="likeNeedLogin">不喜欢</div>
+                <!-- <p>登录后才可选择哟！</p> -->
             </template>
             <template v-else-if="likes">
                 <div :class="[ likes == 1 ? likeActive : likeDisable, likeCls ]">喜欢</div>
@@ -344,6 +344,9 @@ export default {
         goPage(page){
            this.page = page
            this.comments = this.pageNeedComments.slice((page-1)*5,page*5) 
+        },
+        likeNeedLogin(){
+            this.dialogChange(false,"请先登录！")
         }
     }
 }
