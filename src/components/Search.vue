@@ -13,19 +13,17 @@
             <div class="not_find">没有相关影片</div>
         </template>
         <template v-else>
-                <transition-group appear tag="ul" name="search">
-           
-                    <li v-for="result in results" :key="result.id">
-                        <router-link :to="'/video/'+result.id">
-                            <img v-lazy="baseUrl+result.img" alt="">
-                            <div class="result_name">
-                                <p>{{result.name}}</p>
-                                <p>{{result.star}}分/{{result.time1}}  </p>
-                            </div>
-                        </router-link>
-                    </li> 
-            
-               </transition-group>
+            <transition-group appear tag="ul" name="slide-in">
+                <li v-for="result in results" :key="result.id">
+                    <router-link :to="'/video/'+result.id">
+                        <img v-lazy="baseUrl+result.img" alt="">
+                        <div class="result_name">
+                            <p>{{result.name}}</p>
+                            <p>{{result.star}}分/{{result.time1}}  </p>
+                        </div>
+                    </router-link>
+                </li> 
+            </transition-group>
         </template>
     </section>
 </template>
@@ -141,14 +139,5 @@ export default {
         }
     }
   }
-.search-enter-active,
-.search-leave-active {
-  transition: all 0.6s;
-}
-
-.search-enter,
-.search-leave-active {
-  transform: translateX(100%)
-}
 }
 </style>

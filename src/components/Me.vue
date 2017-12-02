@@ -2,7 +2,9 @@
     <section class="me" @touchstart="touchStartHideAll">
         <vfooter></vfooter>
         <div class="loading" v-if="loading">
-            <img src="./common/loading.svg" alt="">
+            <div class="loading_dialog">
+                <img src="./common/loading.svg" alt="">
+            </div>
         </div>
         <section class="me_deatil" @click="showDefaultName">
             <section class="avator">

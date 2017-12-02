@@ -176,15 +176,23 @@ body {
     color: #ccc;
 }
 .loading{
-    width:100px;
-    height: 100px;
-    background: #1ABC9C;
+    width: 100%;
+    height: 100%;
     text-align: center;
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-radius:50%;
+    top: 0;
+    left: 0;
+    background: rgba(0,0,0,0.5);
+    div{
+        width:100px;
+        height: 100px;
+        border-radius: 50%;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+        background: #1ABC9C;
+    }
     img{
         margin-top: 5px;
     }
@@ -206,4 +214,13 @@ body {
 }
 .fade-enter, .fade-leave-active {
     opacity: 0;
+}
+.slide-in-enter-active,
+.slide-in-leave-active {
+  transition: all 0.6s;
+}
+
+.slide-in-enter,
+.slide-in-leave-active {
+  transform: translateX(100%)
 }

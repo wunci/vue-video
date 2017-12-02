@@ -2,7 +2,9 @@
     <section class="home">
         <vfooter></vfooter>
         <div class="loading" v-if="loading">
-            <img src="./common/loading.svg" alt="">
+            <div class="loading_dialog">
+                <img src="./common/loading.svg" alt="">
+            </div>
         </div>
         <div id="search">
             <router-link to="/home/search">
