@@ -5,7 +5,8 @@
 
 > 前端项目地址 https://github.com/wclimb/vue-video  
 > 前端预览 http://video.wclimb.site
-> 安卓App版本 https://github.com/wclimb/vue-video/vue-video.apk
+
+> 安卓App版本 https://github.com/wclimb/vue-video/blob/master/vue-video.apk
 
 > 后端项目地址 https://github.com/wclimb/video-admin  
 > 后台管理 http://vue.wclimb.site
