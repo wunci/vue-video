@@ -216,7 +216,7 @@ export default {
             getVideoComment(routerId).then( data =>  {
                 this.comments = data.slice(0,5)
                 this.pageNeedComments = data
-                console.log('comments',data.slice(0,5))
+                // console.log('comments',data.slice(0,5))
             })
             .catch(e => console.log("error", e))   
 
@@ -326,7 +326,7 @@ export default {
             if (this.page != this.commentsPageLength) {
                this.page++
             }
-           console.log(this.page)
+        //    console.log(this.page)
            this.comments = this.pageNeedComments.slice((this.page-1)*5,this.page*5)
             // console.log(this.comments)
         },
