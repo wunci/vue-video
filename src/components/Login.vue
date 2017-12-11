@@ -22,7 +22,7 @@
                             <i class="iconfont icon-yanzhengma1"></i>
                             <input type="text" v-model="yzm" @keyup.enter="signin" name="yzm" placeholder="验证码">
                             <img @click="changYzm" :src="url" alt="">
-                            <p>点击更换</p>
+                            <!-- <p>点击更换</p> -->
                         </div>
                     </div>
                     <div class="submit" @click="signin">立即注册</div> 
@@ -183,7 +183,7 @@ export default {
         }
         img{
             position: absolute;
-            right: 0.2rem;
+            right: 0;
             top:50%;
             transform: translateY(-50%);
             height: 90%;

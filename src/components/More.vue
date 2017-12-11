@@ -61,7 +61,9 @@ export default {
             if (this.videoData == null) {
                 this.loading = true
                 await initHome().then(data => {
-                    this.$store.dispatch('initVideoData', data)
+                    this.$store.dispatch('initVideoData', {
+                        initVideoData:data
+                    })
                     this.loading = false
                 })
             }
@@ -75,7 +77,7 @@ export default {
                 this.lists = this.videoData[1]
                 this.videoCls = '电视剧'
             }else if (path === '/zy') {
-                this.lists = this.videoData[2]
+                this.lists = this.videoDatavideoData[2]
                 this.videoCls = '综艺'
             }   
         }

@@ -7,5 +7,5 @@ export default {
 	},
 	initMeCommentData ({commit},data) {
 		commit('INIT_COMMENT_DATA',data)
-	},
+	}
 }

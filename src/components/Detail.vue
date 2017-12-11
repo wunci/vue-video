@@ -9,6 +9,10 @@
         </transition>
         <header>
             <div class="wrap">
+                <div @click="back" class="back">
+                   <i class="iconfont icon-logout23"></i>
+                   返回
+                </div>
                 <template v-if="lists.img">
                     <img v-lazy="baseUrl+lists.img" alt="">
                 </template>
@@ -113,7 +117,7 @@
                 <div class="pageNum">{{page}}/{{commentsPageLength}}页</div>
             </template>
             <template v-else>
-                <div class="pageNum">暂时没有评论...</div>
+                <div class="pageNum">{{commentLoad}}</div>
             </template>
         </section>
         <alert-dialog v-if="dialogShow" :icon="tipsImg" :aniDialog="aniDialog"  :dialogTxt="dialogTxt"></alert-dialog>
@@ -150,7 +154,8 @@ export default {
             likeCls: 'like',
             likeDisable: 'likeDisable',
             scrollTop:200,
-            page:1
+            page:1,
+            commentLoad:'评论正在加载中......'
         }
     },
     computed:{
@@ -189,13 +194,10 @@ export default {
             this.dialogShow = true;
             this.tips = tips
             this.dialogTxt = dialogTxt
-            setTimeout(()=>{
+            setTimeout( ()=> {
                 this.dialogShow = false;
             },1500)
         },
-        ...mapActions([
-            'initMeCommentData',
-        ]),
         initData () {
             this.loading = true
             // 获取video数据
@@ -220,6 +222,7 @@ export default {
             getVideoComment(routerId).then( data =>  {
                 this.comments = data.slice(0,5)
                 this.pageNeedComments = data
+                this.commentLoad = '暂时没有相关评论.......'
                 // console.log('comments',data.slice(0,5))
             })
             .catch(e => console.log("error", e))   
@@ -259,7 +262,7 @@ export default {
         },
         // 监听滚动，动态更新scrollTop
         scroll(){
-            window.onscroll=function(){
+            window.onscroll = function(){
                 this.scrollTop = document.body.scrollTop || document.documentElement.scrollTop
             }
             this.scrollTop = document.body.scrollTop || document.documentElement.scrollTop
@@ -306,7 +309,7 @@ export default {
             }
             var date = this.date(new Date(), 'yyyy-M-d h:m:s')
             var avator = this.avator == null ? '' : this.avator
-            reportComment(this.$route.params.id, this.userName,date,this.comment,this.lists.name,avator).then(data=>{
+            reportComment(this.$route.params.id, this.userName,date,this.comment,this.lists.name,avator).then( data=> {
                 if (data == 'success') {
                     this.pageNeedComments.push({
                         "userName": localStorage.getItem('token'),
@@ -347,6 +350,9 @@ export default {
         },
         likeNeedLogin(){
             this.dialogChange(false,"请先登录！")
+        },
+        back(){
+            this.$router.push({path:'/'})
         }
     }
 }

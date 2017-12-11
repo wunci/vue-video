@@ -98,7 +98,7 @@
 import vfooter from './common/vfooter.vue'
 import { initHome,getAvator } from '../data/fetchData'
 import alertDialog from './common/alertDialog.vue'
-import { mapActions } from 'vuex'
+import { mapActions ,mapState } from 'vuex'
 export default {
     name: 'home',
     components:{
@@ -131,14 +131,22 @@ export default {
         },
         zyLength(){
             return this.getJsonLength(this.lists[2])
-        }
+        },
+        ...mapState([
+            'videoData',
+        ]),
     },
     created () {
-       this.initData()
+        if (this.videoData != null) {
+            this.lists = this.videoData 
+        }else{
+           this.initData()
+        }
+        // console.log(this.videoData)
     },
     watch: {
         // 如果路由有变化，会再次执行该方法
-        '$route': 'initData'
+        //'$route': 'initData'
     },
     methods:{
         initData () {
@@ -148,7 +156,9 @@ export default {
                     this.loading = false;
                 },500)
                 this.lists = data 
-                this.initVideoData(data)
+                this.$store.dispatch('initVideoData',{
+                    initVideoData:data
+                })
             }).catch(e => console.log("error", e))  
             
            // 用户会在不同地方登陆，所以重新获取头像 
@@ -180,9 +190,6 @@ export default {
                 this.dialogShow = false;
             },1500)
         },
-        ...mapActions([
-            'initVideoData'
-        ]),
         getJsonLength(jsonData){
             var jsonLength = 0;  
             for(var item in jsonData){  
