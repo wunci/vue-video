@@ -48,7 +48,7 @@
             </div>
         </section>
         <section class="like_list">
-            <template v-if="userName == null">
+            <template v-if="userName == ''">
                 <div class="like" @click="likeNeedLogin">喜欢</div>
                 <div class="like" @click="likeNeedLogin">不喜欢</div>
                 <!-- <p>登录后才可选择哟！</p> -->
@@ -69,7 +69,7 @@
             </p>
         </section>
         <section class="fixed_comment">
-            <template v-if="comment_allow">
+            <template v-if="userName != ''">
                 <input type="text" v-model="comment" @click="resetScrollTop" @keyup.enter="report" name="comment" placeholder="评论">
                 <button @click="report">评论</button>
             </template>
@@ -128,7 +128,7 @@
 import vfooter from './common/vfooter.vue'
 import alertDialog from './common/alertDialog.vue'
 import {mapState,mapActions} from 'vuex'
-import { singleVideoData , getVideoComment , getInitVideoLikeData , postVideoLikeData ,reportComment} from '../data/fetchData.js'
+import { singleVideoData , getVideoComment , getInitVideoLikeData , postVideoLikeData ,reportComment, checkUser} from '../data/fetchData.js'
 export default {
     name: 'detail',
     components:{
@@ -155,7 +155,8 @@ export default {
             likeDisable: 'likeDisable',
             scrollTop:200,
             page:1,
-            commentLoad:'评论正在加载中......'
+            commentLoad:'评论正在加载中......',
+            userName: ''
         }
     },
     computed:{
@@ -164,13 +165,10 @@ export default {
             'meCommentDatas'
         ]),
         comment_allow(){
-          return localStorage.getItem('token') ? true : false
+          return localStorage.getItem('user') ? true : false
         },
         tipsImg(){
             return this.tips ? 'icon-chenggong' : 'icon-shibai' 
-          },
-        userName(){ 
-          return localStorage.getItem('token');
         },
         avator(){ 
           return localStorage.getItem('avator');
@@ -180,8 +178,15 @@ export default {
         }
     },
     mounted(){
-        this.initData();
-        this.scroll()
+        var userName = localStorage.getItem('user');
+        checkUser(userName,localStorage.getItem('token')).then(data => {
+            if (data == 'success') {
+                this.userName = userName
+                //console.log(this.userName)
+            }
+            this.initData();
+            this.scroll()
+        })
     },
     watch: {
         // 如果路由有变化，会再次执行该方法
@@ -201,7 +206,8 @@ export default {
         initData () {
             this.loading = true
             // 获取video数据
-            var routerId = this.$route.params.id
+            var routerId = this.$route.params.id;
+            var userName = this.userName
             singleVideoData(routerId).then(data =>  {
                 // console.log(data[0][0]['star'])
                 this.lists = data[0][0];
@@ -228,7 +234,7 @@ export default {
             .catch(e => console.log("error", e))   
 
             // 获取like参数
-            getInitVideoLikeData(routerId , this.userName).then(data =>  {
+            getInitVideoLikeData(routerId ,userName).then(data =>  {
                 setTimeout(()=>{
                     this.loading = false;
                 },500)
@@ -245,7 +251,7 @@ export default {
             postVideoLikeData(
                     this.$route.params.id,
                     likeData,
-                    localStorage.getItem('token'),
+                    this.userName,
                     this.lists.name,
                     this.lists.img,
                     this.lists.star
@@ -287,19 +293,19 @@ export default {
         resetScrollTop(){
             document.body.scrollTop = document.documentElement.scrollTop = document.body.scrollHeight + 600;
         },
-        date(x, y){
-            var z = {
-            y: x.getFullYear(),
-            M: x.getMonth() + 1,
-            d: x.getDate(),
-            h: x.getHours(),
-            m: x.getMinutes(),
-            s: x.getSeconds()
-          };
-          return y.replace(/(y+|M+|d+|h+|m+|s+)/g, function(v) {
-            return ((v.length > 1 ? "0" : "") + eval('z.' + v.slice(-1))).slice(-(v.length > 2 ? v.length : 2))
-          });
-        },
+        // date(x, y){
+        //     var z = {
+        //     y: x.getFullYear(),
+        //     M: x.getMonth() + 1,
+        //     d: x.getDate(),
+        //     h: x.getHours(),
+        //     m: x.getMinutes(),
+        //     s: x.getSeconds()
+        //   };
+        //   return y.replace(/(y+|M+|d+|h+|m+|s+)/g, function(v) {
+        //     return ((v.length > 1 ? "0" : "") + eval('z.' + v.slice(-1))).slice(-(v.length > 2 ? v.length : 2))
+        //   });
+        // },
         // 发表评论
         report () {
             if (this.comment == '') {
@@ -307,13 +313,13 @@ export default {
                 this.comment = '';
                 return
             }
-            var date = this.date(new Date(), 'yyyy-M-d h:m:s')
+            //var date = this.date(new Date(), 'yyyy-M-d h:m:s')
             var avator = this.avator == null ? '' : this.avator
-            reportComment(this.$route.params.id, this.userName,date,this.comment,this.lists.name,avator).then( data=> {
+            reportComment(this.$route.params.id, this.userName,this.comment,this.lists.name,avator).then( data=> {
                 if (data == 'success') {
                     this.pageNeedComments.push({
-                        "userName": localStorage.getItem('token'),
-                        "date": date,
+                        "userName": localStorage.getItem('user'),
+                        //"date": date,//现在由服务端处理
                         "content": this.comment,
                         "avator": avator
                     });

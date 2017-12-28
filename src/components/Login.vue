@@ -36,7 +36,7 @@
 import vfooter from './common/vfooter.vue'
 import alertDialog from './common/alertDialog.vue'
 import {mapActions,mapState} from 'vuex'
-import { signin , yzmChange } from '../data/fetchData.js'
+import { signin , yzmChange, checkUser } from '../data/fetchData.js'
 export default {
     name: 'login',
     components:{
@@ -67,10 +67,12 @@ export default {
         }     
     },
     mounted () {
-        // this.initData()
-        if (localStorage.getItem('token')) {
-            this.$router.push({path:'/me'})
-        }
+        checkUser(localStorage.getItem('user'),localStorage.getItem('token')).then(data => {
+            //console.log(data)
+            if (data == 'success') {
+                this.$router.push({path:'/me'})
+            }
+        })
         this.url='http://vue.wclimb.site/images/yzm.jpg'
         this.changYzm()
     },
@@ -95,29 +97,31 @@ export default {
                 this.dialogChange(false,'验证码错误');
                 return 
             }
-            signin(this.userName,this.password).then(data=>{
-
+            signin(this.userName,this.password).then(data => {
+                var data = JSON.parse(data)
+                //console.log(data.msg)
                 // 用户存在
-                if (data.split(',')[0] == 'allTrue') {
+                if (data.msg == 'allTrue') {
                     this.dialogChange(true,'登录成功')
                     this.$store.dispatch('createUser',{
                         userName:this.userName
                     })
-             
-                    // console.log('avator',data.split(',')[1])
-                    window.localStorage.setItem('token',this.userName)
-                    window.localStorage.setItem('avator',data.split(',')[1])
+                    window.localStorage.setItem('user',this.userName)
+                    window.localStorage.setItem('avator',data.avator)
+                    window.localStorage.setItem('token',data.token)
                     var  _that = this
                     setTimeout(function(){
                         _that.$router.push({path:'/me'})
                     },1000)
-                }else if(data == 'passwordFalse'){
+                }else if(data.msg == 'passwordFalse'){
                   //密码错误
                    this.dialogChange(false,'密码错误')
-                }else if(data == 'newUser'){
+                }else if(data.msg == 'newUser'){
                   //新用户
+                  //console.log(data)
                     this.dialogChange(true,'注册成功')
-                    window.localStorage.setItem('token',this.userName)
+                    window.localStorage.setItem('user',this.userName)
+                    window.localStorage.setItem('token',data.token)
                     var  _that = this
                     setTimeout(function(){
                         _that.$router.push({path:'/me'})

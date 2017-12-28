@@ -161,22 +161,24 @@ export default {
                 })
             }).catch(e => console.log("error", e))  
             
-           // 用户会在不同地方登陆，所以重新获取头像 
-            if (localStorage.getItem('token') !== null &&
-                localStorage.getItem('avator') !== null) {
-                var name =  localStorage.getItem('token')
-                getAvator(name).then(data=>{
+            // 用户会在不同地方登陆，所以重新获取头像 
+            // if (localStorage.getItem('user') !== null &&
+            //     localStorage.getItem('avator') !== null) {
+                var name =  localStorage.getItem('user') ? localStorage.getItem('user') : ''
+                getAvator(name).then(data => {
                     // console.log(data[0]['avator'])
-                    localStorage.setItem('avator',data[0]['avator'])
+                    //console.log(data)
+                    var data = data !== 'none' ? data : ''
+                    localStorage.setItem('avator',data)
                 }).catch(err=>{
-                    // console.log(err)
-                    localStorage.removeItem('token')
+                    console.log(err)
+                    localStorage.removeItem('user')
                     this.dialogChange(false,'用户信息变化,请重新登陆');
                     setTimeout(()=>{
                         this.$router.push({path:'/login'})
                     },2000)
                 })
-            }
+            //}
             
 
         },

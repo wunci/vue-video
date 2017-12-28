@@ -107,7 +107,7 @@
 import vfooter from './common/vfooter.vue'
 import alertDialog from './common/alertDialog.vue'
 import {mapState,mapActions} from 'vuex'
-import { meComment , meLike , meDelete , uploadAvator , editNameData} from '../data/fetchData.js'
+import { meComment, meLike, meDelete, uploadAvator, editNameData, checkUser} from '../data/fetchData.js'
 export default {
     name: 'me',
     components:{
@@ -146,7 +146,7 @@ export default {
         }
     },
     mounted () {
-        this.userName =  localStorage.getItem('token');
+        this.userName =  localStorage.getItem('user');
         this.initData();
     },
     watch: {
@@ -177,8 +177,17 @@ export default {
         ]),
         // 初始化数据
         initData(){
-            this.loading = true
-            if (localStorage.getItem('token') === null) {
+            this.loading = true;
+            // console.log(this.userName,localStorage.getItem('token'))
+            checkUser(this.userName,localStorage.getItem('token')).then(data => {
+                if (data != 'success') {
+                    this.$router.push({path:'/login'})
+                    localStorage.removeItem('user');
+                    localStorage.removeItem('avator');
+                    localStorage.removeItem('token');
+                }
+            })
+            if (localStorage.getItem('user') === null) {
                 this.$router.push({path:'/login'})
             }
             meComment(this.userName).then(data =>  {
@@ -206,8 +215,9 @@ export default {
               this.dialogShow = false;
               this.$router.push({path:'/'})
             },1500)
-            localStorage.removeItem('token');
+            localStorage.removeItem('user');
             localStorage.removeItem('avator');
+            localStorage.removeItem('token');
         },
         // 删除自己的评论
         deleteComment(id,e){
@@ -322,7 +332,7 @@ export default {
                 // console.log('edit',data)
                 if (data == 'editSuccess') {
                    this.dialogChange(true,'修改成功');
-                   localStorage.setItem('token',modelData)
+                   localStorage.setItem('user',modelData)
                    this.userName = modelData
                    this.defaultName = true;
                 }else if(data == 'repeatName'){
