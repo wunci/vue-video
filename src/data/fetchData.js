@@ -44,12 +44,8 @@ export const uploadAvator = ( name , val ) => fetch(baseUrl+'avator?name='+name,
     return response.text()
 })
 // 获取头像
-export const getAvator = ( name) => fetch(baseUrl+'avator/list?name='+name,{
-    }).then(response=>{
-        return response.text()
-    })
+export const getAvator = ( name) => fetch(baseUrl+'avator/list?name='+name).then(response=>{return response.text()})
                
-
 // 编辑用户名
 export const editNameData = ( oldName , newName) =>  fetch(baseUrl+'edit/user?name='+ oldName, { 
     method:'POST',

@@ -106,9 +106,9 @@ export default {
                     this.$store.dispatch('createUser',{
                         userName:this.userName
                     })
-                    window.localStorage.setItem('user',this.userName)
-                    window.localStorage.setItem('avator',data.avator)
-                    window.localStorage.setItem('token',data.token)
+                    localStorage.setItem('user',this.userName)
+                    localStorage.setItem('avator',data.avator)
+                    localStorage.setItem('token',data.token)
                     var  _that = this
                     setTimeout(function(){
                         _that.$router.push({path:'/me'})
@@ -120,8 +120,8 @@ export default {
                   //新用户
                   //console.log(data)
                     this.dialogChange(true,'注册成功')
-                    window.localStorage.setItem('user',this.userName)
-                    window.localStorage.setItem('token',data.token)
+                    localStorage.setItem('user',this.userName)
+                    localStorage.setItem('token',data.token)
                     var  _that = this
                     setTimeout(function(){
                         _that.$router.push({path:'/me'})

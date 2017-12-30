@@ -146,7 +146,7 @@ export default {
         }
     },
     mounted () {
-        this.userName =  localStorage.getItem('user');
+        this.userName = localStorage.getItem('user');
         this.initData();
     },
     watch: {
@@ -179,8 +179,18 @@ export default {
         initData(){
             this.loading = true;
             // console.log(this.userName,localStorage.getItem('token'))
+            // 检测用户信息有无过期
             checkUser(this.userName,localStorage.getItem('token')).then(data => {
-                if (data != 'success') {
+                if (data == 'expired') {
+                    this.dialogChange(false,'登录信息已过期');
+                    setTimeout(()=>{
+                        this.dialogShow = false;
+                        this.$router.push({path:'/login'})
+                    },1500)
+                    localStorage.removeItem('user');
+                    localStorage.removeItem('avator');
+                    localStorage.removeItem('token');
+                } else if (data != 'success') {
                     this.$router.push({path:'/login'})
                     localStorage.removeItem('user');
                     localStorage.removeItem('avator');
