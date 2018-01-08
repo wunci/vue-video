@@ -304,22 +304,31 @@ export default {
                         this.value = '';
                         return;
                     };
-                    if (file.size >= 1024*1024/2) {
-                        _that.dialogChange(false,"超过512Kb了哟!");
-                        return
-                    }
+                    // if (file.size >= 1024*1024/2) {
+                    //     _that.dialogChange(false,"超过512Kb了哟!");
+                    //     return
+                    // }
                     reader.onload = function(e) {
                         this.value = '';
-                        uploadAvator(_that.userName,e.target.result).then(data=>{
-                        
-                          _that.dialogChange(true,"上传成功");
-                          // console.log(data)
-                          window.localStorage.setItem('avator',data);
-                          _that.nowUploadAvator = data;
-                        }).catch(err=>{
-                          
-                          _that.dialogChange(false,"上传失败");
-                        })
+                        var image = new Image();
+                        image.onload = function(){
+                            var canvas = document.createElement('canvas');
+                            var ctx = canvas.getContext("2d");
+                            canvas.width = 100;
+                            canvas.height = 100;
+                            ctx.clearRect(0, 0, 100, 100);
+                            ctx.drawImage(image, 0, 0, 100, 100);
+                            var blob = canvas.toDataURL("image/png");
+                            uploadAvator(_that.userName,blob).then(data=>{
+                            _that.dialogChange(true,"上传成功");
+                            // console.log(data)
+                            window.localStorage.setItem('avator',data);
+                            _that.nowUploadAvator = data;
+                            }).catch(err=>{
+                                _that.dialogChange(false,"上传失败");
+                            })
+					    }
+					    image.src = e.target.result
                     };
                     reader.readAsDataURL(file);
                 };
