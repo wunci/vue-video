@@ -62,7 +62,7 @@
                 <div @click="like(2)" class="like">不喜欢</div>
             </template>
         </section>
-        <section class="video_about">
+        <section class="video_about"> 
             <h3>{{ lists.name }}的剧情简介</h3>
             <p>
                 {{ lists.detail }}
@@ -81,7 +81,7 @@
         <section class="video_comments">
             <h3>评论({{pageNeedComments.length}})</h3>
                 <ul id="ul">
-                    <li v-for="comment in comments">
+                    <li :key="comment.id" v-for="comment in comments">
                     <template v-if="comment.avator != '' ">
                         <div class="avator">
                             <img v-lazy="baseUrl+'/avator/'+ comment.avator +'.png' " alt="">

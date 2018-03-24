@@ -46,7 +46,7 @@
                 喜欢<span>({{ likeLengthOne }})</span>
             </h3>
             <ul>
-                <li v-for="likeList in likeLists[0]">
+                <li :key="likeList.id" v-for="likeList in likeLists[0]">
                     <router-link :to="'/video/'+likeList.uid">
                         <img v-lazy="baseUrl+likeList.videoImg" alt="">
                         <h4>{{likeList.videoName}}</h4>
@@ -64,7 +64,7 @@
                 不喜欢<span>({{likeLengthTwo}})</span>
             </h3>
             <ul>
-                <li v-for="likeList in likeLists[1]">
+                <li :key="likeList.id" v-for="likeList in likeLists[1]">
                     <router-link :to="'/video/'+likeList.uid">
                         <img v-lazy="baseUrl+likeList.videoImg" alt="">
                         <h4>{{likeList.videoName}}</h4>
@@ -82,7 +82,7 @@
                 评论<span>({{comments.length}})</span>
             </h3>
             <ul>
-                <li v-for="comment in comments">
+                <li :key="comment.id"  v-for="comment in comments">
                     <section 
                      @touchstart.stop.prevent="touchStart($event)" 
                      @touchmove.stop.prevent="touchMove($event)" 

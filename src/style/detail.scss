@@ -80,6 +80,8 @@ header{
 	p{
 		font-size: 14px;
 		text-indent: 2em;
+		word-wrap:break-word;
+		word-break:break-all;
 	}
 }
 .video_comments{

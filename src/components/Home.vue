@@ -21,7 +21,7 @@
                 <router-link to="/all">更多 <i class="iconfont icon-jiantouyou"></i></router-link>
             </div>
             <ul>
-                <li v-for="(list,index) in lists[3]" v-if="index < 10">
+                <li :key="list.id"  v-for="(list,index) in lists[3]" v-if="index < 10">
                     <router-link :to="'/video/'+list.id">
                         <div><img  v-lazy="baseUrl+list.img" alt=""></div>
                         <h3>{{list.name}}</h3>
@@ -39,7 +39,7 @@
                 <router-link to="/movie">更多 <i class="iconfont icon-jiantouyou"></i></router-link>
             </div>
             <ul>
-                <li v-for="(list,index) in lists[0]"  v-if="index < 10">
+                <li :key="list.id"  v-for="(list,index) in lists[0]"  v-if="index < 10">
                     <router-link :to="'/video/'+list.id">
                         <div><img v-lazy="baseUrl+list.img" alt=""></div>
                         <h3>{{list.name}}</h3>
@@ -57,7 +57,7 @@
                 <router-link to="/tv">更多 <i class="iconfont icon-jiantouyou"></i></router-link>
             </div>
             <ul>
-                <li v-for="(list,index) in lists[1]"  v-if="index < 10">
+                <li :key="list.id" v-for="(list,index) in lists[1]"  v-if="index < 10">
                     <router-link :to="'/video/'+list.id">
                         <div><img v-lazy="baseUrl+list.img" alt=""></div>
                         <h3>{{list.name}}</h3>
@@ -75,7 +75,7 @@
                 <router-link to="/zy">更多 <i class="iconfont icon-jiantouyou"></i></router-link>
             </div>
             <ul>
-                <li v-for="(list,index) in lists[2]"  v-if="index < 10">
+                <li :key="list.id"  v-for="(list,index) in lists[2]"  v-if="index < 10">
                     <router-link :to="'/video/'+list.id">
                         <div><img v-lazy="baseUrl+list.img" alt=""></div>
                         <h3>{{list.name}}</h3>
