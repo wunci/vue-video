@@ -82,7 +82,7 @@
                 评论<span>({{comments.length}})</span>
             </h3>
             <ul>
-                <li :key="comment.id"  v-for="comment in comments">
+                <li :key="comment.id"  v-for="(comment,index) in comments">
                     <section 
                      @touchstart.stop.prevent="touchStart($event)" 
                      @touchmove.stop.prevent="touchMove($event)" 
@@ -93,45 +93,39 @@
                             <span>评论：</span>
                             <p>{{comment.content}}</p>
                         </section>
+                        <div class="time">{{comment.date}}</div>
                     </section>
-                    <div class="delete" @click="deleteComment(comment.id,$event)">删除</div>
+                    <div class="delete" @click="deleteComment(comment.id,userName,index,$event)">删除</div>
                 </li> 
             </ul>
         </section>
     </section>
-    <alert-dialog v-if="dialogShow" :icon="tipsImg" :aniDialog="aniDialog"  :dialogTxt="dialogTxt"></alert-dialog>
   </section>  
 </template>
 
 <script>
 import vfooter from './common/vfooter.vue'
-import alertDialog from './common/alertDialog.vue'
 import {mapState,mapActions} from 'vuex'
-import { meComment, meLike, meDelete, uploadAvator, editNameData, checkUser} from '../data/fetchData.js'
+import { url,meComment, meLike, meDelete, uploadAvator, editNameData, checkUser} from '../data/fetchData.js'
 export default {
     name: 'me',
     components:{
         vfooter,
-        alertDialog
     },
     data () {
         return {
             likeLists:'',
-            comments: '',
+            comments: [],
             loading: false,
             likeLengthOne:'',
             likeLengthTwo:'',
             start:'',
             scroll:'',
-            dialogShow:false,
-            dialogTxt:'',
-            tips:true,
-            aniDialog:'',
             nowUploadAvator:'',
             defaultName:true,
             userNameModel:'',
             userName:'',
-            baseUrl:'http://vue.wclimb.site/images/'
+            baseUrl:url+ '/images/'
         }
     },
     computed:{
@@ -141,9 +135,7 @@ export default {
         avator(){ 
             return localStorage.getItem('avator') ? localStorage.getItem('avator') : '';
         },
-        tipsImg(){
-            return this.tips ? 'icon-chenggong' : 'icon-shibai' 
-        }
+      
     },
     mounted () {
         this.userName = localStorage.getItem('user');
@@ -162,41 +154,12 @@ export default {
         }
     },
     methods:{
-        // 弹窗
-        dialogChange(tips,dialogTxt){
-            this.aniDialog = 'aniDialog';
-            this.dialogShow = true;
-            this.tips = tips
-            this.dialogTxt = dialogTxt
-            setTimeout(()=>{
-                this.dialogShow = false;
-            },1500)
-        },  
         ...mapActions([
             'initMeCommentData',
         ]),
         // 初始化数据
         initData(){
             this.loading = true;
-            // console.log(this.userName,localStorage.getItem('token'))
-            // 检测用户信息有无过期
-            checkUser(this.userName,localStorage.getItem('token')).then(data => {
-                if (data == 'expired') {
-                    this.dialogChange(false,'登录信息已过期');
-                    setTimeout(()=>{
-                        this.dialogShow = false;
-                        this.$router.push({path:'/login'})
-                    },1500)
-                    localStorage.removeItem('user');
-                    localStorage.removeItem('avator');
-                    localStorage.removeItem('token');
-                } else if (data != 'success') {
-                    this.$router.push({path:'/login'})
-                    localStorage.removeItem('user');
-                    localStorage.removeItem('avator');
-                    localStorage.removeItem('token');
-                }
-            })
             if (localStorage.getItem('user') === null) {
                 this.$router.push({path:'/login'})
             }
@@ -213,36 +176,45 @@ export default {
                 this.likeLists = data;
                 this.likeLengthOne = data[0].length
                 this.likeLengthTwo = data[1].length
-                // console.log(data)
-                // console.log(data[1].length)
            })
            .catch(e => console.log("error", e))
         },
         // 登出
         logout () {
-            this.dialogChange(true,'登出成功');
+            this.$toast({
+                icon:'success',
+                message:'登出成功'
+            }) 
+            localStorage.clear()
             setTimeout(()=>{
-              this.dialogShow = false;
               this.$router.push({path:'/'})
             },1500)
-            localStorage.removeItem('user');
-            localStorage.removeItem('avator');
-            localStorage.removeItem('token');
         },
         // 删除自己的评论
-        deleteComment(id,e){
+        deleteComment(id,name,index,e){
             var el = e.currentTarget
-            // console.log(el)
-            meDelete(id).then(data=>{
-                // console.log(data)
-                if (data == 'success') {
-                    this.dialogChange(true,'删除成功');
+
+            meDelete(id,name).then(data=>{
+                console.log(data)
+                // data = JSON.parse(data)
+                if (data.code == 200) {
+                    this.$toast({
+                        icon:'success',
+                        message:'删除成功'
+                    }) 
                     el.parentNode.style.height = 0;
                     el.parentNode.style.borderTop = 'none';
-                   
                     this.$nextTick(() => {
-                         this.comments.length--
+                        setTimeout(() => {
+                            this.comments.splice(index,1)
+                        }, 500);
                     })
+                }else{
+                     this.$toast({
+                        icon:'fail',
+                        message:data.message
+                    }) 
+                    if(data.code == 404) setTimeout(()=>{this.$router.push({path:'/login'})},1500);localStorage.clear()                   
                 }
             })
         },
@@ -304,10 +276,13 @@ export default {
                         this.value = '';
                         return;
                     };
-                    // if (file.size >= 1024*1024/2) {
-                    //     _that.dialogChange(false,"超过512Kb了哟!");
-                    //     return
-                    // }
+                    if (file.size >= 1024*1024/2) {
+                        _that.$toast({
+                            icon:'fail',
+                            message:'超过512Kb了哟!'
+                        }) 
+                        return
+                    }
                     reader.onload = function(e) {
                         this.value = '';
                         var image = new Image();
@@ -320,12 +295,26 @@ export default {
                             ctx.drawImage(image, 0, 0, 100, 100);
                             var blob = canvas.toDataURL("image/png");
                             uploadAvator(_that.userName,blob).then(data=>{
-                            _that.dialogChange(true,"上传成功");
-                            // console.log(data)
-                            window.localStorage.setItem('avator',data);
-                            _that.nowUploadAvator = data;
+                                if(data.code == 200){
+                                    _that.$toast({
+                                        icon:'success',
+                                        message:'上传成功'
+                                    }) 
+                                    localStorage.setItem('avator',data.avator);
+                                    _that.nowUploadAvator = data.avator;
+
+                                }else{
+                                    _that.$toast({
+                                        icon:'fail',
+                                        message:data.message
+                                    }) 
+                                    if(data.code == 404) setTimeout(()=>{_that.$router.push({path:'/login'})},1500);localStorage.clear()                      
+                                }
                             }).catch(err=>{
-                                _that.dialogChange(false,"上传失败");
+                                _that.$toast({
+                                    icon:'fail',
+                                    message:'上传失败'
+                                }) 
                             })
 					    }
 					    image.src = e.target.result
@@ -343,23 +332,31 @@ export default {
         submitEditName(){
             var modelData = this.userNameModel;
             if (modelData == this.userName) {
-                this.dialogChange(false,"请修改名称！");
+                this.$toast({
+                    icon:'fail',
+                    message:'请修改名称！'
+                }) 
                 this.defaultName = true;
                 return
             }
             editNameData(this.userName,modelData).then(data=>{
-                // console.log('edit',data)
-                if (data == 'editSuccess') {
-                   this.dialogChange(true,'修改成功');
+                console.log('edit',data)
+                if (data.code == 200) {
+                   this.$toast({
+                        icon:'success',
+                        message:'修改成功'
+                    }) 
+                    document.cookie = `token=${data.token};max-age=${30*24*60*60*1000}`
                    localStorage.setItem('user',modelData)
                    this.userName = modelData
                    this.defaultName = true;
-                }else if(data == 'repeatName'){
-                  this.dialogChange(false,"用户已存在");
-                  this.defaultName = true;
-                }else{
-                  this.dialogChange(false,"修改失败");
-                  this.defaultName = true;
+                }else {
+                    this.$toast({
+                        icon:'fail',
+                        message:data.message
+                    }) 
+                    this.defaultName = true;
+                    if(data.code == 404) setTimeout(()=>{this.$router.push({path:'/login'})},1500);localStorage.clear()                   
                 }
             })
         },

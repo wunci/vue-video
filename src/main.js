@@ -6,11 +6,12 @@ import router from './router'
 import store from './store'
 import './base/rem'
 import VueLazyload from 'vue-lazyload'
+import Toast from './components/common/Toast.js';
+Vue.use(Toast);
 
 Vue.use(VueLazyload, {
   loading: 'http://www.wclimb.site/images/imgLoading.svg'
 })
-
 Vue.config.productionTip = false;
 
 new Vue({

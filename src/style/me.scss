@@ -177,7 +177,13 @@
 					background: #fff;
 					transition: all 0.5s;
 					box-sizing:border-box;
-					
+					z-index: 999;
+					.time{
+						position: absolute;
+						top: .1rem;
+						right: .2rem;
+						// transform: translateY(-50%);
+					}
 					section{
 						font-size: 16px;
 						display: flex;
@@ -193,7 +199,6 @@
 							overflow: hidden;
 						}
 					}
-					z-index: 999;
 				}
 			
 				.delete{

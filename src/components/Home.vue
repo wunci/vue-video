@@ -41,7 +41,7 @@
             <ul>
                 <li :key="list.id"  v-for="(list,index) in lists[0]"  v-if="index < 10">
                     <router-link :to="'/video/'+list.id">
-                        <div><img v-lazy="baseUrl+list.img" alt=""></div>
+                        <div class="preImg"><img v-lazy="baseUrl+list.img" alt=""></div>
                         <h3>{{list.name}}</h3>
                         <div>
                             <div class="starList" :style="{'background-position-y':-15*(10-list.star).toFixed(0)+'px'}"></div>
@@ -59,7 +59,7 @@
             <ul>
                 <li :key="list.id" v-for="(list,index) in lists[1]"  v-if="index < 10">
                     <router-link :to="'/video/'+list.id">
-                        <div><img v-lazy="baseUrl+list.img" alt=""></div>
+                        <div class="preImg"><img v-lazy="baseUrl+list.img" alt=""></div>
                         <h3>{{list.name}}</h3>
                         <div>
                             <div class="starList" :style="{'background-position-y':-15*(10-list.star).toFixed(0)+'px'}"></div>
@@ -77,7 +77,7 @@
             <ul>
                 <li :key="list.id"  v-for="(list,index) in lists[2]"  v-if="index < 10">
                     <router-link :to="'/video/'+list.id">
-                        <div><img v-lazy="baseUrl+list.img" alt=""></div>
+                        <div class="preImg"><img v-lazy="baseUrl+list.img" alt=""></div>
                         <h3>{{list.name}}</h3>
                         <div>
                             <div class="starList" :style="{'background-position-y':-15*(10-list.star).toFixed(0)+'px'}"></div>
@@ -90,36 +90,26 @@
         <transition name="router-in">
             <router-view></router-view>
         </transition>
-        <alert-dialog v-if="dialogShow" :icon="tipsImg" :aniDialog="aniDialog"  :dialogTxt="dialogTxt"></alert-dialog>
     </section>
 </template>
 
 <script>
 import vfooter from './common/vfooter.vue'
-import { initHome,getAvator } from '../data/fetchData'
-import alertDialog from './common/alertDialog.vue'
+import { url,initHome,getAvator } from '../data/fetchData'
 import { mapActions ,mapState } from 'vuex'
 export default {
     name: 'home',
     components:{
         vfooter,
-        alertDialog
     },
     data () {
         return {
             lists: '',
             loading: true,
-            baseUrl:'http://vue.wclimb.site/images/',
-            dialogShow:false,
-            dialogTxt:'',
-            tips:true,
-            aniDialog:'',
+            baseUrl:url + '/images/',
         }
     },
     computed:{
-        tipsImg(){
-            return this.tips ? 'icon-chenggong' : 'icon-shibai' 
-        },
         allLength(){
             return this.getJsonLength(this.lists[3])
         },
@@ -137,12 +127,12 @@ export default {
         ]),
     },
     created () {
+        
         if (this.videoData != null) {
             this.lists = this.videoData 
         }else{
            this.initData()
         }
-        // console.log(this.videoData)
     },
     watch: {
         // 如果路由有变化，会再次执行该方法
@@ -162,35 +152,26 @@ export default {
             }).catch(e => console.log("error", e))  
             
             // 用户会在不同地方登陆，所以重新获取头像 
-            // if (localStorage.getItem('user') !== null &&
-            //     localStorage.getItem('avator') !== null) {
-                var name =  localStorage.getItem('user') ? localStorage.getItem('user') : ''
-                getAvator(name).then(data => {
-                    // console.log(data[0]['avator'])
-                    //console.log(data)
-                    var data = data !== 'none' ? data : ''
-                    localStorage.setItem('avator',data)
-                }).catch(err=>{
-                    console.log(err)
-                    localStorage.removeItem('user')
-                    this.dialogChange(false,'用户信息变化,请重新登陆');
-                    setTimeout(()=>{
-                        this.$router.push({path:'/login'})
-                    },2000)
-                })
-            //}
             
+            var name =  localStorage.getItem('user') ? localStorage.getItem('user') : ''
+            getAvator(name).then(data => {
+                // console.log(data[0]['avator'])
+                //console.log(data)
+                var data = data !== 'none' ? data : ''
+                localStorage.setItem('avator',data)
+            }).catch(err=>{
+                console.log(err)
+                localStorage.clear()
+                this.$toast({
+                    icon:'fail',
+                    message:'用户信息变化,请重新登陆'
+                }) 
+                setTimeout(()=>{
+                    this.$router.push({path:'/login'})
+                },2000)
 
-        },
-         // 弹窗
-        dialogChange(tips,dialogTxt){
-            this.aniDialog = 'aniDialog';
-            this.dialogShow = true;
-            this.tips = tips
-            this.dialogTxt = dialogTxt
-            setTimeout(()=>{
-                this.dialogShow = false;
-            },1500)
+            })            
+
         },
         getJsonLength(jsonData){
             var jsonLength = 0;  
@@ -205,5 +186,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-@import 'src/style/home';  
+@import 'src/style/home';
+
 </style>

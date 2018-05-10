@@ -11,7 +11,7 @@
         <section class="video_list">
             <h1>{{ videoCls }}</h1>
             <ul>
-                <li v-for="list in lists">
+                <li v-for="list in lists" :key="list.id">
                     <router-link :to="'video/' + list.id">
                         <div><img v-lazy="baseUrl+list.img" alt=""></div>
                         <h3>{{list.name}}</h3>
@@ -29,7 +29,7 @@
 <script>
 import vfooter from './common/vfooter.vue'
 import { mapState } from 'vuex'
-import { initHome } from '@/data/fetchData.js'
+import { initHome,url } from '@/data/fetchData.js'
 export default {
     name: 'more',
     components:{
@@ -43,7 +43,7 @@ export default {
             iconStyleCopy: 'icon-wjx-copy',
             loading: false,
             videoCls:'',
-            baseUrl:'http://vue.wclimb.site/images/'
+            baseUrl:url+'/images/'
         }
     },
     computed:{

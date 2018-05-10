@@ -31,7 +31,7 @@
 <script>
 import vfooter from './common/vfooter.vue'
 import { mapState } from 'vuex'
-import { search } from '../data/fetchData.js'
+import { search,url } from '../data/fetchData.js'
 export default {
     name: 'search',
     components:{
@@ -41,7 +41,7 @@ export default {
         return {
             search:'',
             results:'',
-            baseUrl:'http://vue.wclimb.site/images/'
+            baseUrl:url+'/images/'
         }
     },
     computed:{

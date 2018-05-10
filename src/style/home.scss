@@ -87,7 +87,13 @@
                 }
                 img {
                     width: 100%;
-                    height: 3.4rem;
+                }
+                a{
+                    >div:nth-child(1){
+                        width: 100%;
+                        height: 3.4rem;
+                        overflow: hidden;
+                    }
                 }
                 .color {
                     color: yellow;

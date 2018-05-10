@@ -1,4 +1,7 @@
-const baseUrl = 'http://vue.wclimb.site/vi/'
+export const url = 'http://vue.wclimb.site';
+// export const url = 'http://localhost:3000';
+export const baseUrl = url + '/vi/';
+
 // 首页初始化数据
 export const initHome = () => fetch(baseUrl+'list').then(response => response.json())
 
@@ -13,35 +16,40 @@ export const signin = ( name , pass ) => fetch(baseUrl+'signin', {
 }).then(function(response) {
     return  response.text()
 })
-// 检查登录信息
-export const checkUser = (name, token) => fetch(baseUrl + 'checkUser', {
-    method: "POST",
-    body: JSON.stringify({ userName: name, token: token }),
-    mode: "cors",
-}).then(function (response) {
-    return response.text()
-})
+
 // 个人评论
 export const meComment = (name) => fetch(baseUrl+'comment/user?name='+ name).then(response => response.json())
 
 // 获取喜欢不喜欢数据
 export const meLike = ( name ) => fetch(baseUrl+'like/list?name='+ name).then(response => response.json())
 
-// 删除评论
-export const meDelete = ( id ) => fetch(baseUrl+'delete/comment/'+id,{
-    method: 'POST',
-    mode:'cors'
-}).then(response=>{
-    return response.text()
-})
+// 删除评论---
+export const meDelete = (id, name) => fetch(baseUrl + 'delete/comment/' + id, {
 
-// 上传头像
-export const uploadAvator = ( name , val ) => fetch(baseUrl+'avator?name='+name,{
-    method:'POST',
-    body: JSON.stringify({avator:val}),
+    method: 'POST',
+    body: JSON.stringify({
+      userName: name,
+      token: getCookie('token')
+    }),
     mode:'cors',
+    credentials: 'include'
+}).then(response => response.json())
+
+
+// 上传头像----
+export const uploadAvator = ( name , val ) => fetch(baseUrl+'avator',{
+    method:'POST',
+    
+    body: JSON.stringify({
+      avator: val,
+      userName: name,
+      token: getCookie('token'),
+    }),
+
+    mode:'cors',
+    credentials: 'include'
 }).then(response=>{
-    return response.text()
+    return response.json()
 })
 // 获取头像
 export const getAvator = ( name) => fetch(baseUrl+'avator/list?name='+name).then(response=>{return response.text()})
@@ -50,11 +58,14 @@ export const getAvator = ( name) => fetch(baseUrl+'avator/list?name='+name).then
 export const editNameData = ( oldName , newName) =>  fetch(baseUrl+'edit/user?name='+ oldName, { 
     method:'POST',
     body: JSON.stringify({
-        newName:newName
+        newName,
+        userName: oldName,
+        token: getCookie('token')
     }),
     mode:'cors',
-    }).then(response=>{
-        return response.text()
+    credentials: 'include'
+}).then(response=>{
+    return response.json()
 })
 
 // 搜索
@@ -77,11 +88,13 @@ export const postVideoLikeData = (id, likeData , userName , videoName , videoImg
         userName: userName, 
         videoName: videoName,
         videoImg: videoImg, 
-        star: star
+        star: star,
+        token: getCookie('token')
     }),
     mode: "cors",
+    credentials: 'include'
 }).then(function(response) {
-    return  response.text()
+    return  response.json()
 })
 
 // 发表评论
@@ -92,10 +105,19 @@ export const reportComment = (id, userName , comment , videoName , avator) => fe
         //date: date,
         content: comment,
         videoName: videoName,
-        avator: avator
+        avator: avator,
+        token: getCookie('token')
     }),
-    mode: "cors" 
+    mode: "cors" ,
+    credentials: 'include'
 }).then(function(response) {
-    return  response.text()
+    return  response.json()
 })
 
+function getCookie(name) {
+  var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+  if (arr = document.cookie.match(reg))
+    return unescape(arr[2]);
+  else
+    return null;
+}

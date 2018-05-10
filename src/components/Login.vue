@@ -1,7 +1,6 @@
 <template>
     <main>
         <vfooter></vfooter>
-        <alert-dialog v-if="dialogShow" :icon="tipsImg" :aniDialog="aniDialog"  :dialogTxt="dialogTxt"></alert-dialog>
         <section class="main_wrap">
             <section class="user_title">
                 <i class="iconfont icon-denglu"></i>
@@ -25,7 +24,7 @@
                             <!-- <p>点击更换</p> -->
                         </div>
                     </div>
-                    <div class="submit" @click="signin">立即注册</div> 
+                    <div class="submit" @click="signin">立即注册/登录</div> 
                </form>
             </section>
         </section> 
@@ -34,14 +33,12 @@
 
 <script>
 import vfooter from './common/vfooter.vue'
-import alertDialog from './common/alertDialog.vue'
 import {mapActions,mapState} from 'vuex'
-import { signin , yzmChange, checkUser } from '../data/fetchData.js'
+import { signin , yzmChange, checkUser,url } from '../data/fetchData.js'
 export default {
     name: 'login',
     components:{
         vfooter,
-        alertDialog
     },
     data () {
         return {
@@ -50,10 +47,6 @@ export default {
             userName: '',
             password: '',
             yzm: '',
-            dialogShow: false,
-            dialogTxt: '',
-            tips: true,
-            aniDialog: '',
             yzmTest: '',
             url: ''
         }
@@ -62,66 +55,63 @@ export default {
         ...mapState([
             'userInfo',
         ]),
-        tipsImg(){
-            return this.tips ? 'icon-chenggong' : 'icon-shibai' 
-        }     
     },
     mounted () {
-        checkUser(localStorage.getItem('user'),localStorage.getItem('token')).then(data => {
-            //console.log(data)
-            if (data == 'success') {
-                this.$router.push({path:'/me'})
-            }
-        })
-        this.url='http://vue.wclimb.site/images/yzm.jpg'
+        
+        this.url = url + '/images/yzm.jpg'
         this.changYzm()
     },
     methods:{
-         // 弹窗
-        dialogChange(tips,dialogTxt){
-            this.aniDialog = 'aniDialog';
-            this.dialogShow = true;
-            this.tips = tips
-            this.dialogTxt = dialogTxt
-            setTimeout(()=>{
-                this.dialogShow = false;
-            },1500)
-        },   
         // 登录 
         signin(){
             if (this.userName === '' || this.password === '') {
-                this.dialogChange(false,"用户名/密码不能为空");
+                this.$toast({
+                    icon:'fail',
+                    message:'用户名/密码不能为空'
+                }) 
                 return 
             }
             if (this.yzm != this.yzmTest) {
-                this.dialogChange(false,'验证码错误');
+                 this.$toast({
+                    icon:'fail',
+                    message:'验证码错误'
+                }) 
                 return 
             }
             signin(this.userName,this.password).then(data => {
                 var data = JSON.parse(data)
-                //console.log(data.msg)
                 // 用户存在
-                if (data.msg == 'allTrue') {
-                    this.dialogChange(true,'登录成功')
+                if (data.code == 200) {
+                    this.$toast({
+                        icon:'success',
+                        message:'登录成功'
+                    }) 
                     this.$store.dispatch('createUser',{
                         userName:this.userName
                     })
+                    document.cookie = `token=${data.token};max-age=${30*24*60*60*1000}`
+                    // console.log(document.cookie)
                     localStorage.setItem('user',this.userName)
                     localStorage.setItem('avator',data.avator)
-                    localStorage.setItem('token',data.token)
                     var  _that = this
                     setTimeout(function(){
                         _that.$router.push({path:'/me'})
                     },1000)
-                }else if(data.msg == 'passwordFalse'){
-                  //密码错误
-                   this.dialogChange(false,'密码错误')
-                }else if(data.msg == 'newUser'){
-                  //新用户
-                  //console.log(data)
-                    this.dialogChange(true,'注册成功')
+                }else if(data.code == 500){
+                    //密码错误
+                     this.$toast({
+                        icon:'fail',
+                        message: data.message
+                    }) 
+                }else if(data.code == 201){
+                    //新用户
+                    this.$toast({
+                        icon:'success',
+                        message:'注册成功'
+                    }) 
+                    document.cookie = `token=${data.token};max-age=${30*24*60*60*1000}`
+                    
                     localStorage.setItem('user',this.userName)
-                    localStorage.setItem('token',data.token)
                     var  _that = this
                     setTimeout(function(){
                         _that.$router.push({path:'/me'})
@@ -131,8 +121,7 @@ export default {
         },
         // 验证码切换
         changYzm () {
-            var d=new Date;
-            this.url='http://vue.wclimb.site/images/yzm.jpg'+'?v='+ (new Date).getTime()
+            this.url = url+'/images/yzm.jpg'+'?v='+ (new Date).getTime()
             yzmChange().then(data=>{
                 this.yzmTest = data;
                 console.log('验证码',this.yzmTest)

@@ -48,7 +48,7 @@
             </div>
         </section>
         <section class="like_list">
-            <template v-if="userName == ''">
+            <template v-if="!userName || userName == ''">
                 <div class="like" @click="likeNeedLogin">喜欢</div>
                 <div class="like" @click="likeNeedLogin">不喜欢</div>
                 <!-- <p>登录后才可选择哟！</p> -->
@@ -69,7 +69,7 @@
             </p>
         </section>
         <section class="fixed_comment">
-            <template v-if="userName != ''">
+            <template v-if="userName && userName != ''">
                 <input type="text" v-model="comment" @click="resetScrollTop" @keyup.enter="report" name="comment" placeholder="评论">
                 <button @click="report">评论</button>
             </template>
@@ -120,20 +120,17 @@
                 <div class="pageNum">{{commentLoad}}</div>
             </template>
         </section>
-        <alert-dialog v-if="dialogShow" :icon="tipsImg" :aniDialog="aniDialog"  :dialogTxt="dialogTxt"></alert-dialog>
     </section>
 </template>
 
 <script>
 import vfooter from './common/vfooter.vue'
-import alertDialog from './common/alertDialog.vue'
 import {mapState,mapActions} from 'vuex'
-import { singleVideoData , getVideoComment , getInitVideoLikeData , postVideoLikeData ,reportComment, checkUser} from '../data/fetchData.js'
+import { url,singleVideoData , getVideoComment , getInitVideoLikeData , postVideoLikeData ,reportComment, checkUser} from '../data/fetchData.js'
 export default {
     name: 'detail',
     components:{
         vfooter,
-        alertDialog
     },
     data () {
         return {
@@ -142,21 +139,17 @@ export default {
             pageNeedComments:'',
             likes: '',
             star:'',
-            baseUrl:'http://vue.wclimb.site/images/',
+            baseUrl:url + '/images/',
             likeTotalLength:0,
             loading: false,
             comment: '',
-            dialogShow: false,
-            dialogTxt: '',
-            tips: true,
-            aniDialog: '',
             likeActive: 'like_active',
             likeCls: 'like',
             likeDisable: 'likeDisable',
             scrollTop:200,
             page:1,
             commentLoad:'评论正在加载中......',
-            userName: ''
+            userName: localStorage.getItem('user')
         }
     },
     computed:{
@@ -167,9 +160,6 @@ export default {
         comment_allow(){
           return localStorage.getItem('user') ? true : false
         },
-        tipsImg(){
-            return this.tips ? 'icon-chenggong' : 'icon-shibai' 
-        },
         avator(){ 
           return localStorage.getItem('avator');
         },
@@ -178,38 +168,21 @@ export default {
         }
     },
     mounted(){
-        var userName = localStorage.getItem('user');
-        checkUser(userName,localStorage.getItem('token')).then(data => {
-            if (data == 'success') {
-                this.userName = userName
-                //console.log(this.userName)
-            }
-            this.initData();
-            this.scroll()
-        })
+        this.initData()
     },
     watch: {
         // 如果路由有变化，会再次执行该方法
         '$route': 'initData', 
     },
     methods:{
-         // 弹窗
-        dialogChange(tips,dialogTxt){
-            this.aniDialog = 'aniDialog';
-            this.dialogShow = true;
-            this.tips = tips
-            this.dialogTxt = dialogTxt
-            setTimeout( ()=> {
-                this.dialogShow = false;
-            },1500)
-        },
+
         initData () {
             this.loading = true
             // 获取video数据
             var routerId = this.$route.params.id;
             var userName = this.userName
             singleVideoData(routerId).then(data =>  {
-                // console.log(data[0][0]['star'])
+                
                 this.lists = data[0][0];
                 // 喜欢的数量
                 var likeLength = data[1].length;
@@ -229,7 +202,6 @@ export default {
                 this.comments = data.slice(0,5)
                 this.pageNeedComments = data
                 this.commentLoad = '暂时没有相关评论.......'
-                // console.log('comments',data.slice(0,5))
             })
             .catch(e => console.log("error", e))   
 
@@ -256,14 +228,30 @@ export default {
                     this.lists.img,
                     this.lists.star
                 ).then(data=>{
-                if (likeData == 1) {
-                    this.likes = 1
-                    this.dialogChange(true,'标记为喜欢')
-                }
-                 if (likeData == 2) {
-                    this.likes = 2 
-                    this.dialogChange(true,'标记为不喜欢')  
-                }
+                    console.log('data',data)
+                    if(data.code == 200){
+                        if (likeData == 1) {
+                            this.likes = 1
+                             this.$toast({
+                                icon:'success',
+                                message:'标记为喜欢'
+                            }) 
+                        } else if (likeData == 2) {
+                            this.likes = 2 
+                            this.$toast({
+                                icon:'success',
+                                message:'标记为不喜欢'
+                            }) 
+                              
+                        }
+                    }else{
+                        this.$toast({
+                            icon:'fail',
+                            message:data.message
+                        })   
+                        if(data.code == 404) setTimeout(()=>{this.$router.push({path:'/login'})},1500);localStorage.clear()                   
+                                         
+                    }
             })
         },
         // 监听滚动，动态更新scrollTop
@@ -275,63 +263,64 @@ export default {
         },
         // 评论后滚动到底部
         scrollToBottom () {       
-            var video = document.querySelector("#video");
-            var scrollHeight = video.scrollHeight;
-            var timer = null;
-            var speed = 30;
-            // console.log(scrollHeight)
-            timer = setInterval(function(){
-                speed += 30;
-                var scrollTop = document.body.scrollTop = document.documentElement.scrollTop = this.scrollTop + speed
-                if (scrollTop >= scrollHeight - 687) {
-                    clearInterval(timer)
-                    document.body.scrollTop = document.documentElement.scrollTop = scrollHeight
-                }
-            })     
+            var scrollHeight = document.documentElement.scrollHeight;
+            console.log(scrollHeight)
+            scrollTo(0,scrollHeight);
         },
         // 解决键盘抬起遮挡问题(现在是直接滚动到底部评论）
         resetScrollTop(){
-            document.body.scrollTop = document.documentElement.scrollTop = document.body.scrollHeight + 600;
+            // document.body.scrollTop = document.documentElement.scrollTop = document.body.scrollHeight + 600;
         },
-        // date(x, y){
-        //     var z = {
-        //     y: x.getFullYear(),
-        //     M: x.getMonth() + 1,
-        //     d: x.getDate(),
-        //     h: x.getHours(),
-        //     m: x.getMinutes(),
-        //     s: x.getSeconds()
-        //   };
-        //   return y.replace(/(y+|M+|d+|h+|m+|s+)/g, function(v) {
-        //     return ((v.length > 1 ? "0" : "") + eval('z.' + v.slice(-1))).slice(-(v.length > 2 ? v.length : 2))
-        //   });
-        // },
+        date(x, y){
+            var z = {
+            y: x.getFullYear(),
+            M: x.getMonth() + 1,
+            d: x.getDate(),
+            h: x.getHours(),
+            m: x.getMinutes(),
+            s: x.getSeconds()
+          };
+          return y.replace(/(y+|M+|d+|h+|m+|s+)/g, function(v) {
+            return ((v.length > 1 ? "0" : "") + eval('z.' + v.slice(-1))).slice(-(v.length > 2 ? v.length : 2))
+          });
+        },
         // 发表评论
         report () {
             if (this.comment == '') {
-                this.dialogChange(false,"请输入评论内容")
+                this.$toast({
+                    icon:'fail',
+                    message:'请输入评论内容'
+                })  
                 this.comment = '';
                 return
             }
-            //var date = this.date(new Date(), 'yyyy-M-d h:m:s')
+            var date = this.date(new Date(), 'yyyy-M-d h:m:s')
             var avator = this.avator == null ? '' : this.avator
             reportComment(this.$route.params.id, this.userName,this.comment,this.lists.name,avator).then( data=> {
-                if (data == 'success') {
+                console.log(data)
+                if (data.code == 200) {
                     this.pageNeedComments.push({
                         "userName": localStorage.getItem('user'),
-                        //"date": date,//现在由服务端处理
+                        "date": date,//现在由服务端处理
                         "content": this.comment,
                         "avator": avator
                     });
                     this.goPage(Math.ceil(this.pageNeedComments.length / 5))
-                    this.dialogChange(true,'评论成功');
+                    this.$toast({
+                        icon:'success',
+                        message:'评论成功'
+                    })  
                     this.comment = ''
                     this.$nextTick(() => {
                         this.scrollToBottom()
                     })
                 }else{
-                    this.dialogChange(false,"评论失败")
+                    this.$toast({
+                        icon:'fail',
+                        message:data.message
+                    }) 
                     this.comment = ''
+                    if(data.code == 404) setTimeout(()=>{this.$router.push({path:'/login'})},1500);localStorage.clear()                   
                 }
             })
         },
@@ -339,23 +328,23 @@ export default {
             if (this.page != this.commentsPageLength) {
                this.page++
             }
-        //    console.log(this.page)
            this.comments = this.pageNeedComments.slice((this.page-1)*5,this.page*5)
-            // console.log(this.comments)
         },
         prevPage(){
            if (this.page != 1) {
                this.page--
            }
            this.comments = this.pageNeedComments.slice((this.page-1)*5,this.page*5)     
-            // console.log(this.comments)       
         },
         goPage(page){
            this.page = page
            this.comments = this.pageNeedComments.slice((page-1)*5,page*5) 
         },
         likeNeedLogin(){
-            this.dialogChange(false,"请先登录！")
+            this.$toast({
+                icon:'fail',
+                message:'请先登录！'
+            }) 
         },
         back(){
             this.$router.push({path:'/'})
