@@ -78,7 +78,7 @@ export const singleVideoData = ( id ) => fetch(baseUrl+''+id).then(response => r
 export const getVideoComment = ( id ) => fetch(baseUrl+''+id+'/comment').then(response => response.json())
 
 // 初始化单个video的like信息（判断用户当前的选项）
-export const getInitVideoLikeData = ( id , userName ) =>fetch(baseUrl+''+id+'/like?name='+userName).then(response => response.text())
+export const getInitVideoLikeData = ( id , userName ) =>fetch(baseUrl+''+id+'/like?name='+userName).then(response => response.json())
 
 // 提交用户选择like数据
 export const postVideoLikeData = (id, likeData , userName , videoName , videoImg , star ) => fetch(baseUrl+''+ id +'/like', {

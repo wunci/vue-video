@@ -77,7 +77,7 @@ export default {
                 this.lists = this.videoData[1]
                 this.videoCls = '电视剧'
             }else if (path === '/zy') {
-                this.lists = this.videoDatavideoData[2]
+                this.lists = this.videoData[2]
                 this.videoCls = '综艺'
             }   
         }

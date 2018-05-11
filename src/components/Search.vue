@@ -61,15 +61,17 @@ export default {
     methods:{
         searchResult(){
             if (this.search!='') {
-                search(this.search).then(data=>{
-                // console.log(data)
-                this.results = data
-            })
-        }else{
-            this.results = ''
+                search(this.search).then(res=>{
+                    // console.log(res)
+                    if(res.code == 200){
+                        this.results = res.data
+                    }
+                })
+            }else{
+                this.results = ''
+            }
         }
     }
-  }
 }
 
 </script>

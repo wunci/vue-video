@@ -163,19 +163,35 @@ export default {
             if (localStorage.getItem('user') === null) {
                 this.$router.push({path:'/login'})
             }
-            meComment(this.userName).then(data =>  {
-                this.initMeCommentData(data)
-                this.comments = data
+            meComment(this.userName).then(res =>  {
+                if(res.code == 200){
+                    let data = res.data
+                    this.initMeCommentData(data)
+                    this.comments = data
+                }else{
+                    this.$toast({
+                        icon:'fail',
+                        message:res.message
+                    }) 
+                }
             })
             .catch(e => console.log("error", e))
             // 获取喜欢不喜欢数据
-            meLike(this.userName).then(data =>  {
+            meLike(this.userName).then(res =>  {
                 setTimeout(()=>{
                     this.loading = false;
                 },500)
-                this.likeLists = data;
-                this.likeLengthOne = data[0].length
-                this.likeLengthTwo = data[1].length
+                if(res.code == 200){
+                    let data = res.data
+                    this.likeLists = data;
+                    this.likeLengthOne = data[0].length
+                    this.likeLengthTwo = data[1].length
+                }else{
+                    this.$toast({
+                        icon:'fail',
+                        message:res.message
+                    })
+                }
            })
            .catch(e => console.log("error", e))
         },
@@ -193,7 +209,6 @@ export default {
         // 删除自己的评论
         deleteComment(id,name,index,e){
             var el = e.currentTarget
-
             meDelete(id,name).then(data=>{
                 console.log(data)
                 // data = JSON.parse(data)
@@ -268,7 +283,6 @@ export default {
             var upload = document.querySelector('#upload')  
             var _that = this
             upload.addEventListener('change', function() {
-          
                 if (this.files.length != 0) {
                     var file = this.files[0],
                         reader = new FileReader();
@@ -339,24 +353,24 @@ export default {
                 this.defaultName = true;
                 return
             }
-            editNameData(this.userName,modelData).then(data=>{
-                console.log('edit',data)
-                if (data.code == 200) {
+            editNameData(this.userName,modelData).then(res=>{
+                console.log('edit',res)
+                if (res.code == 200) {
                    this.$toast({
                         icon:'success',
                         message:'修改成功'
                     }) 
-                    document.cookie = `token=${data.token};max-age=${30*24*60*60*1000}`
+                    document.cookie = `token=${res.token};max-age=${30*24*60*60*1000}`
                    localStorage.setItem('user',modelData)
                    this.userName = modelData
                    this.defaultName = true;
                 }else {
                     this.$toast({
                         icon:'fail',
-                        message:data.message
+                        message:res.message
                     }) 
                     this.defaultName = true;
-                    if(data.code == 404) setTimeout(()=>{this.$router.push({path:'/login'})},1500);localStorage.clear()                   
+                    if(res.code == 404) setTimeout(()=>{this.$router.push({path:'/login'})},1500);localStorage.clear()                   
                 }
             })
         },

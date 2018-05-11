@@ -1,5 +1,5 @@
 <template>
-    <section class="detail" @touchmove="scroll">
+    <section  v-if="lists" class="detail" @touchmove="scroll">
          <transition name="fade">
             <div class="loading" v-if="loading">
                 <div class="loading_dialog">
@@ -7,7 +7,7 @@
                 </div>
             </div>
         </transition>
-        <header>
+        <header >
             <div class="wrap">
                 <div @click="back" class="back">
                    <i class="iconfont icon-logout23"></i>
@@ -134,7 +134,7 @@ export default {
     },
     data () {
         return {
-            lists: '',
+            lists: null,
             comments: '',
             pageNeedComments:'',
             likes: '',
@@ -181,37 +181,59 @@ export default {
             // 获取video数据
             var routerId = this.$route.params.id;
             var userName = this.userName
-            singleVideoData(routerId).then(data =>  {
-                
+            singleVideoData(routerId).then(res =>  {
+                var data = res.data
+                console.log(data[0],'lists')
+                if(data[0].length == 0){
+                    this.loading = false;
+                    this.$toast({
+                        icon:'fail',
+                        message: '影片不存在'
+                    })
+                    setTimeout(() => {
+                        this.$router.push({path:'/'})
+                    }, 2000);
+                }
                 this.lists = data[0][0];
                 // 喜欢的数量
                 var likeLength = data[1].length;
                 // 该video总的评价数量
                 var likeTotalLength = data[2].length;
-                // console.log(likeLength,likeTotalLength)
                 this.likeTotalLength = likeTotalLength
                 if (likeTotalLength > 0 && likeLength >= 0) {
                     this.star = likeLength / likeTotalLength * 10
-                    // console.log(this.star)
                 }
             })
             .catch(e => console.log("error", e)) 
 
             // 获取评论
-            getVideoComment(routerId).then( data =>  {
-                this.comments = data.slice(0,5)
-                this.pageNeedComments = data
-                this.commentLoad = '暂时没有相关评论.......'
+            getVideoComment(routerId).then( res =>  {
+                if(res.code == 200){
+                    this.comments = res.data.slice(0,5)
+                    this.pageNeedComments = res.data
+                    this.commentLoad = '暂时没有相关评论.......'
+                }else{
+                    this.$toast({
+                        icon:'fail',
+                        message: res.message
+                    }) 
+                }
             })
             .catch(e => console.log("error", e))   
 
             // 获取like参数
-            getInitVideoLikeData(routerId ,userName).then(data =>  {
+            getInitVideoLikeData(routerId ,userName).then(res =>  {
                 setTimeout(()=>{
                     this.loading = false;
                 },500)
-                var likes = JSON.parse(data)[0]['iLike']
-                this.likes = likes
+                if(res.code == 200){
+                    this.likes = res.data[0]['iLike']
+                }else{
+                    this.$toast({
+                        icon:'fail',
+                        message: res.message
+                    }) 
+                }
             })
             .catch(e => {
                 this.likes = false
@@ -232,7 +254,7 @@ export default {
                     if(data.code == 200){
                         if (likeData == 1) {
                             this.likes = 1
-                             this.$toast({
+                            this.$toast({
                                 icon:'success',
                                 message:'标记为喜欢'
                             }) 

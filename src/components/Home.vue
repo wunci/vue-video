@@ -141,24 +141,37 @@ export default {
     methods:{
         initData () {
             this.loading = true
-            initHome().then(data =>  {
+            initHome().then(res =>  {
                 setTimeout(()=>{
                     this.loading = false;
                 },500)
-                this.lists = data 
-                this.$store.dispatch('initVideoData',{
-                    initVideoData:data
-                })
-            }).catch(e => console.log("error", e))  
+                if(res.code == 200){
+                    let list = res.data
+                    this.lists = list
+                    this.$store.dispatch('initVideoData',{
+                        initVideoData: list
+                    })
+
+                }else{
+                    this.$toast({
+                        icon: 'fail',
+                        message: res.message
+                    }) 
+                }
+            }).catch(e => {
+                this.$toast({
+                    icon: 'fail',
+                    message: '请求失败'
+                }) 
+            })  
             
             // 用户会在不同地方登陆，所以重新获取头像 
             
             var name =  localStorage.getItem('user') ? localStorage.getItem('user') : ''
             getAvator(name).then(data => {
-                // console.log(data[0]['avator'])
-                //console.log(data)
-                var data = data !== 'none' ? data : ''
-                localStorage.setItem('avator',data)
+                if(data.code == 200){
+                    localStorage.setItem('avator',data.avator)
+                }
             }).catch(err=>{
                 console.log(err)
                 localStorage.clear()
