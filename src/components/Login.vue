@@ -79,7 +79,6 @@ export default {
                 return 
             }
             signin(this.userName,this.password).then(data => {
-                var data = JSON.parse(data)
                 // 用户存在
                 if (data.code == 200) {
                     this.$toast({
@@ -93,16 +92,9 @@ export default {
                     // console.log(document.cookie)
                     localStorage.setItem('user',this.userName)
                     localStorage.setItem('avator',data.avator)
-                    var  _that = this
-                    setTimeout(function(){
-                        _that.$router.push({path:'/me'})
+                    setTimeout(()=>{
+                        this.$router.push({path:'/me'})
                     },1000)
-                }else if(data.code == 500){
-                    //密码错误
-                     this.$toast({
-                        icon:'fail',
-                        message: data.message
-                    }) 
                 }else if(data.code == 201){
                     //新用户
                     this.$toast({
@@ -112,18 +104,23 @@ export default {
                     document.cookie = `token=${data.token};max-age=${30*24*60*60*1000}`
                     
                     localStorage.setItem('user',this.userName)
-                    var  _that = this
-                    setTimeout(function(){
-                        _that.$router.push({path:'/me'})
+
+                    setTimeout(()=>{
+                        this.$router.push({path:'/me'})
                     },1000)
                 }
+            }).catch(e=>{
+                this.$toast({
+                    icon:'fail',
+                    message: e.message
+                }) 
             })
         },
         // 验证码切换
         changYzm () {
             this.url = url+'/images/yzm.jpg'+'?v='+ (new Date).getTime()
-            yzmChange().then(data=>{
-                this.yzmTest = data;
+            yzmChange().then(res=>{
+                this.yzmTest = res.data;
                 console.log('验证码',this.yzmTest)
             })
         }

@@ -145,46 +145,17 @@ export default {
                 setTimeout(()=>{
                     this.loading = false;
                 },500)
-                if(res.code == 200){
-                    let list = res.data
-                    this.lists = list
-                    this.$store.dispatch('initVideoData',{
-                        initVideoData: list
-                    })
-
-                }else{
-                    this.$toast({
-                        icon: 'fail',
-                        message: res.message
-                    }) 
-                }
+                let list = res.data
+                this.lists = list
+                this.$store.dispatch('initVideoData',{
+                    initVideoData: list
+                })
             }).catch(e => {
                 this.$toast({
                     icon: 'fail',
-                    message: '请求失败'
+                    message: e.message
                 }) 
             })  
-            
-            // 用户会在不同地方登陆，所以重新获取头像 
-            
-            var name =  localStorage.getItem('user') ? localStorage.getItem('user') : ''
-            getAvator(name).then(data => {
-                if(data.code == 200){
-                    localStorage.setItem('avator',data.avator)
-                }
-            }).catch(err=>{
-                console.log(err)
-                localStorage.clear()
-                this.$toast({
-                    icon:'fail',
-                    message:'用户信息变化,请重新登陆'
-                }) 
-                setTimeout(()=>{
-                    this.$router.push({path:'/login'})
-                },2000)
-
-            })            
-
         },
         getJsonLength(jsonData){
             var jsonLength = 0;  

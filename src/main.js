@@ -7,8 +7,10 @@ import store from './store'
 import './base/rem'
 import VueLazyload from 'vue-lazyload'
 import Toast from './components/common/Toast.js';
-Vue.use(Toast);
+import promise from 'es6-promise';
 
+promise.polyfill();
+Vue.use(Toast);
 Vue.use(VueLazyload, {
   loading: 'http://www.wclimb.site/images/imgLoading.svg'
 })

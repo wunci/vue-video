@@ -106,7 +106,7 @@
 <script>
 import vfooter from './common/vfooter.vue'
 import {mapState,mapActions} from 'vuex'
-import { url,meComment, meLike, meDelete, uploadAvator, editNameData, checkUser} from '../data/fetchData.js'
+import { url,meComment, meLike, meDelete, uploadAvator, editNameData, getAvator} from '../data/fetchData.js'
 export default {
     name: 'me',
     components:{
@@ -125,16 +125,15 @@ export default {
             defaultName:true,
             userNameModel:'',
             userName:'',
-            baseUrl:url+ '/images/'
+            baseUrl:url+ '/images/',
+            avator:''
         }
     },
     computed:{
         ...mapState([
             'meCommentDatas',
         ]),
-        avator(){ 
-            return localStorage.getItem('avator') ? localStorage.getItem('avator') : '';
-        },
+       
       
     },
     mounted () {
@@ -163,37 +162,41 @@ export default {
             if (localStorage.getItem('user') === null) {
                 this.$router.push({path:'/login'})
             }
-            meComment(this.userName).then(res =>  {
-                if(res.code == 200){
+            let userName = this.userName
+            meComment(userName).then(res =>  {
                     let data = res.data
                     this.initMeCommentData(data)
                     this.comments = data
-                }else{
-                    this.$toast({
-                        icon:'fail',
-                        message:res.message
-                    }) 
-                }
+            }).catch(e => {   
+                this.loading = false;                
+                this.$toast({
+                    icon:'fail',
+                    message:e.message
+                }) 
             })
-            .catch(e => console.log("error", e))
             // 获取喜欢不喜欢数据
-            meLike(this.userName).then(res =>  {
+            meLike(userName).then(res =>  {
                 setTimeout(()=>{
                     this.loading = false;
                 },500)
-                if(res.code == 200){
-                    let data = res.data
-                    this.likeLists = data;
-                    this.likeLengthOne = data[0].length
-                    this.likeLengthTwo = data[1].length
-                }else{
-                    this.$toast({
-                        icon:'fail',
-                        message:res.message
-                    })
-                }
+                let data = res.data
+                this.likeLists = data;
+                this.likeLengthOne = data[0].length
+                this.likeLengthTwo = data[1].length
            })
-           .catch(e => console.log("error", e))
+           .catch(e => {
+                this.loading = false;                               
+                this.$toast({
+                    icon:'fail',
+                    message:e.message
+                })
+           })
+           getAvator(userName).then(data => {
+               this.avator = data.avator
+                localStorage.setItem('avator',data.avator);               
+            }).catch(e=>{
+                console.log(e)
+            })      
         },
         // 登出
         logout () {
@@ -203,7 +206,7 @@ export default {
             }) 
             localStorage.clear()
             setTimeout(()=>{
-              this.$router.push({path:'/'})
+                this.$router.push({path:'/'})
             },1500)
         },
         // 删除自己的评论
@@ -211,26 +214,24 @@ export default {
             var el = e.currentTarget
             meDelete(id,name).then(data=>{
                 console.log(data)
-                // data = JSON.parse(data)
-                if (data.code == 200) {
-                    this.$toast({
-                        icon:'success',
-                        message:'删除成功'
-                    }) 
-                    el.parentNode.style.height = 0;
-                    el.parentNode.style.borderTop = 'none';
-                    this.$nextTick(() => {
-                        setTimeout(() => {
-                            this.comments.splice(index,1)
-                        }, 500);
-                    })
-                }else{
-                     this.$toast({
-                        icon:'fail',
-                        message:data.message
-                    }) 
-                    if(data.code == 404) setTimeout(()=>{this.$router.push({path:'/login'})},1500);localStorage.clear()                   
-                }
+                this.$toast({
+                    icon:'success',
+                    message:'删除成功'
+                }) 
+                el.parentNode.style.height = 0;
+                el.parentNode.style.borderTop = 'none';
+                this.$nextTick(() => {
+                    setTimeout(() => {
+                        this.comments.splice(index,1)
+                    }, 500);
+                })
+            }).catch(e=>{
+                this.$toast({
+                    icon:'fail',
+                    message:e.message
+                }) 
+                if(e.code == 404) setTimeout(()=>{this.$router.push({path:'/login'})},1500);localStorage.clear()                   
+
             })
         },
         // 滑动删除评论
@@ -290,13 +291,13 @@ export default {
                         this.value = '';
                         return;
                     };
-                    if (file.size >= 1024*1024/2) {
-                        _that.$toast({
-                            icon:'fail',
-                            message:'超过512Kb了哟!'
-                        }) 
-                        return
-                    }
+                    // if (file.size >= 1024*1024/2) {
+                    //     _that.$toast({
+                    //         icon:'fail',
+                    //         message:'超过512Kb了哟!'
+                    //     }) 
+                    //     return
+                    // }
                     reader.onload = function(e) {
                         this.value = '';
                         var image = new Image();
@@ -309,26 +310,18 @@ export default {
                             ctx.drawImage(image, 0, 0, 100, 100);
                             var blob = canvas.toDataURL("image/png");
                             uploadAvator(_that.userName,blob).then(data=>{
-                                if(data.code == 200){
-                                    _that.$toast({
-                                        icon:'success',
-                                        message:'上传成功'
-                                    }) 
-                                    localStorage.setItem('avator',data.avator);
-                                    _that.nowUploadAvator = data.avator;
-
-                                }else{
-                                    _that.$toast({
-                                        icon:'fail',
-                                        message:data.message
-                                    }) 
-                                    if(data.code == 404) setTimeout(()=>{_that.$router.push({path:'/login'})},1500);localStorage.clear()                      
-                                }
-                            }).catch(err=>{
+                                _that.$toast({
+                                    icon:'success',
+                                    message:'上传成功'
+                                }) 
+                                localStorage.setItem('avator',data.avator);
+                                _that.nowUploadAvator = data.avator;
+                            }).catch(e=>{
                                 _that.$toast({
                                     icon:'fail',
-                                    message:'上传失败'
+                                    message:e.message
                                 }) 
+                                if(e.code == 404) setTimeout(()=>{_that.$router.push({path:'/login'})},1500);localStorage.clear()                      
                             })
 					    }
 					    image.src = e.target.result
@@ -355,23 +348,23 @@ export default {
             }
             editNameData(this.userName,modelData).then(res=>{
                 console.log('edit',res)
-                if (res.code == 200) {
                    this.$toast({
                         icon:'success',
                         message:'修改成功'
                     }) 
                     document.cookie = `token=${res.token};max-age=${30*24*60*60*1000}`
+                    console.log(document.cookie)
                    localStorage.setItem('user',modelData)
                    this.userName = modelData
                    this.defaultName = true;
-                }else {
-                    this.$toast({
-                        icon:'fail',
-                        message:res.message
-                    }) 
-                    this.defaultName = true;
-                    if(res.code == 404) setTimeout(()=>{this.$router.push({path:'/login'})},1500);localStorage.clear()                   
-                }
+               
+            }).catch(e=>{
+                this.$toast({
+                    icon:'fail',
+                    message:e.message
+                }) 
+                this.defaultName = true;
+                if(e.code == 404) setTimeout(()=>{this.$router.push({path:'/login'})},1500);localStorage.clear()                   
             })
         },
         // 显示原来的名字，即隐藏修改用户名输入框

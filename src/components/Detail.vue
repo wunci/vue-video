@@ -204,39 +204,40 @@ export default {
                     this.star = likeLength / likeTotalLength * 10
                 }
             })
-            .catch(e => console.log("error", e)) 
-
+            .catch(e => {
+                this.loading = false;
+                this.$toast({
+                    icon:'fail',
+                    message: e.message
+                })
+            }) 
+            
             // 获取评论
             getVideoComment(routerId).then( res =>  {
-                if(res.code == 200){
-                    this.comments = res.data.slice(0,5)
-                    this.pageNeedComments = res.data
-                    this.commentLoad = '暂时没有相关评论.......'
-                }else{
-                    this.$toast({
-                        icon:'fail',
-                        message: res.message
-                    }) 
-                }
-            })
-            .catch(e => console.log("error", e))   
-
+                this.comments = res.data.slice(0,5)
+                this.pageNeedComments = res.data
+                this.commentLoad = '暂时没有相关评论.......'
+            }).catch(e => {
+                this.$toast({
+                    icon:'fail',
+                    message: e.message
+                }) 
+            })   
+            if(userName == '' || !userName){
+                this.loading = false;  
+                return
+            } 
             // 获取like参数
             getInitVideoLikeData(routerId ,userName).then(res =>  {
                 setTimeout(()=>{
                     this.loading = false;
                 },500)
-                if(res.code == 200){
-                    this.likes = res.data[0]['iLike']
-                }else{
-                    this.$toast({
-                        icon:'fail',
-                        message: res.message
-                    }) 
-                }
-            })
-            .catch(e => {
-                this.likes = false
+                this.likes = res.data[0] ? res.data[0]['iLike'] : null 
+            }).catch(e => {
+                this.$toast({
+                    icon:'fail',
+                    message: e.message
+                }) 
             })  
         },
         // 点击like操作
@@ -251,29 +252,26 @@ export default {
                     this.lists.star
                 ).then(data=>{
                     console.log('data',data)
-                    if(data.code == 200){
-                        if (likeData == 1) {
-                            this.likes = 1
-                            this.$toast({
-                                icon:'success',
-                                message:'标记为喜欢'
-                            }) 
-                        } else if (likeData == 2) {
-                            this.likes = 2 
-                            this.$toast({
-                                icon:'success',
-                                message:'标记为不喜欢'
-                            }) 
-                              
-                        }
-                    }else{
+                    if (likeData == 1) {
+                        this.likes = 1
                         this.$toast({
-                            icon:'fail',
-                            message:data.message
-                        })   
-                        if(data.code == 404) setTimeout(()=>{this.$router.push({path:'/login'})},1500);localStorage.clear()                   
-                                         
-                    }
+                            icon:'success',
+                            message:'标记为喜欢'
+                        }) 
+                    } else if (likeData == 2) {
+                        this.likes = 2 
+                        this.$toast({
+                            icon:'success',
+                            message:'标记为不喜欢'
+                        }) 
+                            
+                    } 
+            }).catch(e=>{
+                this.$toast({
+                    icon:'fail',
+                    message:e.message
+                })   
+                if(e.code == 404) setTimeout(()=>{this.$router.push({path:'/login'})},1500);localStorage.clear()                   
             })
         },
         // 监听滚动，动态更新scrollTop
@@ -320,7 +318,6 @@ export default {
             var avator = this.avator == null ? '' : this.avator
             reportComment(this.$route.params.id, this.userName,this.comment,this.lists.name,avator).then( data=> {
                 console.log(data)
-                if (data.code == 200) {
                     this.pageNeedComments.push({
                         "userName": localStorage.getItem('user'),
                         "date": date,//现在由服务端处理
@@ -336,14 +333,13 @@ export default {
                     this.$nextTick(() => {
                         this.scrollToBottom()
                     })
-                }else{
-                    this.$toast({
-                        icon:'fail',
-                        message:data.message
-                    }) 
-                    this.comment = ''
-                    if(data.code == 404) setTimeout(()=>{this.$router.push({path:'/login'})},1500);localStorage.clear()                   
-                }
+            }).catch(e=>{
+                this.$toast({
+                    icon:'fail',
+                    message:e.message
+                }) 
+                this.comment = ''
+                if(e.code == 404) setTimeout(()=>{this.$router.push({path:'/login'})},1500);localStorage.clear()                   
             })
         },
         nextPage(){

@@ -1,123 +1,86 @@
-export const url = 'http://vue.wclimb.site';
-// export const url = 'http://localhost:3000';
-export const baseUrl = url + '/vi/';
+import axios from 'axios'
+// export const url = 'http://vue.wclimb.site';
+export const url = 'http://localhost:3000';
+let $axios = axios.create({
+  baseURL: url + '/vi/',
+});
+function getCookie(name) {
+    var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+    if (arr = document.cookie.match(reg))
+        return unescape(arr[2]);
+    else
+        return null;
+}
+
+function $fetch(method,url,data){
+    return new Promise((reslove,reject)=>{
+        $axios({
+          method,
+          url,
+          data:data,
+          headers:{
+              token: getCookie('token')
+          }
+        }).then(res=>{
+            let body = res.data
+            if (body.code == 200 || body.code == 201) {
+                reslove(body)
+            }else{
+                reject(body)
+            }
+        }).catch(err=>{
+            reject(err)
+        })
+
+    })
+}
 
 // 首页初始化数据
-export const initHome = () => fetch(baseUrl+'list').then(response => response.json())
+export const initHome = () => $fetch('get', 'list')
 
 // 验证码
-export const yzmChange = () => fetch(baseUrl+'yzm/img').then(response => response.text())
+export const yzmChange = () => $fetch('get','getYzm')
 
 // 注册登录
-export const signin = ( name , pass ) => fetch(baseUrl+'signin', {
-    method: "POST",
-    body: JSON.stringify({ userName: name, password: pass}),
-    mode: "cors",
-}).then(function(response) {
-    return  response.text()
-})
+export const signin = (userName, password) => $fetch('post','signin', {userName,password})
 
 // 个人评论
-export const meComment = (name) => fetch(baseUrl+'comment/user?name='+ name).then(response => response.json())
+export const meComment = (userName) => $fetch('post', 'getUserComment', {userName},getCookie('token'))
 
-// 获取喜欢不喜欢数据
-export const meLike = ( name ) => fetch(baseUrl+'like/list?name='+ name).then(response => response.json())
+
+// 获取用户喜欢不喜欢数据
+export const meLike = ( userName ) => $fetch('post','getUserLikeData',{userName})
 
 // 删除评论---
-export const meDelete = (id, name) => fetch(baseUrl + 'delete/comment/' + id, {
-
-    method: 'POST',
-    body: JSON.stringify({
-      userName: name,
-      token: getCookie('token')
-    }),
-    mode:'cors',
-    credentials: 'include'
-}).then(response => response.json())
+export const meDelete = (commentId, userName) => $fetch('post','deleteComment',{userName,commentId},getCookie('token'))
 
 
 // 上传头像----
-export const uploadAvator = ( name , val ) => fetch(baseUrl+'avator',{
-    method:'POST',
-    
-    body: JSON.stringify({
-      avator: val,
-      userName: name,
-      token: getCookie('token'),
-    }),
+export const uploadAvator = ( userName , avator ) => $fetch('post','uploadAvator',{avator,userName},getCookie('token'))
 
-    mode:'cors',
-    credentials: 'include'
-}).then(response=>{
-    return response.json()
-})
 // 获取头像
-export const getAvator = ( name) => fetch(baseUrl+'avator/list?name='+name).then(response=>{return response.text()})
-               
+export const getAvator = (userName) => $fetch('post', 'getUserAvator' ,{userName})
+
 // 编辑用户名
-export const editNameData = ( oldName , newName) =>  fetch(baseUrl+'edit/user?name='+ oldName, { 
-    method:'POST',
-    body: JSON.stringify({
-        newName,
-        userName: oldName,
-        token: getCookie('token')
-    }),
-    mode:'cors',
-    credentials: 'include'
-}).then(response=>{
-    return response.json()
-})
+export const editNameData = ( oldName , newName) =>  $fetch('post','editUserName', {newName,userName: oldName},getCookie('token'))
 
 // 搜索
-export const search = ( val ) =>  fetch(baseUrl+'search/result?val='+ val).then(response => response.json())
+export const search = ( val ) =>  $fetch('post','search', {val})
 
 // 获取单个video数据
-export const singleVideoData = ( id ) => fetch(baseUrl+''+id).then(response => response.json())
+export const singleVideoData = (videoId) => $fetch('post','getVideoById', {videoId})
 
 // 获取评论
-export const getVideoComment = ( id ) => fetch(baseUrl+''+id+'/comment').then(response => response.json())
+export const getVideoComment = (videoId) => $fetch('post','getVideoComment', {videoId})
+
 
 // 初始化单个video的like信息（判断用户当前的选项）
-export const getInitVideoLikeData = ( id , userName ) =>fetch(baseUrl+''+id+'/like?name='+userName).then(response => response.json())
+export const getInitVideoLikeData = ( videoId , userName ) =>$fetch('post','getUserSingleLike',{userName,videoId})
 
 // 提交用户选择like数据
-export const postVideoLikeData = (id, likeData , userName , videoName , videoImg , star ) => fetch(baseUrl+''+ id +'/like', {
-    method: "POST",
-    body: JSON.stringify({
-        like: likeData ,
-        userName: userName, 
-        videoName: videoName,
-        videoImg: videoImg, 
-        star: star,
-        token: getCookie('token')
-    }),
-    mode: "cors",
-    credentials: 'include'
-}).then(function(response) {
-    return  response.json()
-})
+export const postVideoLikeData = (videoId, like, userName, videoName, videoImg, star) => $fetch('post', 'postUserLike', {like,userName,videoName,videoImg, star,videoId})
 
 // 发表评论
-export const reportComment = (id, userName , comment , videoName , avator) => fetch(baseUrl+''+ id +'/comment', {
-    method: "POST",
-    body: JSON.stringify({ 
-        userName: userName,
-        //date: date,
-        content: comment,
-        videoName: videoName,
-        avator: avator,
-        token: getCookie('token')
-    }),
-    mode: "cors" ,
-    credentials: 'include'
-}).then(function(response) {
-    return  response.json()
-})
+export const reportComment = (videoId, userName, content, videoName, avator) => $fetch('post', 'postComment', {videoId,userName,content, videoName,avator})
 
-function getCookie(name) {
-  var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
-  if (arr = document.cookie.match(reg))
-    return unescape(arr[2]);
-  else
-    return null;
-}
+

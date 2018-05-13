@@ -63,9 +63,7 @@ export default {
             if (this.search!='') {
                 search(this.search).then(res=>{
                     // console.log(res)
-                    if(res.code == 200){
-                        this.results = res.data
-                    }
+                    this.results = res.data
                 })
             }else{
                 this.results = ''
