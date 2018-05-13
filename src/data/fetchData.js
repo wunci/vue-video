@@ -45,24 +45,24 @@ export const yzmChange = () => $fetch('get','getYzm')
 export const signin = (userName, password) => $fetch('post','signin', {userName,password})
 
 // 个人评论
-export const meComment = (userName) => $fetch('post', 'getUserComment', {userName},getCookie('token'))
+export const meComment = (userName) => $fetch('post', 'getUserComment', {userName})
 
 
 // 获取用户喜欢不喜欢数据
 export const meLike = ( userName ) => $fetch('post','getUserLikeData',{userName})
 
 // 删除评论---
-export const meDelete = (commentId, userName) => $fetch('post','deleteComment',{userName,commentId},getCookie('token'))
+export const meDelete = (commentId, userName) => $fetch('post','deleteComment',{userName,commentId})
 
 
 // 上传头像----
-export const uploadAvator = ( userName , avator ) => $fetch('post','uploadAvator',{avator,userName},getCookie('token'))
+export const uploadAvator = ( userName , avator ) => $fetch('post','uploadAvator',{avator,userName})
 
 // 获取头像
 export const getAvator = (userName) => $fetch('post', 'getUserAvator' ,{userName})
 
 // 编辑用户名
-export const editNameData = ( oldName , newName) =>  $fetch('post','editUserName', {newName,userName: oldName},getCookie('token'))
+export const editNameData = ( oldName , newName) =>  $fetch('post','editUserName', {newName,userName: oldName})
 
 // 搜索
 export const search = ( val ) =>  $fetch('post','search', {val})
