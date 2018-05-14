@@ -118,9 +118,9 @@ export default {
         },
         // 验证码切换
         changYzm () {
-            this.url = url+'/images/yzm.jpg'+'?v='+ (new Date).getTime()
             yzmChange().then(res=>{
                 this.yzmTest = res.data;
+                this.url = url+'/images/yzm.jpg'+'?v='+ (new Date).getTime()
                 console.log('验证码',this.yzmTest)
             })
         }
