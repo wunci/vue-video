@@ -1,5 +1,5 @@
 <template>
-    <section  v-if="lists" class="detail" @touchmove="scroll">
+    <section  class="detail" @touchmove="scroll">
          <transition name="fade">
             <div class="loading" v-if="loading">
                 <div class="loading_dialog">
@@ -7,119 +7,121 @@
                 </div>
             </div>
         </transition>
-        <header >
-            <div class="wrap">
-                <div @click="back" class="back">
-                   <i class="iconfont icon-logout23"></i>
-                   返回
+        <template v-if="lists">
+            <header v-if="lists">
+                <div class="wrap">
+                    <div @click="back" class="back">
+                    <i class="iconfont icon-logout23"></i>
+                    返回
+                    </div>
+                    <template >
+                        <img v-lazy="baseUrl+lists.img" alt="">
+                    </template>
+                <!--  <template v-else>
+                        <img src="" alt="加载失败">
+                    </template> -->
+                    <div class="video_name">
+                        <h3>{{ lists.name }}</h3>
+                        <div class="score_wrap">
+                            <strong>{{ lists.star }}</strong>
+                            <div class="score">
+                                <div class="starList" :style="{'background-position-y':-15*(10-lists.star).toFixed(0)+'px'}"></div>
+                                <p>{{ likeTotalLength }}人评分/{{pageNeedComments.length}}条评论</p>
+                            </div>
+                        </div>
+                    </div>        
                 </div>
-                <template v-if="lists.img">
-                    <img v-lazy="baseUrl+lists.img" alt="">
+                <a target="_blank" href="https://github.com/wclimb/vue-video"><svg class="github" fill="#FFF" height="32" version="1.1" viewBox="0 0 16 16" width="32"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg></a>
+            </header>
+            <section class="video_txt">
+                <div class="video_txt_wrap">
+                    <p>
+                        <template v-if="lists.timelong > 90 ">
+                        {{ lists.timelong }}分钟
+                        </template>
+                        <template v-else>
+                        {{ lists.timelong }}季
+                        </template>
+                        {{ lists.type }}
+                    </p>
+                    <p>{{ lists.time1 }}( {{lists.country}} )上映 {{lists.country}}</p>
+                    <p>{{ lists.actors }}</p>
+                </div>
+            </section>
+            <section class="like_list">
+                <template v-if="!userName || userName == ''">
+                    <div class="like" @click="likeNeedLogin">喜欢</div>
+                    <div class="like" @click="likeNeedLogin">不喜欢</div>
+                    <!-- <p>登录后才可选择哟！</p> -->
                 </template>
-               <!--  <template v-else>
-                    <img src="" alt="加载失败">
-                </template> -->
-                <div class="video_name">
-                    <h3>{{ lists.name }}</h3>
-                    <div class="score_wrap">
-                        <strong>{{ lists.star }}</strong>
-                        <div class="score">
-                            <div class="starList" :style="{'background-position-y':-15*(10-lists.star).toFixed(0)+'px'}"></div>
-                            <p>{{ likeTotalLength }}人评分/{{pageNeedComments.length}}条评论</p>
-                        </div>
-                    </div>
-                </div>        
-            </div>
-            <a target="_blank" href="https://github.com/wclimb/vue-video"><svg class="github" fill="#FFF" height="32" version="1.1" viewBox="0 0 16 16" width="32"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg></a>
-        </header>
-        <section class="video_txt">
-            <div class="video_txt_wrap">
+                <template v-else-if="likes">
+                    <div :class="[ likes == 1 ? likeActive : likeDisable, likeCls ]">喜欢</div>
+                    <div :class="[ likes == 2 ? likeActive : likeDisable, likeCls ]">不喜欢</div>
+                </template>
+                <template v-else>
+                    <div @click="like(1)" class="like">喜欢</div>
+                    <div @click="like(2)" class="like">不喜欢</div>
+                </template>
+            </section>
+            <section class="video_about"> 
+                <h3>{{ lists.name }}的剧情简介</h3>
                 <p>
-                    <template v-if="lists.timelong > 90 ">
-                      {{ lists.timelong }}分钟
-                    </template>
-                    <template v-else>
-                     {{ lists.timelong }}季
-                    </template>
-                    {{ lists.type }}
+                    {{ lists.detail }}
                 </p>
-                <p>{{ lists.time1 }}( {{lists.country}} )上映 {{lists.country}}</p>
-                <p>{{ lists.actors }}</p>
-            </div>
-        </section>
-        <section class="like_list">
-            <template v-if="!userName || userName == ''">
-                <div class="like" @click="likeNeedLogin">喜欢</div>
-                <div class="like" @click="likeNeedLogin">不喜欢</div>
-                <!-- <p>登录后才可选择哟！</p> -->
-            </template>
-            <template v-else-if="likes">
-                <div :class="[ likes == 1 ? likeActive : likeDisable, likeCls ]">喜欢</div>
-                <div :class="[ likes == 2 ? likeActive : likeDisable, likeCls ]">不喜欢</div>
-            </template>
-            <template v-else>
-                <div @click="like(1)" class="like">喜欢</div>
-                <div @click="like(2)" class="like">不喜欢</div>
-            </template>
-        </section>
-        <section class="video_about"> 
-            <h3>{{ lists.name }}的剧情简介</h3>
-            <p>
-                {{ lists.detail }}
-            </p>
-        </section>
-        <section class="fixed_comment">
-            <template v-if="userName && userName != ''">
-                <input type="text" v-model="comment" @click="resetScrollTop" @keyup.enter="report" name="comment" placeholder="评论">
-                <button @click="report">评论</button>
-            </template>
-            <template v-else>
-                <input type="text" v-model="comment" name="comment" placeholder="登陆后才可以评论哟！" readonly>
-                <button class="disabled">评论</button>
-            </template>
-        </section>
-        <section class="video_comments">
-            <h3>评论({{pageNeedComments.length}})</h3>
-                <ul id="ul">
-                    <li :key="comment.id" v-for="comment in comments">
-                    <template v-if="comment.avator != '' ">
-                        <div class="avator">
-                            <img v-lazy="baseUrl+'/avator/'+ comment.avator +'.png' " alt="">
+            </section>
+            <section class="fixed_comment">
+                <template v-if="userName && userName != ''">
+                    <input type="text" v-model="comment" @click="resetScrollTop" @keyup.enter="report" name="comment" placeholder="评论">
+                    <button @click="report">评论</button>
+                </template>
+                <template v-else>
+                    <input type="text" v-model="comment" name="comment" placeholder="登陆后才可以评论哟！" readonly>
+                    <button class="disabled">评论</button>
+                </template>
+            </section>
+            <section class="video_comments">
+                <h3>评论({{pageNeedComments.length}})</h3>
+                    <ul id="ul">
+                        <li :key="comment.id" v-for="comment in comments">
+                        <template v-if="comment.avator != '' ">
+                            <div class="avator">
+                                <img v-lazy="baseUrl+'/avator/'+ comment.avator +'.png' " alt="">
+                            </div>
+                        </template>
+                        <template v-else>
+                            <div class="avator">
+                                {{comment.userName.charAt(0)}}
+                            </div>
+                        </template>
+                        <div class="comments_detail">
+                            <h4> {{comment.userName}}</h4>
+                            <p> {{comment.date}}</p>
+                            <div>{{comment.content}}</div>
                         </div>
-                    </template>
-                    <template v-else>
-                        <div class="avator">
-                            {{comment.userName.charAt(0)}}
-                        </div>
-                    </template>
-                    <div class="comments_detail">
-                        <h4> {{comment.userName}}</h4>
-                        <p> {{comment.date}}</p>
-                        <div>{{comment.content}}</div>
-                    </div>
-                </li>
-            </ul>
-        </section>
-        <section class="page">
-            <transition name="page-scale">
-                <div @click="goPage(1)" v-if="(commentsPageLength > 1) && page > 1">首页</div>
-            </transition>
-            <transition name="page-scale">
-                <div @click="prevPage()" v-if="page >= 2">上一页</div>
-            </transition>
-            <transition name="page-scale">
-                <div @click="nextPage()" v-if="page < commentsPageLength" >下一页</div>
-            </transition>
-            <transition name="page-scale">    
-                <div @click="goPage(commentsPageLength)" v-if="page < commentsPageLength">尾页</div>
-            </transition>
-            <template v-if="commentsPageLength >= 1">
-                <div class="pageNum">{{page}}/{{commentsPageLength}}页</div>
-            </template>
-            <template v-else>
-                <div class="pageNum">{{commentLoad}}</div>
-            </template>
-        </section>
+                    </li>
+                </ul>
+            </section>
+            <section class="page">
+                <transition name="page-scale">
+                    <div @click="goPage(1)" v-if="(commentsPageLength > 1) && page > 1">首页</div>
+                </transition>
+                <transition name="page-scale">
+                    <div @click="prevPage()" v-if="page >= 2">上一页</div>
+                </transition>
+                <transition name="page-scale">
+                    <div @click="nextPage()" v-if="page < commentsPageLength" >下一页</div>
+                </transition>
+                <transition name="page-scale">    
+                    <div @click="goPage(commentsPageLength)" v-if="page < commentsPageLength">尾页</div>
+                </transition>
+                <template v-if="commentsPageLength >= 1">
+                    <div class="pageNum">{{page}}/{{commentsPageLength}}页</div>
+                </template>
+                <template v-else>
+                    <div class="pageNum">{{commentLoad}}</div>
+                </template>
+            </section>
+        </template>
     </section>
 </template>
 
@@ -178,14 +180,17 @@ export default {
 
         initData () {
             this.loading = true
+            console.log(this.loading)
             // 获取video数据
             var routerId = this.$route.params.id;
             var userName = this.userName
             singleVideoData(routerId).then(res =>  {
+                setTimeout(()=>{
+                        this.loading = false;
+                    },500)
                 var data = res.data
                 console.log(data[0],'lists')
                 if(data[0].length == 0){
-                    this.loading = false;
                     this.$toast({
                         icon:'fail',
                         message: '影片不存在'
@@ -223,22 +228,21 @@ export default {
                     message: e.message
                 }) 
             })   
-            if(userName == '' || !userName){
-                this.loading = false;  
-                return
-            } 
-            // 获取like参数
-            getInitVideoLikeData(routerId ,userName).then(res =>  {
-                setTimeout(()=>{
-                    this.loading = false;
-                },500)
-                this.likes = res.data[0] ? res.data[0]['iLike'] : null 
-            }).catch(e => {
-                this.$toast({
-                    icon:'fail',
-                    message: e.message
-                }) 
-            })  
+            if(userName !== '' || !userName){
+                // 获取like参数
+                getInitVideoLikeData(routerId ,userName).then(res =>  {
+                    setTimeout(()=>{
+                        this.loading = false;
+                    },500)
+                    this.likes = res.data[0] ? res.data[0]['iLike'] : null 
+                }).catch(e => {
+                    this.$toast({
+                        icon:'fail',
+                        message: e.message
+                    }) 
+                })  
+
+            }
         },
         // 点击like操作
         like (likeData) {
