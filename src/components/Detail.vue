@@ -81,8 +81,8 @@
             </section>
             <section class="video_comments">
                 <h3>评论({{pageNeedComments.length}})</h3>
-                    <ul id="ul">
-                        <li :key="comment.id" v-for="comment in comments">
+                <ul id="ul">
+                    <li :key="comment.id" v-for="comment in comments">
                         <template v-if="comment.avator != '' ">
                             <div class="avator">
                                 <img v-lazy="baseUrl+'/avator/'+ comment.avator +'.png' " alt="">
@@ -201,9 +201,9 @@ export default {
                 }
                 this.lists = data[0][0];
                 // 喜欢的数量
-                var likeLength = data[1].length;
+                var likeLength = data[1][0]["count(*)"];
                 // 该video总的评价数量
-                var likeTotalLength = data[2].length;
+                var likeTotalLength = data[2][0]["count(*)"];
                 this.likeTotalLength = likeTotalLength
                 if (likeTotalLength > 0 && likeLength >= 0) {
                     this.star = likeLength / likeTotalLength * 10
