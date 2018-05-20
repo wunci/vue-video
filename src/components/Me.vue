@@ -1,6 +1,6 @@
 <template>
     <section class="me" @touchstart="touchStartHideAll">
-        <Loading :loading="loading" />
+        
         <section class="me_deatil" @click="showDefaultName">
             <section class="avator">
             <template v-if=" nowUploadAvator !='' ">
@@ -33,6 +33,7 @@
                退出
             </div>
         </section>
+        <Loading :loading="loading" />
         <section class="like_list list">
             <h3>
                 <i class="iconfont icon-msnui-love"></i>
@@ -77,9 +78,9 @@
             <ul>
                 <li :key="comment.id"  v-for="(comment,index) in comments">
                     <section 
-                     @touchstart.stop.prevent="touchStart($event)" 
-                     @touchmove.stop.prevent="touchMove($event)" 
-                     @touchend.stop.prevent="touchEnd($event)" 
+                     @touchstart.stop="touchStart($event)" 
+                     @touchmove.stop="touchMove($event)" 
+                     @touchend.stop="touchEnd($event)" 
                      class="commentWrap">
                         <h5>影片：{{comment.videoName}}</h5>
                         <section>
@@ -153,7 +154,7 @@ export default {
         // 初始化数据
         initData(){
             this.loading = true;
-            if (localStorage.getItem('user') === null) {
+            if (localStorage.user === null) {
                 this.$router.push({path:'/login'})
             }
             let userName = this.userName

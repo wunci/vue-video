@@ -1,11 +1,14 @@
 <template>
-    <transition name="fade">
+    <!-- <transition name="fade">
         <div v-move class="loading" v-if="loading">
             <div class="loading_dialog">
                 <img src="./loading.svg" alt="">
             </div>
         </div>
-    </transition>
+    </transition> -->
+    <div class="mini-loading" :style="{height: loading ? '' : '0'}">
+            <img src="./loading-copy.svg" alt="">
+        </div>
 </template>
 
 <script>
@@ -15,7 +18,7 @@ export default {
     props:['loading'],
     data () {
         return {
-            msg: ''
+            // msg: ''
         }
     },
      directives: {

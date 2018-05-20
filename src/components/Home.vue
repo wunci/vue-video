@@ -1,6 +1,5 @@
 <template>
     <section class="home">
-        <Loading :loading="loading" />
         <div id="search">
             <router-link to="/search">
                 <div class="search_input">
@@ -8,6 +7,7 @@
                 </div>
             </router-link>
         </div>
+        <Loading :loading="loading" />
         <section class="video_list">
             <div class="video_list_header">
                 <h3>全部<span>({{allLength}})</span></h3>

@@ -199,6 +199,19 @@ body {
     }
     z-index: 99999;
 }
+.mini-loading {
+  text-align: center;
+  height: 44px;
+  line-height: 44px;
+  vertical-align: middle;
+  transition: all 0.5s;
+  overflow: hidden;
+  img {
+    height: 44px;
+  }
+}
+
+
 .icon-chenggong{
     color: #1ABC9C;
 }
