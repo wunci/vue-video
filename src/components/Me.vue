@@ -129,7 +129,7 @@ export default {
     },
     mounted () {
         this.userName = localStorage.user;
-        if(this.userName === ''){
+        if(this.userName && this.userName === ''){
             this.$router.push('/login')
         }
         this.initData();

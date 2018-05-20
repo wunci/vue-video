@@ -52,7 +52,7 @@ export default {
         ]),
     },
     mounted () {
-        if(localStorage.user != ''){
+        if(localStorage.user && localStorage.user != ''){
             this.$router.push('/me')
         }
         this.url = url + '/images/yzm.jpg'

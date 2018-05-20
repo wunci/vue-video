@@ -1,6 +1,6 @@
 import axios from 'axios'
-export const url = 'http://vue.wclimb.site';
-// export const url = 'http://localhost:3000';
+// export const url = 'http://vue.wclimb.site';
+export const url = 'http://localhost:3000';
 let $axios = axios.create({
   baseURL: url + '/vi/',
 });
