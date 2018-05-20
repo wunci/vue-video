@@ -1,6 +1,5 @@
 <template>
     <main>
-        <vfooter></vfooter>
         <section class="main_wrap">
             <section class="user_title">
                 <i class="iconfont icon-denglu"></i>
@@ -32,14 +31,10 @@
 </template>
 
 <script>
-import vfooter from './common/vfooter.vue'
 import {mapActions,mapState} from 'vuex'
 import { signin , yzmChange, checkUser,url } from '../data/fetchData.js'
 export default {
     name: 'login',
-    components:{
-        vfooter,
-    },
     data () {
         return {
             lists: '',
@@ -57,7 +52,9 @@ export default {
         ]),
     },
     mounted () {
-        
+        if(localStorage.user != ''){
+            this.$router.push('/me')
+        }
         this.url = url + '/images/yzm.jpg'
         this.changYzm()
     },
@@ -131,10 +128,11 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 .main_wrap{
-    position: absolute;
-    top: 50%;
-    width: 100%;
-    transform: translateY(-55%)
+    // position: absolute;
+    // top: 50%;
+    // width: 100%;
+    // transform: translateY(-55%)
+    margin-top: 2rem;
 }
 .user_title{
     display:flex;

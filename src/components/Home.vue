@@ -1,15 +1,8 @@
 <template>
     <section class="home">
-        <vfooter></vfooter>
-        <transition name="fade">
-            <div class="loading" v-if="loading">
-                <div class="loading_dialog">
-                    <img src="./common/loading.svg" alt="">
-                </div>
-            </div>
-        </transition>
+        <Loading :loading="loading" />
         <div id="search">
-            <router-link to="/home/search">
+            <router-link to="/search">
                 <div class="search_input">
                     <i class="iconfont icon-sousuo1"></i>搜索
                 </div>
@@ -87,20 +80,17 @@
                 </li>
             </ul>
         </section>
-        <transition name="router-in">
-            <router-view></router-view>
-        </transition>
     </section>
 </template>
 
 <script>
-import vfooter from './common/vfooter.vue'
+import Loading from './common/Loading.vue'
 import { url,initHome,getAvator } from '../data/fetchData'
 import { mapActions ,mapState } from 'vuex'
 export default {
     name: 'home',
     components:{
-        vfooter,
+        Loading
     },
     data () {
         return {

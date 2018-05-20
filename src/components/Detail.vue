@@ -1,12 +1,6 @@
 <template>
-    <section  class="detail" @touchmove="scroll">
-         <transition name="fade">
-            <div class="loading" v-if="loading">
-                <div class="loading_dialog">
-                    <img src="./common/loading.svg" alt="">
-                </div>
-            </div>
-        </transition>
+    <section class="detail" @touchmove="scroll">
+        <Loading :loading="loading" />
         <template v-if="lists">
             <header v-if="lists">
                 <div class="wrap">
@@ -69,7 +63,7 @@
                     {{ lists.detail }}
                 </p>
             </section>
-            <section class="fixed_comment">
+            <section v-move class="fixed_comment">
                 <template v-if="userName && userName != ''">
                     <input type="text" v-model="comment" @click="resetScrollTop" @keyup.enter="report" name="comment" placeholder="评论">
                     <button @click="report">评论</button>
@@ -126,13 +120,24 @@
 </template>
 
 <script>
-import vfooter from './common/vfooter.vue'
+import Loading from './common/Loading.vue'
 import {mapState,mapActions} from 'vuex'
 import { url,singleVideoData , getVideoComment , getInitVideoLikeData , postVideoLikeData ,reportComment, checkUser} from '../data/fetchData.js'
+
 export default {
     name: 'detail',
     components:{
-        vfooter,
+        Loading
+    },
+    directives: {
+        move: {
+            inserted(el){
+                document.body.appendChild(el)
+            },
+            unbind(el){
+                document.body.removeChild(el)
+            }
+        }
     },
     data () {
         return {
@@ -151,7 +156,7 @@ export default {
             scrollTop:200,
             page:1,
             commentLoad:'评论正在加载中......',
-            userName: localStorage.getItem('user')
+            userName: localStorage.user
         }
     },
     computed:{
@@ -160,10 +165,10 @@ export default {
             'meCommentDatas'
         ]),
         comment_allow(){
-          return localStorage.getItem('user') ? true : false
+          return localStorage.user ? true : false
         },
         avator(){ 
-          return localStorage.getItem('avator');
+          return localStorage.avator;
         },
         commentsPageLength(){
             return Math.ceil(this.pageNeedComments.length / 5)

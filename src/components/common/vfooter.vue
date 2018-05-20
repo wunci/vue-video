@@ -17,9 +17,9 @@ export default {
     name: 'vfooter',
     data () {
         return {
-        msg: ''
+            msg: ''
         }
-    }
+    },
 }
 </script>
 

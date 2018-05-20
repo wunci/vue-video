@@ -1,6 +1,5 @@
 <template>
     <section id="search_main">
-        <vfooter></vfooter>
         <div id="search">
             <input type="text" v-focus v-model.trim="search" v-on:input="searchResult">
             <i class="iconfont icon-sousuo1"></i>
@@ -29,19 +28,15 @@
 </template>
 
 <script>
-import vfooter from './common/vfooter.vue'
 import { mapState } from 'vuex'
 import { search,url } from '../data/fetchData.js'
 export default {
     name: 'search',
-    components:{
-        vfooter,
-    },
     data () {
         return {
-            search:'',
-            results:'',
-            baseUrl:url+'/images/'
+            search: '',
+            results: '',
+            baseUrl: url+'/images/'
         }
     },
     computed:{
@@ -52,6 +47,14 @@ export default {
             inserted: function (el) {
                 // 聚焦元素
                 el.focus()
+            }
+        },
+        move: {
+            inserted(el){
+                document.body.appendChild(el)
+            },
+            unbind(el){
+                document.body.removeChild(el)
             }
         }
     },

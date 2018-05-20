@@ -1,13 +1,6 @@
 <template>
     <section class="me" @touchstart="touchStartHideAll">
-        <vfooter></vfooter>
-        <transition name="fade">
-            <div class="loading" v-if="loading">
-                <div class="loading_dialog">
-                    <img src="./common/loading.svg" alt="">
-                </div>
-            </div>
-        </transition>
+        <Loading :loading="loading" />
         <section class="me_deatil" @click="showDefaultName">
             <section class="avator">
             <template v-if=" nowUploadAvator !='' ">
@@ -104,13 +97,13 @@
 </template>
 
 <script>
-import vfooter from './common/vfooter.vue'
+import Loading from './common/Loading.vue'
 import {mapState,mapActions} from 'vuex'
 import { url,meComment, meLike, meDelete, uploadAvator, editNameData, getAvator} from '../data/fetchData.js'
 export default {
     name: 'me',
     components:{
-        vfooter,
+        Loading
     },
     data () {
         return {
@@ -133,11 +126,12 @@ export default {
         ...mapState([
             'meCommentDatas',
         ]),
-       
-      
     },
     mounted () {
-        this.userName = localStorage.getItem('user');
+        this.userName = localStorage.user;
+        if(this.userName === ''){
+            this.$router.push('/login')
+        }
         this.initData();
     },
     watch: {

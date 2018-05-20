@@ -1,13 +1,6 @@
 <template>
     <section class="video">
-        <vfooter></vfooter>
-         <transition name="fade">
-            <div class="loading" v-if="loading">
-                <div class="loading_dialog">
-                    <img src="./common/loading.svg" alt="">
-                </div>
-            </div>
-        </transition> 
+        <Loading :loading="loading" /> 
         <section class="video_list">
             <h1>{{ videoCls }}</h1>
             <ul>
@@ -27,13 +20,13 @@
 </template>
 
 <script>
-import vfooter from './common/vfooter.vue'
+import Loading from './common/Loading.vue'
 import { mapState } from 'vuex'
 import { initHome,url } from '@/data/fetchData.js'
 export default {
     name: 'more',
     components:{
-        vfooter,
+        Loading
     },
     data () {
         return {

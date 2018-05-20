@@ -182,7 +182,7 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-    background: rgba(0,0,0,0.5);
+    // background: rgba(0,0,0,0.5);
     div{
         width:100px;
         height: 100px;
@@ -191,7 +191,8 @@ body {
         left: 50%;
         top: 50%;
         transform: translate(-50%,-50%);
-        background: #1ABC9C;
+        background: rgba($color: #1ABC9C, $alpha: 0.8);
+        // background: #1ABC9C;
     }
     img{
         margin-top: 5px;

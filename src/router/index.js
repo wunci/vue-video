@@ -20,58 +20,98 @@ export default new Router({
     routes: [
         {
       	    path:'*',
-      	    redirect:'/'
+            redirect:'/',
+            meta: {
+                index: 0
+            },
         },
         {
             path: '/',
             name:'home',
             component: Home,
-            children:[
-                {
-                    name:'search',
-                    path: '/home/search',
-                    component: Search
-                }
-            ],
             meta: {
-          		keepAlive: true // 需要被缓存
-        	}
+              index: 1
+            },
+            // children:[
+            //     {
+            //         name:'search',
+            //         path: '/home/search',
+            //         component: Search
+            //     }
+            // ],
+            // meta: {
+          	// 	keepAlive: true // 需要被缓存
+        	// }
+        },
+        {
+           path: '/search',
+          name: 'search',
+          component: Search,
+          meta: {
+            index: 2
+          },
+
         },
         {
             path: '/video/:id',
             name: 'video',
-            component: Detail
+            component: Detail,
+            meta: {
+              index: 3
+            },
+
         },
         {
             path: '/all',
             name: 'all',
             component: More,
+            meta: {
+              index: 2
+            },
         },
         {
             path: '/movie',
             name: 'movie',
-            component: More
+            component: More,
+            meta: {
+              index: 2
+            },
+
         },
         {
             path: '/tv',
             name: 'tv',
-            component: More
+            component: More,
+            meta: {
+              index: 2
+            },
+
         },
         {
             path: '/zy',
             name: 'zy',
             component: More,
+            meta: {
+              index: 2
+            },
 
         },
         {
             path: '/login',
             name: 'login',
-            component: Login
+            component: Login,
+            meta: {
+              index: 4
+            },
+
         },
         {
             path: '/me',
             name: 'me',
             component: Me,
+            meta: {
+              index: 2
+            },
         }
     ],
     scrollBehavior (to, from, savedPosition) {

@@ -15,12 +15,12 @@ function getCookie(name) {
 function $fetch(method,url,data){
     return new Promise((reslove,reject)=>{
         $axios({
-          method,
-          url,
-          data:data,
-          headers:{
-              token: getCookie('token')
-          }
+            method,
+            url,
+            data:data,
+            headers:{
+                token: getCookie('token')
+            }
         }).then(res=>{
             let body = res.data
             if (body.code == 200 || body.code == 201) {
