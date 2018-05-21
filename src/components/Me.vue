@@ -3,13 +3,7 @@
         
         <section class="me_deatil" @click="showDefaultName">
             <section class="avator">
-            <template v-if=" nowUploadAvator !='' ">
-                <input @click="upload" id="upload" type="file">
-                <div class="avator_border">
-                    <img v-lazy="baseUrl+'/avator/'+ nowUploadAvator +'.png' " alt="">
-                </div>
-            </template>
-            <template v-else-if="avator == ''">
+            <template v-if="avator == ''">
                 <input @click="upload" id="upload" type="file">
                 <div class="avator_border">上传头像</div>
             </template>
@@ -115,7 +109,6 @@ export default {
             likeLengthTwo:'',
             start:'',
             scroll:'',
-            nowUploadAvator:'',
             defaultName:true,
             userNameModel:'',
             userName:'',
@@ -223,9 +216,11 @@ export default {
             }).catch(e=>{
                 this.$toast({
                     icon:'fail',
-                    message:e.message
+                    message:e.message,
+                    success:()=>{
+                        if(e.code == 404) this.$router.push({path:'/login'});localStorage.clear()                   
+                    }
                 }) 
-                if(e.code == 404) setTimeout(()=>{this.$router.push({path:'/login'})},1500);localStorage.clear()                   
 
             })
         },
@@ -310,13 +305,15 @@ export default {
                                     message:'上传成功'
                                 }) 
                                 localStorage.setItem('avator',data.avator);
-                                _that.nowUploadAvator = data.avator;
+                                _that.avator = data.avator;
                             }).catch(e=>{
                                 _that.$toast({
                                     icon:'fail',
-                                    message:e.message
+                                    message:e.message,
+                                    success:()=>{
+                                        if(e.code == 404) _that.$router.push({path:'/login'});localStorage.clear()                      
+                                    }
                                 }) 
-                                if(e.code == 404) setTimeout(()=>{_that.$router.push({path:'/login'})},1500);localStorage.clear()                      
                             })
 					    }
 					    image.src = e.target.result
@@ -356,10 +353,12 @@ export default {
             }).catch(e=>{
                 this.$toast({
                     icon:'fail',
-                    message:e.message
+                    message:e.message,
+                    success:()=>{
+                        if(e.code == 404) this.$router.push({path:'/login'});localStorage.clear()                   
+                    }
                 }) 
                 this.defaultName = true;
-                if(e.code == 404) setTimeout(()=>{this.$router.push({path:'/login'})},1500);localStorage.clear()                   
             })
         },
         // 显示原来的名字，即隐藏修改用户名输入框

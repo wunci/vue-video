@@ -17,6 +17,7 @@ Toast.install = function (Vue, options) {
       document.body.appendChild(tpl);
       setTimeout(function () {
         document.body.removeChild(tpl);
+        options.success && options.success()
       }, 1500)
     }
 }

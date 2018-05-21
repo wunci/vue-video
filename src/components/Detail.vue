@@ -191,18 +191,18 @@ export default {
             var userName = this.userName
             singleVideoData(routerId).then(res =>  {
                 setTimeout(()=>{
-                        this.loading = false;
-                    },500)
+                    this.loading = false;
+                },500)
                 var data = res.data
                 console.log(data[0],'lists')
                 if(data[0].length == 0){
                     this.$toast({
                         icon:'fail',
-                        message: '影片不存在'
+                        message: '影片不存在',
+                        success:()=>{
+                            this.$router.push({path:'/'})
+                        }
                     })
-                    setTimeout(() => {
-                        this.$router.push({path:'/'})
-                    }, 2000);
                 }
                 this.lists = data[0][0];
                 // 喜欢的数量
@@ -278,9 +278,11 @@ export default {
             }).catch(e=>{
                 this.$toast({
                     icon:'fail',
-                    message:e.message
+                    message:e.message,
+                    success:()=>{
+                        if(e.code == 404) this.$router.push({path:'/login'});localStorage.clear()                   
+                    }
                 })   
-                if(e.code == 404) setTimeout(()=>{this.$router.push({path:'/login'})},1500);localStorage.clear()                   
             })
         },
         // 监听滚动，动态更新scrollTop
@@ -345,10 +347,12 @@ export default {
             }).catch(e=>{
                 this.$toast({
                     icon:'fail',
-                    message:e.message
+                    message:e.message,
+                    success:()=>{
+                        if(e.code == 404) this.$router.push({path:'/login'});localStorage.clear()                   
+                    }
                 }) 
-                this.comment = ''
-                if(e.code == 404) setTimeout(()=>{this.$router.push({path:'/login'})},1500);localStorage.clear()                   
+                this.comment = ''                   
             })
         },
         nextPage(){
@@ -374,7 +378,7 @@ export default {
             }) 
         },
         back(){
-            this.$router.push({path:'/'})
+            this.$router.go(-1)
         }
     }
 }

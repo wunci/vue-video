@@ -80,7 +80,10 @@ export default {
                 if (data.code == 200) {
                     this.$toast({
                         icon:'success',
-                        message:'登录成功'
+                        message:'登录成功',
+                        success:()=>{
+                            this.$router.push({path:'/me'})
+                        }
                     }) 
                     this.$store.dispatch('createUser',{
                         userName:this.userName
@@ -89,22 +92,19 @@ export default {
                     // console.log(document.cookie)
                     localStorage.setItem('user',this.userName)
                     localStorage.setItem('avator',data.avator)
-                    setTimeout(()=>{
-                        this.$router.push({path:'/me'})
-                    },1000)
                 }else if(data.code == 201){
                     //新用户
                     this.$toast({
                         icon:'success',
-                        message:'注册成功'
+                        message:'注册成功',
+                        success:()=>{
+                            this.$router.push({path:'/me'})
+                        }
                     }) 
                     document.cookie = `token=${data.token};max-age=${30*24*60*60*1000}`
                     
                     localStorage.setItem('user',this.userName)
 
-                    setTimeout(()=>{
-                        this.$router.push({path:'/me'})
-                    },1000)
                 }
             }).catch(e=>{
                 this.$toast({
