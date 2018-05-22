@@ -129,12 +129,9 @@ export default {
         //'$route': 'initData'
     },
     methods:{
-        initData () {
+        async initData () {
             this.loading = true
-            initHome().then(res =>  {
-                setTimeout(()=>{
-                    this.loading = false;
-                },500)
+            await initHome().then(res =>  {
                 let list = res.data
                 this.lists = list
                 this.$store.dispatch('initVideoData',{
@@ -146,6 +143,9 @@ export default {
                     message: e.message
                 }) 
             })  
+            setTimeout(()=>{
+                this.loading = false;
+            },500)
         },
         getJsonLength(jsonData){
             var jsonLength = 0;  

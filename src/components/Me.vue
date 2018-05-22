@@ -145,13 +145,13 @@ export default {
             'initMeCommentData',
         ]),
         // 初始化数据
-        initData(){
+        async initData(){
             this.loading = true;
             if (localStorage.user === null) {
                 this.$router.push({path:'/login'})
             }
             let userName = this.userName
-            meComment(userName).then(res =>  {
+            await meComment(userName).then(res =>  {
                     let data = res.data
                     this.initMeCommentData(data)
                     this.comments = data
@@ -163,28 +163,27 @@ export default {
                 }) 
             })
             // 获取喜欢不喜欢数据
-            meLike(userName).then(res =>  {
-                setTimeout(()=>{
-                    this.loading = false;
-                },500)
+            await meLike(userName).then(res =>  {
                 let data = res.data
                 this.likeLists = data;
                 this.likeLengthOne = data[0].length
                 this.likeLengthTwo = data[1].length
-           })
-           .catch(e => {
+            }).catch(e => {
                 this.loading = false;                               
                 this.$toast({
                     icon:'fail',
                     message:e.message
                 })
-           })
-           getAvator(userName).then(data => {
+            })
+            await getAvator(userName).then(data => {
                this.avator = data.avator
                 localStorage.setItem('avator',data.avator);               
             }).catch(e=>{
                 console.log(e)
             })      
+            setTimeout(()=>{
+                this.loading = false;
+            },500)
         },
         // 登出
         logout () {

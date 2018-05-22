@@ -183,16 +183,16 @@ export default {
     },
     methods:{
 
-        initData () {
+        async initData () {
             this.loading = true
             console.log(this.loading)
             // 获取video数据
             var routerId = this.$route.params.id;
             var userName = this.userName
-            singleVideoData(routerId).then(res =>  {
                 setTimeout(()=>{
                     this.loading = false;
                 },500)
+            await singleVideoData(routerId).then(res =>  {
                 var data = res.data
                 console.log(data[0],'lists')
                 if(data[0].length == 0){
@@ -223,7 +223,7 @@ export default {
             }) 
             
             // 获取评论
-            getVideoComment(routerId).then( res =>  {
+            await getVideoComment(routerId).then( res =>  {
                 this.comments = res.data.slice(0,5)
                 this.pageNeedComments = res.data
                 this.commentLoad = '暂时没有相关评论.......'
@@ -233,12 +233,12 @@ export default {
                     message: e.message
                 }) 
             })   
+            setTimeout(()=>{
+                this.loading = false;
+            },500)
             if(userName !== '' || !userName){
                 // 获取like参数
-                getInitVideoLikeData(routerId ,userName).then(res =>  {
-                    setTimeout(()=>{
-                        this.loading = false;
-                    },500)
+                await getInitVideoLikeData(routerId ,userName).then(res =>  {
                     this.likes = res.data[0] ? res.data[0]['iLike'] : null 
                 }).catch(e => {
                     this.$toast({
