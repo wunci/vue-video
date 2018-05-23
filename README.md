@@ -1,6 +1,8 @@
 # 写在前面（有问题可以加qq群:725165362）
 
-> 前端项目地址 https://github.com/wclimb/vue-video  
+  该项目有两个版本，vue和react
+  
+> 前端项目地址 https://github.com/wclimb/vue-video    
 > 前端预览 http://video.wclimb.site
 
 > 后端项目地址 https://github.com/wclimb/video-admin  
@@ -10,7 +12,7 @@
 
 react版现在已经完成
 
-> react版项目地址 https://github.com/wclimb/react-video
+> react版项目地址 https://github.com/wclimb/react-video  
 > react版预览 http://video.wclimb.site
 
 ## 技术栈(Vue2.js + Node.js 全栈项目)
