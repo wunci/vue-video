@@ -77,7 +77,7 @@ ps: 如果打包之后文件运行不了，请打包之前把路由的 mode:'his
 
 手机扫描图下二维码预览
 
-![](http://oswpupqu5.bkt.clouddn.com/1504574571.png)
+![](http://www.wclimb.site/cdn/1504574571.png)
 
 ## 后端线上地址
 
@@ -87,29 +87,29 @@ GitHub: [管理后台](https://github.com/wclimb/video-admin)
 
 ## 前端演示
 
-![](http://oswpupqu5.bkt.clouddn.com/vue1.gif)
+![](http://www.wclimb.site/cdn/vue1.gif)
 
 ### 主页
 
-![](http://oswpupqu5.bkt.clouddn.com/home.png) ![](http://oswpupqu5.bkt.clouddn.com/search.png)
+![](http://www.wclimb.site/cdn/home.png) ![](http://www.wclimb.site/cdn/search.png)
 
 ### 登录页
 
-![](http://oswpupqu5.bkt.clouddn.com/login.png)
+![](http://www.wclimb.site/cdn/login.png)
 
 ### 个人中心页
 
-![](http://oswpupqu5.bkt.clouddn.com/personal.png) ![](http://oswpupqu5.bkt.clouddn.com/personal1.png)
+![](http://www.wclimb.site/cdn/personal.png) ![](http://www.wclimb.site/cdn/personal1.png)
 
 
 ### 详情页
 
-![](http://oswpupqu5.bkt.clouddn.com/detail.png)
+![](http://www.wclimb.site/cdn/detail.png)
 
 
 ## 后台演示
 
-![](http://oswpupqu5.bkt.clouddn.com/admin.gif)
+![](http://www.wclimb.site/cdn/admin.gif)
 
 ## 有问题欢迎反馈
 
