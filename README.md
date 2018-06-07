@@ -13,7 +13,7 @@
 react版现在已经完成
 
 > react版项目地址 https://github.com/wclimb/react-video  
-> react版预览 http://video.wclimb.site
+> react版预览 http://react.wclimb.site
 
 ## 技术栈(Vue2.js + Node.js 全栈项目)
 
