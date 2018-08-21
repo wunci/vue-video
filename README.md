@@ -144,3 +144,7 @@ GitHub: [管理后台](https://github.com/wclimb/video-admin)
 |-- package.json                     // 项目及工具的依赖配置文件
 
 ```
+
+## 个人小程序
+
+![img](http://www.wclimb.site/cdn/xcx.jpeg)
