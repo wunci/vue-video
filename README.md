@@ -147,4 +147,4 @@ GitHub: [管理后台](https://github.com/wclimb/video-admin)
 
 ## 个人小程序
 
-![img](http://www.wclimb.site/cdn/xcx.jpeg)
+![img](http://www.wclimb.site/cdn/xcx.jpeg?v=1)
