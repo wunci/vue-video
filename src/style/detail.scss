@@ -1,237 +1,282 @@
-.detail{
-	padding-bottom: 1rem;
-	min-height: 100%;
-	overflow-y: auto;
-	overflow-x: hidden
+.detail {
+  padding-bottom: 1rem;
+  min-height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden
 }
-header{
-	height: 3.0rem;
-	position: relative;
-	display: flex;
-	background: #4ebf60;
-	.wrap{
-		display: flex;
-		color: #fff;
-		img{
-			width: 1.7rem;
-			height: 2.4rem;
-			margin-left: 0.4rem;
-			position: relative;
-			bottom: -1rem;
-		}
-		.video_name{
-			margin:1.4rem 0.5rem;
-			h3{
-				font-size: 24px;
-				white-space: nowrap;
-				width: 4.5rem;
-				overflow: hidden;
-				text-overflow: ellipsis;
-			}
-			.score_wrap{
-				display: flex;
-				strong{
-					font-size: 28px;
-					color: #fff;
-					margin-right: 0.2rem;
-					font-weight: normal;
-				}
-				.score{
-					font-size: 14px;
-					color: #f2f2f2;
-				}
-			}
-		}
-		.back{
-				position: absolute;
-				top: 0.2rem;
-				left: 0.3rem;
-				font-size: 13px;
-				i{
-					font-size: 15px	;
-				}
-				border:1px solid #fff;
-				padding:0.06rem 0.14rem;
-				border-radius:4px;
-				&:active{
-			        background: rgba(0,0,0,0.1)
-			    }
-			}
-	}
-	& > a{
-		position: absolute;
-		right: 0.2rem;
-		top: 0.2rem;
-	}
-}
-.video_txt{
-	margin-top: 0.8rem;
-	font-size: 16px;
-	.video_txt_wrap{
-		margin:0 0.4rem;
-		color: #111;
-		p:nth-child(2){
-			margin:0.05rem 0;
-		}
-	}
-}
-.video_about{
-	padding: 0 0.4rem 0.8rem;
-	h3{
-		margin: 0.5rem 0 0.3rem 0;
-		color: #afafaf;
-		font-size: 15px;
-	}
-	p{
-		font-size: 14px;
-		text-indent: 2em;
-		word-wrap:break-word;
-		word-break:break-all;
-	}
-}
-.video_comments{
-	margin-left: 0.4rem;
-	h3{
-		font-size: 16px;
-		margin-bottom: 0.2rem;
-	    color: #afafaf;
-	}
-	ul{
-		
-		li{
-			&+li{
-				margin-top: 0.3rem;
-			}
-			display: flex;
-			.avator{
-				width: 0.6rem;
-				height: 0.6rem;
-				margin: 0.05rem 0.2rem 0 0 ;
-				border-radius:50%;
-				background: #4ebf60;
-				text-align: center;
-				line-height: 0.6rem;
-				color: #fff;
-				font-size: 16px;
-				overflow: hidden;
-				flex: none;
-				img{
-					width: 100%;
-					height: 100%;
-				}
-			}
-			.comments_detail{
-				font-size: 16px;
-				width: 95%;
-			    margin-right: 0.5rem;
-				p{
-					font-size: 14px;
-					color: #afafaf;
-				}
-				h4{
-					width: 70%;
-					white-space: nowrap;
-					text-overflow: ellipsis;
-					overflow: hidden;
-				}
-			}
-		}
-	}
-}
-.like_list{
-	width: 80%;
-	margin:0.5rem auto;
-	display: flex;
-	justify-content: space-between;
-	position: relative;
-	.like{
-		width: 50%;
-		text-align: center;
-		border:1px solid #4ebf60;
-		margin:0 0.3rem;
-		border-radius:8px;
-		padding:0.10rem 0;
-		color: #4ebf60;
-		font-size: 14px;
-		&:active{
-			background: #4ebf60;
-			color: #fff;
-		}
-	}
-	.like.like_active{
-		background: #4ebf60;
-		color: #fff;
 
-	}
-	.like.likeDisable{
-		background: #f5f5f5;
-		color: #4ebf60;
-		&:active{
-			background: #f5f5f5;
-			color: #4ebf60;
-		}
-	}
-	p{
-		position: absolute;
-		bottom: -0.4rem;
-		left: 50%;
-		transform: translateX(-50%);
-		color: #ec5051;
-	}
+header {
+  height: 3.0rem;
+  position: relative;
+  display: flex;
+  background: #4ebf60;
+
+  .wrap {
+    display: flex;
+    color: #fff;
+
+    img {
+      width: 1.7rem;
+      height: 2.4rem;
+      margin-left: 0.4rem;
+      position: relative;
+      bottom: -1rem;
+    }
+
+    .video_name {
+      margin: 1.4rem 0.5rem;
+
+      h3 {
+        font-size: 24px;
+        white-space: nowrap;
+        width: 4.5rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .score_wrap {
+        display: flex;
+
+        strong {
+          font-size: 28px;
+          color: #fff;
+          margin-right: 0.2rem;
+          font-weight: normal;
+        }
+
+        .score {
+          font-size: 14px;
+          color: #f2f2f2;
+        }
+      }
+    }
+
+    .back {
+      position: absolute;
+      top: 0.2rem;
+      left: 0.3rem;
+      font-size: 13px;
+
+      i {
+        font-size: 15px;
+      }
+
+      border:1px solid #fff;
+      padding:0.06rem 0.14rem;
+      border-radius:4px;
+
+      &:active {
+        background: rgba(0, 0, 0, 0.1)
+      }
+    }
+  }
+
+  &>a {
+    position: absolute;
+    right: 0.2rem;
+    top: 0.2rem;
+  }
 }
-.fixed_comment{
-	position: fixed;
-	bottom: 0;
-	left: 0;
-	width: 100%;
-	
-	display: flex;
-	justify-content: space-between;
-	padding: 0 0.1rem 0.05rem 0.1rem;
-	background: #fff;
-	input{
-		border-radius:5px;
-		border:none;
-		border:1px solid #4ebf60;
-		padding:0 0 0 0.2rem;
-		width: 100%;
-		height: .75rem;
-	}
-	button{
-		border:none;
-		width: 1.5rem;
-		padding:0.15rem 0.25rem;
-		border-radius:5px;
-		margin-left: 0.1rem;
-		background: #63bb71;
-		color: #fff;
-		font-size: 14px;
-	}
-	button.disabled{
-		background: #ccc;
-	}
+
+.video_txt {
+  margin-top: 0.8rem;
+  font-size: 16px;
+
+  .video_txt_wrap {
+    margin: 0 0.4rem;
+    color: #111;
+
+    p:nth-child(2) {
+      margin: 0.05rem 0;
+    }
+  }
 }
+
+.video_about {
+  padding: 0 0.4rem 0.8rem;
+
+  h3 {
+    margin: 0.5rem 0 0.3rem 0;
+    color: #afafaf;
+    font-size: 15px;
+  }
+
+  p {
+    font-size: 14px;
+    text-indent: 2em;
+    word-wrap: break-word;
+    word-break: break-all;
+  }
+}
+
+.video_comments {
+  margin-left: 0.4rem;
+
+  h3 {
+    font-size: 16px;
+    margin-bottom: 0.2rem;
+    color: #afafaf;
+  }
+
+  ul {
+
+    li {
+      &+li {
+        margin-top: 0.3rem;
+      }
+
+      display: flex;
+
+      .avator {
+        width: 0.6rem;
+        height: 0.6rem;
+        margin: 0.05rem 0.2rem 0 0;
+        border-radius: 50%;
+        background: #4ebf60;
+        text-align: center;
+        line-height: 0.6rem;
+        color: #fff;
+        font-size: 16px;
+        overflow: hidden;
+        flex: none;
+
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+      .comments_detail {
+        font-size: 16px;
+        width: 95%;
+        margin-right: 0.5rem;
+
+        p {
+          font-size: 14px;
+          color: #afafaf;
+        }
+
+        h4 {
+          width: 70%;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+        }
+      }
+    }
+  }
+}
+
+.like_list {
+  width: 80%;
+  margin: 0.5rem auto;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+
+  .like {
+    width: 50%;
+    text-align: center;
+    border: 1px solid #4ebf60;
+    margin: 0 0.3rem;
+    border-radius: 8px;
+    padding: 0.10rem 0;
+    color: #4ebf60;
+    font-size: 14px;
+
+    &:active {
+      background: #4ebf60;
+      color: #fff;
+    }
+  }
+
+  .like.like_active {
+    background: #4ebf60;
+    color: #fff;
+
+  }
+
+  .like.likeDisable {
+    background: #f5f5f5;
+    color: #4ebf60;
+
+    &:active {
+      background: #f5f5f5;
+      color: #4ebf60;
+    }
+  }
+
+  p {
+    position: absolute;
+    bottom: -0.4rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #ec5051;
+  }
+}
+
+.fixed_comment {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 7.5rem;
+
+  display: flex;
+  justify-content: space-between;
+  padding: 0 0.1rem 0.05rem 0.1rem;
+  background: #fff;
+
+  input {
+    border-radius: 5px;
+    border: none;
+    border: 1px solid #4ebf60;
+    padding: 0 0 0 0.2rem;
+    width: 100%;
+    height: .75rem;
+  }
+
+  button {
+    border: none;
+    width: 1.5rem;
+    padding: 0.15rem 0.25rem;
+    border-radius: 5px;
+    margin-left: 0.1rem;
+    background: #63bb71;
+    color: #fff;
+    font-size: 14px;
+  }
+
+  button.disabled {
+    background: #ccc;
+  }
+}
+
 .page {
   margin: 0.2rem 0;
   display: flex;
   justify-content: center;
   align-items: center;
-   div {
-	display: inline;
-	background: #4ebf60;
-	color: #fff;
-	text-align: center;
-	margin: 0 0.05rem;
-	border-radius: 5px;
-	padding: 0.08rem 0.14rem;
-	&.pageNum{
-		background: #ccc;
-	}
+
+  div {
+    display: inline;
+    background: #4ebf60;
+    color: #fff;
+    text-align: center;
+    margin: 0 0.05rem;
+    border-radius: 5px;
+    padding: 0.08rem 0.14rem;
+
+    &.pageNum {
+      background: #ccc;
+    }
   }
+
   div:active {
-	background: #89e498;
+    background: #89e498;
   }
 }
+
 .page-scale-enter-active,
 .page-scale-leave-active {
   transition: all 0.6s;
@@ -241,5 +286,3 @@ header{
 .page-scale-leave-active {
   transform: scale(0)
 }
-
-

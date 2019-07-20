@@ -1,20 +1,34 @@
 html {
-    color: #000;
-    background: #fff;
-    overflow-y: scroll;
-    -webkit-text-size-adjust: 100%;
-    -ms-text-size-adjust: 100%
+  color: #000;
+  background: #fff;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  font-size: 16px;
 }
 
 html * {
-    outline: 0;
-    -webkit-text-size-adjust: none;
-    -webkit-tap-highlight-color: transparent
+  outline: 0;
+  -webkit-text-size-adjust: none;
+  -webkit-tap-highlight-color: transparent
+}
+
+body {
+  font-size: 16px;
+  width: 7.5rem;
+  margin: 0 auto;
+  //   position: relative;
+  //   min-height: 100%;
+  //   /* 解决 iOS safari 卡顿问题 */
+  //   overflow-y: scroll;
+  //   -webkit-overflow-scrolling: touch;
+  //   /* 设置 iOS 设备点击元素高亮为透明色 */
+  //   -webkit-tap-highlight-color: transparent;
 }
 
 body,
 html {
-    font-family: sans-serif
+  font-family: sans-serif
 }
 
 article,
@@ -55,35 +69,35 @@ td,
 textarea,
 th,
 ul {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 input,
 select,
 textarea {
-    font-size: 100%
+  font-size: 100%
 }
 
 table {
-    border-collapse: collapse;
-    border-spacing: 0
+  border-collapse: collapse;
+  border-spacing: 0
 }
 
 fieldset,
 img {
-    border: 0
+  border: 0
 }
 
 abbr,
 acronym {
-    border: 0;
-    font-variant: normal
+  border: 0;
+  font-variant: normal
 }
 
 del {
-    text-decoration: line-through
+  text-decoration: line-through
 }
 
 address,
@@ -94,19 +108,19 @@ dfn,
 em,
 th,
 var {
-    font-style: normal;
-    font-weight: 500
+  font-style: normal;
+  font-weight: 500
 }
 
 ol,
 ul,
 li {
-    list-style: none
+  list-style: none
 }
 
 caption,
 th {
-    text-align: left
+  text-align: left
 }
 
 h1,
@@ -115,90 +129,95 @@ h3,
 h4,
 h5,
 h6 {
-    font-size: 100%;
-    font-weight: 500
+  font-size: 100%;
+  font-weight: 500
 }
 
 q:after,
 q:before {
-    content: ''
+  content: ''
 }
 
 sub,
 sup {
-    font-size: 75%;
-    line-height: 0;
-    position: relative;
-    vertical-align: baseline
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline
 }
 
 sup {
-    top: -.5em
+  top: -.5em
 }
 
 sub {
-    bottom: -.25em
+  bottom: -.25em
 }
 
 a:hover {
-    text-decoration: none
+  text-decoration: none
 }
 
 a,
 ins {
-    text-decoration: none
+  text-decoration: none
 }
 
 button,
 input[type=button],
 input[type=file],
 input[type=submit] {
-    cursor: pointer;
-    -webkit-appearance: none
+  cursor: pointer;
+  -webkit-appearance: none
 }
 
 body {
-    font-size: 12px;
-    height: 100%;   
+  font-size: 12px;
+  height: 100%;
 }
 
 .icon {
-    width: 1em;
-    height: 1em;
-    vertical-align: -0.15em;
-    fill: currentColor;
-    overflow: hidden;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
 }
+
 .icon-wjx {
-    color: rgb(255, 172, 45);
+  color: rgb(255, 172, 45);
 }
-.icon-wjx-copy{
-    color: #ccc;
+
+.icon-wjx-copy {
+  color: #ccc;
 }
-.loading{
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    // background: rgba(0,0,0,0.5);
-    div{
-        width:100px;
-        height: 100px;
-        border-radius: 50%;
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%,-50%);
-        background: rgba($color: #1ABC9C, $alpha: 0.8);
-        // background: #1ABC9C;
-    }
-    img{
-        margin-top: 5px;
-    }
-    z-index: 99999;
+
+.loading {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  div {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba($color: #1ABC9C, $alpha: 0.8);
+  }
+
+  img {
+    margin-top: 5px;
+  }
+
+  z-index: 99999;
 }
+
 .mini-loading {
   text-align: center;
   height: 44px;
@@ -206,29 +225,37 @@ body {
   vertical-align: middle;
   transition: all 0.5s;
   overflow: hidden;
+
   img {
     height: 44px;
   }
 }
 
 
-.icon-chenggong{
-    color: #1ABC9C;
+.icon-chenggong {
+  color: #1ABC9C;
 }
-.icon-shibai{
-    color: rgb(250,84,84);
+
+.icon-shibai {
+  color: rgb(250, 84, 84);
 }
-.starList{
-    height: 15px;
-    width: 75px;
-    background: url(assets/star.png)
+
+.starList {
+  height: 15px;
+  width: 75px;
+  background: url(assets/star.png)
 }
-.fade-enter-active, .fade-leave-active {
-    transition: all 0.3s;
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.3s;
 }
-.fade-enter, .fade-leave-active {
-    opacity: 0;
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
 }
+
 .slide-in-enter-active,
 .slide-in-leave-active {
   transition: all 0.6s;
@@ -244,12 +271,15 @@ body {
   0% {
     transform: scale(1)
   }
+
   35% {
     transform: scale(.8)
   }
+
   70% {
     transform: scale(1.1)
   }
+
   100% {
     transform: scale(1)
   }
@@ -263,20 +293,24 @@ body {
   transform: translate(-50%, -50%);
   z-index: 999999;
   text-align: center;
+
   .dialog_wrap {
     padding: 0.2rem 0.25rem;
     background: rgba(0, 0, 0, 0.5);
     border-radius: 5px;
+
     i {
       font-size: 50px;
       position: relative;
       border-radius: 50%;
     }
+
     p {
       font-size: 18px;
       margin-top: 0.1rem;
       color: #fff;
     }
+
     b {
       display: block;
       width: 0.8rem;
@@ -291,5 +325,5 @@ body {
 
 .aniDialog {
   animation: tipMove .4s;
-  
+
 }

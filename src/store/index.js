@@ -1,18 +1,18 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import actions from './actions'
-import mutations from './mutations'
+import Vue from 'vue';
+import Vuex from 'vuex';
+import actions from './actions';
+import mutations from './mutations';
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 const state = {
-	userInfo: '',
-	videoData:null,
-	meCommentDatas:null
-}
+  userInfo: '',
+  videoData: null,
+  meCommentDatas: null,
+};
 
 export default new Vuex.Store({
-	state,
-	actions,
-	mutations
-})
+  state,
+  actions,
+  mutations,
+});
