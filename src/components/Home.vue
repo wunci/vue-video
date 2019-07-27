@@ -1,5 +1,5 @@
 <template>
-  <section class="home">
+  <section v-if="lists" class="home">
     <div id="search">
       <router-link to="/search">
         <div class="search_input">
@@ -11,7 +11,7 @@
     <section class="video_list">
       <div class="video_list_header">
         <h3>
-          全部<span>({{ allLength }})</span>
+          全部<span>({{ lists[3].length }})</span>
         </h3>
         <router-link to="/all"
           >更多 <i class="iconfont icon-jiantouyou"></i
@@ -39,7 +39,7 @@
     <section class="video_list">
       <div class="video_list_header">
         <h3>
-          电影<span>({{ movieLength }})</span>
+          电影<span>({{ lists[0].length }})</span>
         </h3>
         <router-link to="/movie"
           >更多 <i class="iconfont icon-jiantouyou"></i
@@ -67,7 +67,7 @@
     <section class="video_list">
       <div class="video_list_header">
         <h3>
-          电视剧<span>({{ tvLength }})</span>
+          电视剧<span>({{ lists[1].length }})</span>
         </h3>
         <router-link to="/tv"
           >更多 <i class="iconfont icon-jiantouyou"></i
@@ -95,7 +95,7 @@
     <section class="video_list">
       <div class="video_list_header">
         <h3>
-          综艺<span>({{ zyLength }})</span>
+          综艺<span>({{ lists[2].length }})</span>
         </h3>
         <router-link to="/zy"
           >更多 <i class="iconfont icon-jiantouyou"></i
@@ -140,18 +140,6 @@ export default {
     };
   },
   computed: {
-    allLength() {
-      return this.getJsonLength(this.lists[3]);
-    },
-    movieLength() {
-      return this.getJsonLength(this.lists[0]);
-    },
-    tvLength() {
-      return this.getJsonLength(this.lists[1]);
-    },
-    zyLength() {
-      return this.getJsonLength(this.lists[2]);
-    },
     ...mapState(['videoData'])
   },
   created() {
@@ -160,10 +148,6 @@ export default {
     } else {
       this.initData();
     }
-  },
-  watch: {
-    // 如果路由有变化，会再次执行该方法
-    //'$route': 'initData'
   },
   methods: {
     async initData() {
@@ -185,13 +169,6 @@ export default {
       setTimeout(() => {
         this.loading = false;
       }, 500);
-    },
-    getJsonLength(jsonData) {
-      var jsonLength = 0;
-      for (var item in jsonData) {
-        jsonLength++;
-      }
-      return jsonLength;
     }
   }
 };
