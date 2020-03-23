@@ -222,6 +222,7 @@ export default {
         message: '登出成功'
       });
       localStorage.clear();
+      document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/';
       setTimeout(() => {
         this.$router.push({ path: '/' });
       }, 1500);

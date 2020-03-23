@@ -131,6 +131,12 @@ export default {
         img {
           width: 0.7rem;
           height: 1rem;
+          &[lazy='loaded'] {
+            object-fit: cover;
+          }
+          &[lazy='loading'] {
+            object-fit: contain;
+          }
         }
         div {
           margin-left: 0.2rem;

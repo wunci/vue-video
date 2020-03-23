@@ -128,6 +128,12 @@ export default {
         img {
           width: 100%;
           height: 3.4rem;
+          &[lazy='loaded'] {
+            object-fit: cover;
+          }
+          &[lazy='loading'] {
+            object-fit: contain;
+          }
         }
         .color {
           color: yellow;

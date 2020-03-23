@@ -8,7 +8,6 @@
       align-items: center;
       color: #fff;
       background: rgba(95, 113, 206, 0.7);
-      ;
       padding: 1rem 0 0.5rem 0;
       position: relative;
 
@@ -52,7 +51,7 @@
           font-size: 18px;
           position: absolute;
           right: -0.5rem;
-          top: 0.10rem;
+          top: 0.1rem;
         }
 
         input {
@@ -66,7 +65,7 @@
           text-align: center;
         }
 
-        input+i {
+        input + i {
           font-size: 30px;
           right: -0.8rem;
         }
@@ -82,19 +81,19 @@
           font-size: 15px;
         }
 
-        border:1px solid #fff;
-        padding:0.06rem 0.14rem;
-        border-radius:4px;
+        border: 1px solid #fff;
+        padding: 0.06rem 0.14rem;
+        border-radius: 4px;
 
         &:active {
-          background: rgba(0, 0, 0, 0.1)
+          background: rgba(0, 0, 0, 0.1);
         }
       }
     }
   }
 
   .list {
-    &+.list {
+    & + .list {
       margin-top: 0.3rem;
       border-top: 0.2rem solid #f2f2f2;
     }
@@ -129,7 +128,7 @@
       li {
         flex: none;
 
-        &+li {
+        & + li {
           margin-left: 0.2rem;
         }
 
@@ -152,6 +151,12 @@
         img {
           width: 1.8rem;
           height: 2.7rem;
+          &[lazy="loaded"] {
+            object-fit: cover;
+          }
+          &[lazy="loading"] {
+            object-fit: contain;
+          }
         }
 
         div {
@@ -187,7 +192,7 @@
         overflow: hidden;
         transition: all 0.5s;
 
-        &+li {
+        & + li {
           margin-left: 0;
         }
 
@@ -216,8 +221,8 @@
 
           .time {
             position: absolute;
-            top: .1rem;
-            right: .2rem;
+            top: 0.1rem;
+            right: 0.2rem;
             // transform: translateY(-50%);
           }
 

@@ -36,12 +36,11 @@
           background: #f2f2f2;
         }
       }
-
     }
   }
 
   .video_list {
-    &+.video_list {
+    & + .video_list {
       border-top: 0.2rem solid #f2f2f2;
       margin-top: 0.3rem;
     }
@@ -104,10 +103,16 @@
 
         img {
           width: 100%;
+          &[lazy="loaded"] {
+            object-fit: cover;
+          }
+          &[lazy="loading"] {
+            object-fit: contain;
+          }
         }
 
         a {
-          >div:nth-child(1) {
+          > div:nth-child(1) {
             width: 100%;
             height: 3.4rem;
             overflow: hidden;
@@ -128,7 +133,6 @@
       }
     }
   }
-
 }
 
 #search_main {

@@ -2,11 +2,11 @@
   padding-bottom: 1rem;
   min-height: 100%;
   overflow-y: auto;
-  overflow-x: hidden
+  overflow-x: hidden;
 }
 
 header {
-  height: 3.0rem;
+  height: 3rem;
   position: relative;
   display: flex;
   background: #4ebf60;
@@ -18,6 +18,7 @@ header {
     img {
       width: 1.7rem;
       height: 2.4rem;
+      object-fit: cover;
       margin-left: 0.4rem;
       position: relative;
       bottom: -1rem;
@@ -61,17 +62,17 @@ header {
         font-size: 15px;
       }
 
-      border:1px solid #fff;
-      padding:0.06rem 0.14rem;
-      border-radius:4px;
+      border: 1px solid #fff;
+      padding: 0.06rem 0.14rem;
+      border-radius: 4px;
 
       &:active {
-        background: rgba(0, 0, 0, 0.1)
+        background: rgba(0, 0, 0, 0.1);
       }
     }
   }
 
-  &>a {
+  & > a {
     position: absolute;
     right: 0.2rem;
     top: 0.2rem;
@@ -119,9 +120,8 @@ header {
   }
 
   ul {
-
     li {
-      &+li {
+      & + li {
         margin-top: 0.3rem;
       }
 
@@ -143,6 +143,12 @@ header {
         img {
           width: 100%;
           height: 100%;
+          &[lazy="loaded"] {
+            object-fit: cover;
+          }
+          &[lazy="loading"] {
+            object-fit: contain;
+          }
         }
       }
 
@@ -180,7 +186,7 @@ header {
     border: 1px solid #4ebf60;
     margin: 0 0.3rem;
     border-radius: 8px;
-    padding: 0.10rem 0;
+    padding: 0.1rem 0;
     color: #4ebf60;
     font-size: 14px;
 
@@ -193,7 +199,6 @@ header {
   .like.like_active {
     background: #4ebf60;
     color: #fff;
-
   }
 
   .like.likeDisable {
@@ -233,7 +238,7 @@ header {
     border: 1px solid #4ebf60;
     padding: 0 0 0 0.2rem;
     width: 100%;
-    height: .75rem;
+    height: 0.75rem;
   }
 
   button {
@@ -284,5 +289,5 @@ header {
 
 .page-scale-enter,
 .page-scale-leave-active {
-  transform: scale(0)
+  transform: scale(0);
 }
