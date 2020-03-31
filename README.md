@@ -117,7 +117,6 @@ GitHub: [管理后台](https://github.com/wclimb/video-admin)
 
 * 邮件(875246904#qq.com, 把#换成@)
 * QQ: 875246904
-* weibo: [@wclimb](http://weibo.com/u/3966368179)
 
 
 ## 目录结构
@@ -145,6 +144,3 @@ GitHub: [管理后台](https://github.com/wclimb/video-admin)
 
 ```
 
-## 个人小程序
-
-![img](http://www.wclimb.site/cdn/xcx.jpeg?v=1)
